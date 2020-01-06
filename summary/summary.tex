@@ -19,8 +19,8 @@
 \usepackage{newunicodechar}
 \usepackage{stmaryrd}
 \usepackage{tabto}
-\usepackage[disable]{todonotes}
-%\usepackage{todonotes}
+%\usepackage[disable]{todonotes}
+\usepackage{todonotes}
 
 % Basic information.
 \title{Lösung periodischer Fahrplanoptimierungsprobleme durch Modulo-Simplex-Berechnungen}
@@ -41,7 +41,10 @@
 \newcommand{\qed}{\hfill \(\Box\)}
 \newcommand{\R}{\ensuremath{\mathbb{R}}}
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}}
-\renewcommand{\vec}[1]{\mathbf{#1}}
+% Matrix and vector notation. Use both boldsymbol and mathbf as the first works
+% only for greek letters while the latter works only for latin letters.
+\newcommand{\mat}[1]{\boldsymbol{\mathbf{#1}}}
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
 \makeatletter
 \newcommand{\BIG}{\bBigg@{4}}
 \newcommand{\BIGG}{\bBigg@{5}}
@@ -60,7 +63,8 @@
 
 	\makeatletter
 	\begin{center}
-		\textbf{\Large Lösung periodischer \mbox{Fahrplanoptimierungsprobleme} \\ \vspace{2mm} durch Modulo-Simplex-Berechnungen} \\ \vspace{3mm}
+		\textbf{\Large Lösung periodischer \mbox{Fahrplanoptimierungsprobleme} \\ \vspace{2mm} durch Modulo-Simplex-Berechnungen} \\ \vspace{2mm}
+		\textbf{\large Zusammenfassung von \cite{nachtigallSolvingPeriodicTimetable2008}} \\ \vspace{3mm}
 		\textbf{\large Fabian Damken} \\ \vspace{1mm}
 		{\large \@date}
 	\end{center}
@@ -71,18 +75,35 @@
 		
 		Die folgenden Abschnitte beschäftigen sich mit der grundlegenden Modellierung solcher Schienennetze.
 		
-		Ein \emph{Schienennetz} ist ein System an Zuglinien \(\mathcal{L}\) und Stationen \(\mathcal{S}\). Jede Linie \(L \in \mathcal{L}\) ist dabei als eine Transportkette zu Verstehen, deren Züge eine bestimmte Sequenz an Stationen bedienen. Wenn eine Linie \(L \in \mathcal{L}\) eine Station \(S \in \mathcal{S}\) bedient, dann sind \( (L, \arr, S) \) und \( (L, \dep, S) \) die Ankunfts- und Abfahrt-Ereignisse ("Events") von \(L\) an \(S\). Ein Zeitplan weißt jedem Ereignis \( i = (L, \arr, S) \) (oder \( i = (L, \dep, S) \)) eine Zeit \( \pi_i \in \R \) zu. Eine Aktivität \( a : i \to j \) ist ein Prozess, welcher insgesamt die Zeit \( x_a \coloneqq \pi_j - \pi_i \) benötigt.
+		Ein \emph{Schienennetz} ist ein System an Zuglinien \(\mathcal{L}\) und Stationen \(\mathcal{S}\). Bedient eine Linie \(L \in \mathcal{L}\) eine Station \(S \in \mathcal{S}\), dann sind \( (L, \arr, S) \) und \( (L, \dep, S) \) die Ankunfts- und Abfahrt-Ereignissen von \(L\) an \(S\). Ein periodischer Fahrplan \( \vec{\pi} = (\pi_i) \) weißt jedem Ereignis \( i = (L, \arr, S) \) (oder \( i = (L, \dep, S) \)) einen Zeitpunkt \( \pi_i \in \R \) zu, wobei das Ereignis immer zu den Zeitpunkten \( \pi_i + z_i T \) mit dem Modulo-Parameter \( z_i \in \Z \) stattfindet\footnote{Zur Einfachheit wird angenommen, dass die Zeitperiode \(T\) für das ganze System gleich ist.}. Eine Aktivität \( a : i \to j \) bezeichnet den Prozess, von dem Ereignis \(i\) zu dem Ereignis \(j\) zu gelangen. Eine Aktivität benötigt die Zeit (\emph{Tension}) \( x_a = \pi_j - \pi_i \). Die Menge aller Aktivitäten wir mit \( \mathcal{A} \) bezeichnet.
 		
-		Jeder Start- und Stopp-Aktivität wird eine Zeitspanne \( \Delta_a = [l_a, u_a] \) zugeordnet, wobei \( l_a \) die minimale und \( u_a \) die maximale Lauf- und Stoppzeit darstellt. Sie stellen damit eine obere und untere Schranke dar. Der Zeitplan \( \vec{\pi} = (\pi_i) \) heißt \emph{durchführbar}, wenn \( x_a \in \Delta_a \) für alle Aktivitäten \( a : i \to j \) gilt. Abgesehen von Start- und Stoppaktivitäten können viele reale Einschränkungen durch solche Zeitspannen definiert werden (\zB Vorfahrtbeschränkungen zur Betriebssicherheit oder Umsteigezeiten für Passagiere). Insgesamt ergibt sich aus den Aktivitäten \(\mathcal{A}\) und den Stationen \(\mathcal{S}\) ein gerichtetes Netzwerk, welches \emph{Ereignis-Aktivitäts-Netzwerk} genannt wird.
+		Jeder Aktivität wird eine Zeitspanne \( \Delta_a = [l_a, u_a] \) zugeordnet, wobei \( l_u \) die minimale und \( u_a \) die maximale Zeit darstellt (obere und untere Schranken). Ein periodischer Fahrplan \( \vec{\pi} \) ist \emph{durchführbar}, wenn \( \forall a \in \mathcal{A} : \exists z_a \in \Z : l_a \leq x_a - z_a T \leq u_a \) gilt. Abgesehen von Start- und Stoppaktivitäten können viele reale Einschränkungen durch solche Zeitspannen definiert werden (\zB Vorfahrtbeschränkungen zur Betriebssicherheit oder Umsteigezeiten für Passagiere). Insgesamt ergibt sich aus den Aktivitäten \(\mathcal{A}\) und den Stationen \(\mathcal{S}\) ein gerichtetes Netzwerk, welches \emph{Ereignis-Aktivitäts-Netzwerk} genannt wird.
 		
-		Solche nicht-periodische Probleme sind leicht mit Kürzester-Weg-Berechnungen lösbar. Zur Betrachtung von periodischen Fahrplänen muss das Modell weiter angepasst werden. Ein \emph{periodischer Zeitplan} weißt jedem Ereignis eine Zeit \( \pi_i \in \R \) zu, wobei das Ereignis immer zu den Zeitpunkten \( \pi_i + z_i T \) mit \( z_i \in \Z \), dem \emph{Modulo-Parameter} stattfindet. Aus Gründen der Einfachheit wird angenommen, dass die Zeitperiode \(T\) für das ganze System gleich ist. Um unterschiedliche Perioden zu modellieren, wird \(T\) als das größte gemeinsame Vielfache aller Perioden gewählt.
-		
-		Die Lösung eines solchen Problems ist gegeben durch einen Vektor \( \vec{\pi} = (\pi_i) \). Mit den unteren und oberen Schranken \( l_i, u_i \in \R \) wird die Durchführbarkeit von nicht-periodischen Lösungen auf periodische Lösungen erweitert. Eine periodische Lösung \( \vec{\pi} \) heißt \emph{durchführbar}, wenn \( \forall a : i \to j : \exists z_a \in \Z : l_a \leq x_a - z_a T \leq u_a \) gilt. Die obere (\( y_a^\text{low} \coloneqq [x_a - l_a]_T \)) unter untere (\( y_a^\text{upp} \coloneqq [u_a - x_a]_T \)) \emph{Pufferzeit} ("slack time") ist die Zeit, um welche die \emph{tension} \(x_a\) erhöht oder verringert werden kann. Der Modulo-Operator ist definiert durch \( [t]_T \coloneqq \min \big\{ t + zT \,\vert\, z + zT \geq 0 \big\} \).
+		Mit dem Modulo-Operator \( [t]_T \coloneqq \min \big\{ t + zT \,\vert\, z + zT \geq 0 \big\} \) wird die obere (\( y_a^\text{low} \coloneqq [x_a - l_a]_T \)) untere (\( y_a^\text{upp} \coloneqq [u_a - x_a]_T \)) \emph{Pufferzeit} ("slack time"). Diese entspricht der Zeit, um welche die Tension \(x_a\) verringert, bzw. erhöht, werden kann, ohne die Einschränkungen zu verletzen.
 		
 		%Da die unteren und oberen Schranken durch Invertieren der Richtung der Kante \(a\) ausgetauscht werden können, kann 5das Optimierungsproblem allein in Bezug auf die untere Pufferzeit \( y_a^\text{low} \) formuliert werden:
 		%\begin{equation*}
 		%	\min \Bigg\{ \sum_{a : i \to j} \vec{\omega}_a (x_a - l_a - z_a T) \,\big\vert\, \forall a : i \to j : l_a \leq x_a %- z_a T \leq u_a,\, z_a \in \Z \Bigg \}
 		%\end{equation*}
+	% end
+	
+	\section{Mathematische Basis} \todo{Bessere Überschrift ausdenken}
+		Mit der Inzidenzmatrix \( \mat{\Theta} = (\theta_{ai}) \) des Netzwerks lässt sich die Tension \( \vec{x} = (x_a) \) ausdrücken durch \( \mat{\Theta}^T \vec{\pi} = \vec{x} \).
+		
+		Wird zu einem Spannbaum \(\mathcal{T}\) des Netzwerkes eine Kante des Komplementbaums hinzugefügt, ergibt sich ein eindeutig bestimmter Zyklus \(c\). Die Netzwerkmatrix \( \mat{\Gamma} = (\gamma_{ca}) \) enthält eine Zeile pro Kante des Komplementbaums (bzw. pro Zyklus) und eine Spalte pro Kante des Netzwerkes. Die Elemente sind bestimmt durch:
+		\begin{equation*}
+			\gamma_{ca} \coloneqq
+				\begin{cases*}
+					1  & \(c\) enthält \(a\) in positiver Richtung \\
+					-1 & \(c\) enthält \(a\) in negativer Richtung \\
+					0  & sonst
+				\end{cases*}
+		\end{equation*}
+		Ein Vektor \( \vec{x} \in \R^n \) ist eine periodische Tension gdw. \( \mat{\Gamma} \vec{x} \equiv_T \vec{0} \) gilt.
+		
+		Ein Spannbaum \( \mathcal{T} = \mathcal{T}^l + \mathcal{T}^u \) bestimmt ein eindeutiges Potential \( \vec{\pi}^{(\mathcal{T})} = (\pi_i) \), welches jedem Knoten einen Wert \( \pi_i \in \R^n \) zuordnet. Für dieses Potential gilt \( \forall (a : i \to j) \in \mathcal{T}^l : \pi^{(\mathcal{T})}_j - \pi^{(\mathcal{T})}_i = l_a \) und \( \forall (a : i \to j) \in \mathcal{T}^u : \pi^{(\mathcal{T})}_j - \pi^{(\mathcal{T})}_i = u_a \).
+		
+		% TODO: Stopped here.
 	% end
 
 
