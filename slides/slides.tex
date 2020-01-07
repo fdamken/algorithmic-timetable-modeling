@@ -1,0 +1,198 @@
+\documentclass[accentcolor = tud11b, colorbacktitle, landscape, german, presentation]{tudbeamer}
+
+% Core packages.
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% Other packages.
+\usepackage{csquotes}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{makecell}
+\usepackage{newunicodechar}
+\usepackage{stmaryrd}
+\usepackage{tabto}
+%\usepackage[disable]{todonotes}
+\usepackage{todonotes}
+% TikZ.
+\usepackage{tikz}
+\usetikzlibrary{angles, arrows.meta, backgrounds, calc, positioning, shapes}
+
+% Basic information.
+\title{Lösung periodischer Fahrplanoptimierungsprobleme durch Modulo-Simplex-Berechnungen}
+\institute{Fabian Damken}
+\date{\today}
+
+\MakeOuterQuote{"}
+
+\tikzset{> = { Latex[length = 2mm] }}
+
+\AtBeginSection{
+	%\begin{frame}
+	%	\centering
+	%	\vspace{1.5cm}
+	%	\Huge \textbf{\insertsectionhead}
+	%\end{frame}
+
+	\begin{frame}{\insertsectionhead \\ Gliederung}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+% New commands.
+\newcommand{\arr}{\mathit{arr}}
+\newcommand{\const}{\ensuremath{\textrm{const}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\dep}{\mathit{dep}}
+\newcommand{\dif}[1]{\ensuremath{\,\mathrm{d}#1}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+% Matrix and vector notation. Use both boldsymbol and mathbf as the first works
+% only for greek letters while the latter works only for latin letters.
+\newcommand{\mat}[1]{\boldsymbol{\mathbf{#1}}}
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
+\makeatletter
+\newcommand{\BIG}{\bBigg@{4}}
+\newcommand{\BIGG}{\bBigg@{5}}
+\makeatother
+
+\newcommand{\zB}{z.\,B.~}
+
+\newunicodechar{−}{--}
+
+\begin{document}
+	\bibliographystyle{alpha}
+	
+	\begin{titleframe}
+		\onslide<2->{\tableofcontents}
+	\end{titleframe}
+
+	\section{Einleitung und Motivation}
+		\todo{Einleitung und Motivation}
+	% end
+	
+	\section{Mathematische Modellierung}
+		\begin{frame}{Bahnnetz und Events}
+			Ein \emph{Bahnnetz} ist ein System von
+			\begin{itemize}
+				\item Linien    \tabto{1.5cm} \(\mathcal{L}\) und
+				\item Stationen \tabto{1.5cm} \(\mathcal{S}\).
+			\end{itemize}
+		
+			\vspace{1cm}
+			Bedient Linie \( L \in \mathcal{L} \) die Station \( S \in \mathcal{S} \), so sei
+			\begin{itemize}
+				\item \( (L, \arr, S) \) \tabto{1.6cm} das Ankunfts- und
+				\item \( (L, \dep, S) \) \tabto{1.6cm} das Abfahrts-\emph{Event}.
+			\end{itemize}
+		
+			Eine Linie ist eine alternierende Sequenz von Ankunfts- und Abfahrts-Events.
+		\end{frame}
+		\note[itemize]{
+			\item Linie \( L \in \mathcal{L} \) ist Transportkette.
+			\item Züge aus \(L\) bedienen bestimmte Sequenzen an Stationen.
+		}
+	
+		\begin{frame}{Fahrpläne und Aktivitäten}
+			Ein \emph{Fahrplan} \( \vec{\pi} = (\pi_i) \) weiß jedem Event \( i = (L, \arr, S) \) (bzw. \( i = (L, \dep, S) \)) einen Zeitpunkt \( \pi_i \in \R \) zu.
+			
+			\vspace{1cm}
+			Eine \emph{Aktivität} \( a : i \to j \) beschreibt den Übergang von \(i\) zu \(j\). Die hierfür gebrauchte Zeit ist
+			\begin{equation*}
+				x_a = \pi_j - \pi_i
+			\end{equation*}
+			Sei \( \mathcal{A} \) die Menge aller Aktivitäten.
+		\end{frame}
+		\note[itemize]{
+			\item Zeitpunkt \( \pi_i \) ist Zeitpunkt, an dem das Ereignis eintritt.
+		}
+	
+		\begin{frame}{Zeiteinschränkungen}
+			Jeder Aktivität \( a \in \mathcal{A} \) wird eine Zeitspanne
+			\begin{equation*}
+				\Delta_a = [l_a, u_a]
+			\end{equation*}
+			zugeordnet.
+			
+			Ein Fahrplan \(\vec{\pi}\) ist \emph{durchführbar} ("feasible"), wenn
+			\begin{equation*}
+				\forall a \in \mathcal{A} : x_a \in \Delta_a \quad\iff\quad \forall (a : i \to j) \in \mathcal{A} : l_a \leq \pi_j - \pi_i \leq u_a
+			\end{equation*}
+		\end{frame}
+		\note[itemize]{
+			\item \(l_a\) untere und \(u_a\) obere Schranke
+		}
+	
+		\begin{frame}{Aussagekraft von Zeiteinschränkungen}
+			\begin{itemize}
+				\item Fast alle realen Einschränkungen können durch Zeitspannen beschrieben werden.
+				\begin{itemize}
+					\item<2-> Fahrzeit eines Zuges
+					\item<2-> Sicherheitseinschränkungen (\zB Vorfahrt)
+					\item<2-> Wartezeiten (Kundenzufriedenheit)
+					\item<2-> Umsteigezeiten
+					\item<2-> \dots
+				\end{itemize}
+			\end{itemize}
+		\end{frame}
+	
+		\begin{frame}{Event-Aktivitäts-Netzwerk}
+			\vspace{-0.3cm}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[event/.style = { draw, rectangle, rounded corners, minimum width = 2cm, minimum height = 0.6cm }]
+					\node [event]                                         (L1-dep-B) {\((L_1, \dep, B)\)};
+					\node [event, above left = of L1-dep-B, xshift = 1cm] (L1-arr-C) {\((L_1, \arr, C)\)};
+					\node [event, below = of L1-dep-B]                    (L1-arr-B) {\((L_1, \arr, B)\)};
+					\node [event, below left = of L1-arr-B, xshift = 1cm] (L1-dep-A) {\((L_1, \dep, A)\)};
+					
+					\node [event, right = of L1-dep-B, xshift = 2cm]        (L2-arr-B) {\((L_2, \arr, B)\)};
+					\node [event, above right = of L2-arr-B, xshift = -1cm] (L2-dep-E) {\((L_2, \dep, E)\)};
+					\node [event, below = of L2-arr-B]                      (L2-dep-B) {\((L_2, \dep, B)\)};
+					\node [event, below right = of L2-dep-B, xshift = -1cm] (L2-arr-D) {\((L_2, \dep, D)\)};
+					
+					\draw [->] (L1-dep-A) -- node[above left]{run arc} (L1-arr-B);
+					\draw [->] (L1-arr-B) -- node[left]{stop arc}      (L1-dep-B);
+					\draw [->] (L1-dep-B) -- node[below left]{run arc} (L1-arr-C);
+					
+					\draw [->] (L2-dep-E) -- node[below right]{run arc} (L2-arr-B);
+					\draw [->] (L2-arr-B) -- node[right]{stop arc}      (L2-dep-B);
+					\draw [->] (L2-dep-B) -- node[above right]{run arc} (L2-arr-D);
+					
+					\draw [->] (L2-arr-B) -- node[midway, sloped, above, yshift = -0.1cm]{change arc} (L1-dep-B);
+					\draw [->] (L1-arr-B) -- node[midway, sloped, below]{change arc}                  (L2-dep-B);
+					
+					\draw [->] (L1-dep-B) -- node[midway, sloped, above, yshift = -0.1cm]{headway arc} (L2-dep-B);
+				\end{tikzpicture}
+				\caption{Event-Aktivitäts-Netzwerk, vgl. \cite[Fig.~1]{nachtigallSolvingPeriodicTimetable2008}}
+				\label{fig:event_activity_network}
+			\end{figure}
+		\end{frame}
+		\note[itemize]{
+			\item "headway" = Vorfahrt
+		}
+	
+		% TODO: Stopped here.
+	% end
+	
+	\section{Modulo-Simplex-Berechnungen}
+		\todo{Modulo-Simplex-Berechnungen}
+	
+		\subsection{Grundlagen von Modulo-Simplex}
+			\todo{Grundlagen von Modulo-Simplex}
+		% end
+		
+		\subsection{Periodisches Modulo-Simplex}
+			\todo{Periodisches Modulo-Simplex}
+		% end
+	% end
+	
+	\section{Zusammenfassung}
+		\todo{Zusammenfassung}
+	% end
+
+	\begin{frame}{Literatur}
+		\bibliography{../cite}
+	\end{frame}
+\end{document}

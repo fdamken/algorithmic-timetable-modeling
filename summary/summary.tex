@@ -1,4 +1,4 @@
-\documentclass[a4paper, 11pt, twocolumn]{scrartcl}
+\documentclass[accentcolor = tud11b, a4paper, 11pt, twocolumn]{scrartcl}
 
 % Generale page style.
 \usepackage[margin = 1cm]{geometry}
@@ -34,8 +34,10 @@
 \MakeOuterQuote{"}
 
 % New commands.
+\newcommand{\arr}{\mathit{arr}}
 \newcommand{\const}{\ensuremath{\textrm{const}}}
 \newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\dep}{\mathit{dep}}
 \newcommand{\dif}[1]{\ensuremath{\,\mathrm{d}#1}}
 \newcommand{\N}{\ensuremath{\mathbb{N}}}
 \newcommand{\qed}{\hfill \(\Box\)}
@@ -49,8 +51,6 @@
 \newcommand{\BIG}{\bBigg@{4}}
 \newcommand{\BIGG}{\bBigg@{5}}
 \makeatother
-\DeclareMathOperator{\arr}{arr}
-\DeclareMathOperator{\dep}{dep}
 
 \newcommand{\zB}{z.\,B.~}
 
@@ -105,7 +105,7 @@
 	% end
 
 
-	\bibliography{cite}
+	\bibliography{../cite}
 \end{document}
 
 
