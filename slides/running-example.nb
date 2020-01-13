@@ -1,0 +1,182 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5878,        172]
+NotebookOptionsPosition[      5017,        148]
+NotebookOutlinePosition[      5356,        163]
+CellTagsIndexPosition[      5313,        160]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"g", " ", "=", " ", 
+  RowBox[{"Graph", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"A", ",", "B", ",", "C", ",", "D"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"B", "\[Rule]", "A"}], ",", 
+      RowBox[{"A", "\[Rule]", "C"}], ",", 
+      RowBox[{"D", "\[Rule]", "A"}], ",", 
+      RowBox[{"B", "\[Rule]", "D"}], ",", 
+      RowBox[{"C", "\[Rule]", "D"}]}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.787596201096479*^9, 3.787596239468833*^9}, {
+  3.7875963346081457`*^9, 3.7875963395151253`*^9}, {3.7875963801262407`*^9, 
+  3.787596381579453*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"e02d458a-e5b7-4f4d-ae6b-03f661add527"],
+
+Cell[BoxData[
+ GraphicsBox[
+  NamespaceBox["NetworkGraphics",
+   DynamicModuleBox[{Typeset`graph = HoldComplete[
+     Graph[{$CellContext`A, $CellContext`B, C, D}, {{{2, 1}, {1, 3}, {4, 1}, {
+       2, 4}, {3, 4}}, Null}]]}, 
+    TagBox[
+     GraphicsGroupBox[
+      GraphicsComplexBox[{{0.9333992258259046, 0.8688665814388695}, {
+       1.8681899926161134`, 0.43484730857328835`}, {0., 0.4339827369371185}, {
+       0.9352581908868051, 0.}}, {
+        {Hue[0.6, 0.7, 0.5], Opacity[0.7], Arrowheads[Medium], 
+         ArrowBox[{{1, 3}, {2, 1}, {2, 4}, {3, 4}, {4, 1}}, 
+          0.0215329141699461]}, 
+        {Hue[0.6, 0.2, 0.8], EdgeForm[{GrayLevel[0], Opacity[0.7]}], 
+         DiskBox[1, 0.0215329141699461], DiskBox[2, 0.0215329141699461], 
+         DiskBox[3, 0.0215329141699461], DiskBox[4, 0.0215329141699461]}}]],
+     MouseAppearanceTag["NetworkGraphics"]],
+    AllowKernelInitialization->False]],
+  DefaultBaseStyle->{
+   "NetworkGraphics", FrontEnd`GraphicsHighlightColor -> Hue[0.8, 1., 0.6]},
+  FormatType->TraditionalForm,
+  FrameTicks->None]], "Output",
+ CellChangeTimes->{3.787596240338162*^9, 3.787596339972206*^9, 
+  3.7875963818818083`*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"896e6707-981a-429b-929c-46846218434e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"IncidenceMatrix", "[", "g", "]"}], " ", "//", " ", 
+  "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.7875962723490047`*^9, 3.787596287807897*^9}, 
+   3.787596329238183*^9},
+ CellLabel->"In[11]:=",ExpressionUUID->"bd92e819-2e60-459e-a92f-4e3cada6c6de"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"1", 
+      RowBox[{"-", "1"}], "1", "0", "0"},
+     {
+      RowBox[{"-", "1"}], "0", "0", 
+      RowBox[{"-", "1"}], "0"},
+     {"0", "1", "0", "0", 
+      RowBox[{"-", "1"}]},
+     {"0", "0", 
+      RowBox[{"-", "1"}], "1", "1"}
+    },
+    GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[
+   SparseArray[
+    Automatic, {4, 5}, 0, {
+     1, {{0, 3, 5, 7, 10}, {{1}, {2}, {3}, {1}, {4}, {2}, {5}, {3}, {4}, {
+       5}}}, {1, -1, 1, -1, -1, 1, -1, -1, 1, 1}}]]]]], "Output",
+ CellChangeTimes->{{3.7875962771840343`*^9, 3.7875962887904863`*^9}, {
+   3.787596329458243*^9, 3.787596342402067*^9}, 3.787596385333722*^9},
+ CellLabel->
+  "Out[11]//MatrixForm=",ExpressionUUID->"f0885441-0216-4394-a68c-\
+11009e8a4a82"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"EdgeCycleMatrix", "[", "g", "]"}], " ", "//", " ", 
+  "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.787596398793679*^9, 3.787596406859934*^9}},
+ CellLabel->"In[12]:=",ExpressionUUID->"3cdd0148-729a-4785-a010-cab7dd4e267f"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", "1", "1", "0", "1"},
+     {
+      RowBox[{"-", "1"}], "0", "1", "1", "0"}
+    },
+    GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[
+   SparseArray[
+    Automatic, {2, 5}, 0, {
+     1, {{0, 3, 6}, {{2}, {3}, {5}, {1}, {3}, {4}}}, {1, 1, 1, -1, 1, 
+      1}}]]]]], "Output",
+ CellChangeTimes->{3.78759640709859*^9},
+ CellLabel->
+  "Out[12]//MatrixForm=",ExpressionUUID->"c85a7070-88f8-46f2-a992-\
+fdf55b79b203"]
+}, Open  ]]
+},
+WindowSize->{1916, 1161},
+WindowMargins->{{Automatic, -1918}, {Automatic, 18}},
+FrontEndVersion->"12.0 for Linux x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 681, 16, 31, "Input",ExpressionUUID->"e02d458a-e5b7-4f4d-ae6b-03f661add527"],
+Cell[1264, 40, 1240, 25, 196, "Output",ExpressionUUID->"896e6707-981a-429b-929c-46846218434e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2541, 70, 287, 6, 31, "Input",ExpressionUUID->"bd92e819-2e60-459e-a92f-4e3cada6c6de"],
+Cell[2831, 78, 1084, 31, 101, "Output",ExpressionUUID->"f0885441-0216-4394-a68c-11009e8a4a82"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3952, 114, 259, 5, 31, "Input",ExpressionUUID->"3cdd0148-729a-4785-a010-cab7dd4e267f"],
+Cell[4214, 121, 787, 24, 65, "Output",ExpressionUUID->"c85a7070-88f8-46f2-a992-fdf55b79b203"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
