@@ -1,0 +1,7 @@
+src,dest,weight,lower_bound,upper_bound
+B,A,8,9,28
+B,C,3,7,26
+D,A,5,2,21
+B,D,9,1,20
+D,C,1,5,24
+A,C,4,3,22

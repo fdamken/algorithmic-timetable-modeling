@@ -379,19 +379,6 @@
 				\item Eine Zeile pro Knoten, eine Spalte pro Kante.
 				\item \( a : i \to j \): Die Kante \(a\) geht von Knoten \(i\) aus.
 			}
-			
-%			\begin{frame}{Der periodische Fahrplan-Polyeder} % TODO: Titel!
-%				Es sei
-%				\begin{equation*}
-%					\mathcal{Q} \coloneqq \mathit{conv.hull} \Bigg\{\, \begin{bmatrix} \vec{\pi} \\ \vec{z} \end{bmatrix} \,\bigg\vert\, \vec{l} \leq \mat{\Theta}^T - T\vec{z} \leq \vec{u}, \quad \vec{\pi} \in \R^n, \quad \vec{z} \in \Z^M \,\Bigg\}
-%				\end{equation*}
-%				der \emph{periodische Fahrplan-Polyeder}. % TODO: Name!
-%				
-%				% TODO: Stopped here.
-%			\end{frame}
-%			\note[itemize]{
-%				\item Konvexe Hülle bei Bedarf erklären.
-%			}
 
 			\begin{frame}{Kantenzyklus-Matrix ("Edge-Cycle-Matrix")}
 				Durch Hinzufügen einer Ko-Baum-Kante zum Baum \(\mathcal{T}\) wird ein eindeutiger Zyklus \(c\) definiert. Sei \( \mat{\Gamma} = (\gamma_{ca}) \) die \emph{Kantenzyklus-Matrix}:
@@ -481,7 +468,7 @@
 			}
 		% end
 		
-		\subsection{Nächster Abschnitt} % TODO: Titel!
+		\subsection{Spannbaumstrukturen} % TODO: Titel!
 			\begin{frame}{Spannbaumstrukturen und generiertes Potential}
 				Sei \( \mathcal{T} = \mathcal{T}^l + \mathcal{T}^u \) ein Spannbaum, separiert in \( \mathcal{T}^l \) und \( \mathcal{T}^u \), sodass gilt:
 				\begin{equation*}
@@ -526,19 +513,68 @@
 				\item \( \vec{x} = \vec{y} + \vec{l} \quad\iff\quad \vec{y} = \vec{x} - \vec{l} \)
 			}
 		
-			\begin{frame}{Dual Formulierung} % TODO: Titel!
-				Sind die Modulo-Parameter \(z_a\) fix, kann das Optimierungsproblem umformuliert werden:
+			\begin{frame}{Dual des Minimum-Cost Flow Problems}
+				Sind die Modulo-Parameter \(z_a\) konstant, kann das Optimierungsproblem umformuliert werden:
 				\begin{align*}
 					&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a \,\Bigg\} \\
 					=&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a') \,\bigg\vert\, \forall a \in \mathcal{A} : l_a' = l_a + z_a T \leq x_a \leq u_a' = u_a + z_a T \,\Bigg\} \\
-					=&\, \min \big\{\, \vec{\omega}^T (\mat{\Theta}^T \vec{\pi} - \vec{l}') \,\big\vert\, \vec{l}' \leq \mat{\Theta}^T \vec{\pi} \leq \vec{u}' \,\big\} \\
+					=&\, \min \big\{\, \vec{\omega}^T (\mat{\Theta}^T \vec{\pi} - \vec{l}') \,\big\vert\, \vec{l}' \leq \mat{\Theta}^T \vec{\pi} \leq \vec{u}' \,\big\}
 				\end{align*}
+				Dies ist die Dual-Formulierung des Minimum-Cost Flow Problem.
+				
+				Jeder Extrempunkt der gültigen Region des Problems entspricht einer Spannbaumstruktur.
 			\end{frame}
+		
+			\begin{frame}{Periodische Basislösung}
+				Für Modulo-Parameter \( \vec{z}^{\mathcal{T}} \) einer Spannbaumstruktur heißt
+				\begin{equation*}
+					\begin{bmatrix}
+						\vec{\pi}^{\mathcal{T}} \\
+						\vec{z}^{\mathcal{T}}
+					\end{bmatrix}
+				\end{equation*}
+				eine \emph{periodische Basislösung} in Bezug auf die Spannbaumstruktur \( \mathcal{T} \).
+			\end{frame}
+		
+			\begin{frame}{Theorem 21} % TODO: Titel!
+				Sei
+				\begin{equation*}
+					\mathcal{Q} \coloneqq \mathit{conv.hull} \Bigg\{\, \begin{bmatrix} \vec{\pi} \\ \vec{z} \end{bmatrix} \,\bigg\vert\, \vec{l} \leq \mat{\Theta}^T \vec{\pi} - T\vec{z} \leq \vec{u}, \quad \vec{\pi} \in \R^n, \quad \vec{z} \in \Z^m \,\Bigg\}
+				\end{equation*}
+				der \emph{periodische Fahrplan-Polyeder}. % TODO: Name!
+				
+				\vspace{1cm}
+				\textbf{Theorem.} Der Vektor \( \begin{bmatrix} \vec{\pi} \\ \vec{z} \end{bmatrix} \in \mathcal{Q} \) ist ein Extrempunkt von \( \mathcal{Q} \) gdw. er eine periodische Basislösung in Bezug auf eine Spannbaumstruktur ist.
+			\end{frame}
+			\note[itemize]{
+				\item Konvexe Hülle bei Bedarf erklären.
+			}
+		
+			\begin{frame}{Theorem 22} % TODO: Titel!
+				\textbf{Theorem.} Es existiert eine Matrix \( \mat{F} \in \R^{m \times m} \) mit \( \mat{\Theta} \mat{F} \equiv_T \vec{0} \) und ein Vektor \( \vec{r} \in \R^m \), sodass
+				\begin{align*}
+					& \mathit{conv.hull} \big\{\, \vec{x} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{x} - T\vec{z} = \vec{0}, \quad \vec{l} \leq \vec{x} - T\vec{z} \leq \vec{u} ) \,\big\} \\
+					=\,& \big\{\, \vec{x} \,\vert\, \mat{F} \vec{x} \geq \vec{r} \,\big\}
+					\intertext{oder äquivalent}
+					& \mathit{conv.hull} \big\{\, \vec{y} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{y} - T\vec{z} = \vec{b}, \quad \vec{0} \leq \vec{y} - T\vec{z} \leq \vec{\delta} ) \,\big\} \\
+					=\,& \big\{\, \vec{y} \,\vert\, \mat{F} \vec{y} \geq \tilde{\vec{r}} \coloneqq \vec{r} - \mat{F} \vec{l} \,\big\}
+				\end{align*}
+				gilt.
+			\end{frame}
+			\note[itemize]{
+				\item Jede Zeile von \( \mat{F} \) ist eine Spannung.
+				\item Mit \( \vec{x} = \vec{y} + \vec{l} \quad\iff\quad \vec{y} = \vec{x} - \vec{l} \) ist die Äquivalenz klar.
+				\item Es gilt \( \vec{b} \coloneqq [-\mat{\Gamma} \vec{l}]_T \) und \( \vec{\delta} \coloneqq \vec{u} - \vec{l} \).
+			}
+		
+			% TODO: Ab dem Lemma fehlen die Sachen.
 		% end
 	% end
 	
 	\section{Modulo-Simplex-Berechnungen}
 		\todo{Modulo-Simplex-Berechnungen}
+		
+		% TODO: In exchange modulo-simplex tableau, the top-left gamma shall be \gamma_{r1}, not \gamma_{rl}!
 	
 		\subsection{Grundlagen von Modulo-Simplex}
 			\todo{Grundlagen von Modulo-Simplex}
