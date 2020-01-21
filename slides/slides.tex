@@ -5,6 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 % Other packages.
+\usepackage{calc}
 \usepackage{csquotes}
 \usepackage{float}
 \usepackage{listings}
@@ -575,9 +576,126 @@
 		\todo{Modulo-Simplex-Berechnungen}
 		
 		% TODO: In exchange modulo-simplex tableau, the top-left gamma shall be \gamma_{r1}, not \gamma_{rl}!
+		
+		% TODO: Achtung, die Omegas entsprechen den Gewichten der Kanten, d.h. sie ändern sich bei einem Basisaustausch!
 	
-		\subsection{Grundlagen von Modulo-Simplex}
-			\todo{Grundlagen von Modulo-Simplex}
+		\subsection{Modulo-Simplex Grundlagen}
+			\begin{frame}{Einleitung}
+				Lösung ganzzahliger linearer Optimierungsprobleme ("Programme"):
+				\begin{align*}
+					\max\limits_{x \,\in\, \mathbb{Z}} \,&\, \vec{c}^T \vec{x}  \phantom{\text{s.t.} \qquad} \\
+					\text{s.t.} \qquad [\mat{A} \vec{x}]_T &\leq \vec{b} \\
+					\vec{x} &\geq \vec{0}
+				\end{align*}
+				
+				\vspace{0.5cm}
+				Verfahren:
+				\begin{enumerate}
+					\item Bestimmen einer initialen Lösung.
+					\item Iterative Verbesserung der Lösung.
+				\end{enumerate}
+			\end{frame}
+			\note[itemize]{
+				\item Das Problem spannt einen Polyeder auf.
+				\item Die Verbesserungen laufen entlang der Kanten des Polyeders.
+			}
+		
+			\begin{frame}{Hilfsvariablen ("Slack Variables")}
+				Einführung von \emph{Hilfsvariablen} \( \vec{z} \), um die Ungleichheiten in Gleichungen umzuformen:
+				\begin{align*}
+					\max\limits_{x \,\in\, \mathbb{Z}} \,&\, \vec{c}^T \vec{x} \eqqcolon \omega(\vec{x})  \phantom{\text{s.t.} \qquad} \\
+					\text{s.t.} \qquad \mat{A} \vec{x} + \vec{z} &\equiv_T \vec{b} \\
+					\vec{x} &\geq \vec{0} \\
+					\vec{z} &\geq \vec{0}
+				\end{align*}
+			\end{frame}
+		
+			\begin{frame}{Bestimmung der initialen Lösung}
+				Ist \( \vec{b} \geq \vec{0} \), so lautet eine zulässige Startlösung:
+				\begin{equation*}
+					\begin{bmatrix}
+						\vec{x} \\
+						\vec{z}
+					\end{bmatrix}
+					=
+					\begin{bmatrix}
+						\vec{0} \\
+						\vec{b}
+					\end{bmatrix}
+				\end{equation*}
+			\end{frame}
+			\note[itemize]{
+				\item Da \( \vec{b} \geq \vec{0} \) bei Network-Modulo-Simplex gilt, wird nichts weiter betrachtet.
+			}
+		
+			\begin{frame}{Optimierungsschritt}
+				Formulierung als Simplex-Tableau:
+				\begin{equation*}
+					\begin{bmatrix}
+						\mat{A} & \mat{I} & \vec{b} & \vec{c}
+					\end{bmatrix}
+				\end{equation*}
+				\begin{equation*}
+					\begin{array}{c|cc|ccc|c|c}
+						       &  x_1   & \cdots & z_r & \cdots & z_m &        &          \\ \hline
+						 z_r   & a_{r1} & \cdots &  1  &        &  0  &  b_r   & \omega_r \\
+						\vdots & \vdots & \ddots &     & \ddots &     & \vdots &  \vdots  \\
+						 z_m   & a_{m1} & \cdots &  0  &        &  1  &  b_m   & \omega_m \\ \hline
+						       &        &        &     &        &     &        &  \omega
+					\end{array}
+				\end{equation*}
+			\end{frame}
+		
+			\begin{frame}{Basis-Austausch, Teil 1}
+				Auswahl eines Pivot-Elements \( a_{ij} \):
+				\begin{equation*}
+					\begin{array}{c|cccc|ccccc|c|c}
+						       &  x_1   & \cdots &          x_j          & \cdots &  z_r   & \cdots & z_i & \cdots &  z_m   &        &          \\ \hline
+						 z_r   & a_{r1} & \cdots &        a_{rj}         & \cdots &   1    & \cdots &  0  & \cdots &   0    &  b_r   & \omega_r \\
+						\vdots & \vdots & \ddots &        \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots & \vdots &  \vdots  \\
+						 z_i   & a_{i1} & \cdots & \framebox{\(a_{ij}\)} & \cdots &   0    &        &  1  &        &   0    &  b_i   & \omega_i \\
+						\vdots & \vdots & \ddots &        \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots & \vdots &  \vdots  \\
+						 z_m   & a_{m1} & \cdots &        a_{mj}         & \cdots &   0    & \cdots &  0  & \cdots &   1    &  b_m   & \omega_m \\ \hline
+						       &        &        &                       &        &        &        &     &        &        &        &  \omega
+					\end{array}
+				\end{equation*}
+			\end{frame}
+			\note[itemize]{
+				\item Auswahlverfahren kommt später.
+				\item Der Austausch entspricht effektiv einem Gauß-Eliminations-Schritt.
+			}
+		
+			\begin{frame}{Basis-Austausch, Teil 2}
+				\vspace{-0.2cm}
+				Austausch von \( z_i \) mit \( x_j \):
+				\begin{table}[H]
+					\centering
+					\begin{tabular}{lll}
+						Pivotelement:                        & \( a_{ij} = \frac{1}{a_{ij}} \)                      &                                             \\
+						Pivotzeile für alle \( s \neq j \):  & \( a_{is} = \frac{a_{is}}{a_{ij}} \)                 & \( b_r = \left[\frac{b_r}{a_{ij}}\right]_T \)              \\
+						Pivotspalte für alle \( r \neq i \): & \( a_{rj} = -\frac{a_{rj}}{a_{ij}} \)                &                                             \\
+						Restliche Elemente des Tableaus:     & \( a_{rs} = a_{rs} - \frac{a_{is} a_{rj}}{a_{ij}} \) & \( b_r = \left[b_r - \frac{a_{rj}}{a_{ij}} b_i\right]_T \)
+					\end{tabular}
+				\end{table}
+				
+				\onslide<2->{
+					\vspace{-0.2cm}
+					\small
+					\begin{equation*}
+						\begin{array}{c|cccc|ccccc|c|c}
+	       &                  x_1                  & \cdots &          z_i           & \cdots &  z_r   & \cdots & x_j & \cdots &  z_m   &                                 &          \\ \hline
+	 z_r   & a_{r1} - \frac{a_{i1} a_{rj}}{a_{ij}} & \cdots & -\frac{a_{rj}}{a_{ij}} & \cdots &   1    & \cdots &  0  & \cdots &   0    & \left[b_r - \frac{a_{rj}}{a_{ij}} b_i\right]_T & \omega_r \\
+	\vdots &                \vdots                 & \ddots &         \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots &             \vdots              &  \vdots  \\
+	 x_j   &         \frac{a_{i1}}{a_{ij}}         & \cdots &    \frac{1}{a_{ij}}    & \cdots &   0    &        &  1  &        &   0    &       \left[\frac{b_i}{a_{ij}}\right]_T        & \omega_i \\
+	\vdots &                \vdots                 & \ddots &         \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots &             \vdots              &  \vdots  \\
+	 z_m   & a_{m1} - \frac{a_{i1} a_{mj}}{a_{ij}} & \cdots & -\frac{a_{mj}}{a_{ij}} & \cdots &   0    & \cdots &  0  & \cdots &   1    & \left[b_m - \frac{a_{mj}}{a_{ij}} b_m\right]_T & \omega_m \\ \hline
+	       &                                       &        &                        &        &        &        &     &        &        &                                 &  \omega
+						\end{array}
+					\end{equation*}
+				}
+			\end{frame}
+		
+			% TODO: Stopped here.
 		% end
 		
 		\subsection{Periodisches Modulo-Simplex}

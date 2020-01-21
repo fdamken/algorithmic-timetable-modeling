@@ -18,6 +18,12 @@ class NamedVector:
     def __str__(self):
         return str(self._vector)
 
+    def get_sub_vector(self, keys):
+        result = []
+        for key in keys:
+            result.append(self.get_named_value(key))
+        return np.array(result).reshape(-1, 1)
+
     def get_vector(self):
         return self._vector
 
