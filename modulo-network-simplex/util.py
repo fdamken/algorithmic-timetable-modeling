@@ -39,10 +39,12 @@ class NamedVector:
 
 
     def __repr__(self):
-        return "_indices: %s; _vector: %s" % (str(self._indices), str(self._vector))
+        return "_indices: %s; _vector: %s" % (repr(self._indices), repr(self._vector))
 
 
     def __str__(self):
+        if self._vector.shape[1] == 1:
+            return str(self._vector.T) + '^T'
         return str(self._vector)
 
 

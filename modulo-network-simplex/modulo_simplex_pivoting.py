@@ -1,8 +1,9 @@
-from typing import List, Union
+from typing import List, Optional, Union
 
 import numpy as np
 import wandb
 
+import wandb_util
 from util import EdgeVector, IS_EXPERIMENT
 
 
@@ -25,13 +26,13 @@ class ModuloSimplexPivoting:
     _non_basic_variables: List[str]
 
     #: The coefficition matrix of the simplex tableau.
-    _gamma: np.ndarray[float]
+    _gamma: np.ndarray
     #: The right-hand-side of the simplex tableau.
-    _rhs: np.ndarray[float]
+    _rhs: np.ndarray
 
 
-    def __init__(self, time_period: int, basic_variables: list, non_basic_variables: list, gamma: np.ndarray[float],
-                 rhs: np.ndarray[float], weights: EdgeVector, verbose: bool = False):
+    def __init__(self, time_period: int, basic_variables: list, non_basic_variables: list, gamma: np.ndarray, rhs: np.ndarray,
+                 weights: EdgeVector, verbose: bool = False):
         """
         Initializes the network modulo simplex algorithm.
 
@@ -62,7 +63,7 @@ class ModuloSimplexPivoting:
         self._iteration = 0
 
 
-    def perform_pivoting(self) -> None:
+    def perform_pivoting(self) -> float:
         """
         Performs pivoting steps until no further improvement can be done (leading to a local minimum).
 
@@ -75,21 +76,29 @@ class ModuloSimplexPivoting:
             print('Starting modulo simplex pivoting.')
         self._iteration = 0
         while True:
+            wandb_util.uber_iteration += 1
+
             pivoting_cost_change = self._perform_pivoting_step()
+            cost = self._calculate_cost()
+
             if IS_EXPERIMENT:
-                wandb.log({ 'cost_change': pivoting_cost_change }, step = self._iteration)
+                wandb.log({ 'cost': cost, 'cost_change': pivoting_cost_change }, step = wandb_util.uber_iteration)
+
             if pivoting_cost_change:
                 self._iteration += 1
+
                 if self._verbose:
                     print('\nSimplex tableau after %d iterations (last cost change: %.2f):' % (
                             self._iteration, pivoting_cost_change))
-                    self._print_simplex_tableau()
+                    self._print_simplex_tableau(cost)
             else:
                 break
 
         if self._verbose:
             print('\nPivoting finished after %d iterations! Resulting tableau and cost:' % self._iteration)
-            self._print_simplex_tableau()
+            self._print_simplex_tableau(cost)
+
+        return self._calculate_cost()
 
 
     def _perform_pivoting_step(self) -> Union[float, bool]:
@@ -196,15 +205,12 @@ class ModuloSimplexPivoting:
         return float(self._weights.get_sub_vector(self._non_basic_variables).T @ self._rhs)
 
 
-    def _print_simplex_tableau(self) -> None:
+    def _print_simplex_tableau(self, cost: Optional[float] = None) -> None:
         """
         Prints the simplex tableau to stdout.
         """
 
         print(np.hstack([self._gamma, self._rhs, self._weights.get_sub_vector(self._non_basic_variables)]))
-        cost = self._calculate_cost()
-
-        if IS_EXPERIMENT:
-            wandb.log({ 'cost': cost }, step = self._iteration)
-
+        if cost is None:
+            cost = self._calculate_cost()
         print('Cost: %.2f' % cost)

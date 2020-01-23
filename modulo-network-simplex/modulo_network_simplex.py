@@ -1,27 +1,36 @@
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 import networkx as nx
 import numpy as np
+import wandb
 
+import wandb_util
 from graph_util import construct_edge_cycle_matrix, find_complement_edges
 from modulo_simplex_pivoting import ModuloSimplexPivoting
-from util import EdgeMatrix, EdgeVector, EventNetworkEdge, NodeVector
+from util import EdgeMatrix, EdgeVector, EventNetworkEdge, IS_EXPERIMENT, NodeVector
 
 
 
 class ImprovingCut:
     #: Whether there is an improving cut available.
-    available: bool
+    available: bool = False
     #: The single node that generated the single node cut.
-    cut_node: Optional[str]
+    node: Optional[str]
     #: The current improving cut vector.
-    cut_vector: Optional[EdgeVector]
+    vector: Optional[EdgeVector]
+    #: The delta of the cut.
+    delta: float
 
 
-    def __init__(self):
-        self.available = False
-        self.cut_node = ''
-        self.cut_vector = None
+    def __repr__(self):
+        return 'available: %s; node: %s; vector: %s; delta: %s' % (
+                repr(self.available), repr(self.node), repr(self.vector), repr(self.delta))
+
+
+    def __str__(self):
+        if self.available:
+            return 'Cut available, node: %s; vector: %s; delta: %s' % (str(self.node), str(self.vector), str(self.delta))
+        return 'No cut available.'
 
 
 
@@ -29,7 +38,7 @@ class ModuloNetworkSimplex:
     #: Whether the algorithm should run verbose (i.e. print out its status).
     _verbose: bool
     #: Stores the current iteration (used for logging to wandb).
-    _iteration: int
+    _iteration: int = 0
 
     #: The global time period (:math:`T`).
     _time_period: int
@@ -68,11 +77,18 @@ class ModuloNetworkSimplex:
     #: Contains the information whether an improving cut is possible and, if one is possible, which node and edges are part of it.
     _cut: ImprovingCut
 
+    #: Contains the modulo parameters that have been fixed to solve the non-periodic dual.
+    _modulo_parameters: EdgeVector
+
 
     def __init__(self, network_file: str = 'network-data.mns', verbose: bool = False):
         self._verbose = verbose
 
         self._read_network_from_file(network_file)
+
+        if IS_EXPERIMENT:
+            wandb.config.network_file = network_file
+            wandb.config.verbose = verbose
 
         # Initialize all values derived from the read data.
         self._lower_bounds = EdgeVector(self._edges)
@@ -98,33 +114,51 @@ class ModuloNetworkSimplex:
         self._cut = ImprovingCut()
 
 
+    # TODO: This reduces the cost pretty far, but the "result" is not a feasible solution.
     def solve(self) -> None:
-        # TODO: See modulo_network_simplex.cpp, void simplex::solve().
+        print('Starting modulo network simplex algorithm.')
 
         self._find_initial_feasible_solution()
 
         # On the start, no cut is available so guarantee that at least one iteration runs.
+        cost = -1
         while self._iteration == 0 or self._cut.available:
-            if self._cut.available:
-                # TODO: Transform, solve non-periodic and build tableau.
-                pass
+            self._iteration += 1
+            wandb_util.uber_iteration += 1
 
-            self._perform_pivoting()
+            if self._cut.available:
+                self._apply_cut()
+                self._solve_non_periodic()
+                # TODO: Probably build tableau?
+
+                if IS_EXPERIMENT:
+                    wandb.log({ 'cost': cost }, step = wandb_util.uber_iteration)
+
+            cost = self._perform_pivoting()
 
             self._search_improving_cut()
 
+        print('Terminating.')
+        print('\nResult (cost %.2f):' % cost)
+        print(self._tree_edges + self._complement_edges)
+        print((self._slack_times.get_vector() + self._lower_bounds.get_vector()).T)
 
-    def _perform_pivoting(self) -> None:
+
+    def _perform_pivoting(self) -> float:
         gamma = self._edge_cycle_matrix.get_matrix().copy()
         rhs = self._slack_times.get_sub_vector(self._complement_edges).copy()
-        ModuloSimplexPivoting(self._time_period, self._tree_edges, self._complement_edges, gamma, rhs, self._weights,
-                              self._verbose).perform_pivoting()
+
+        cost = ModuloSimplexPivoting(self._time_period, self._tree_edges, self._complement_edges, gamma, rhs, self._weights,
+                                     self._verbose).perform_pivoting()
         self._separate_vectors()
         self._edge_cycle_matrix.set_matrix(gamma)
+
         for it_edge in self._tree_edges:
             self._slack_times.set_named_value(it_edge, 0)
         for it_edge, value in zip(self._complement_edges, rhs):
             self._slack_times.set_named_value(it_edge, value)
+
+        return cost
 
 
     def _solve_non_periodic(self) -> None:
@@ -133,18 +167,126 @@ class ModuloNetworkSimplex:
 
 
     def _search_improving_cut(self) -> None:
-        # TODO: See modulo_network_simplex.cpp, void simplex::improvable() (restricted to local_search == SINGLE_NODE_CUT).
-        pass
+        for it_node in self._network.nodes():
+            changes = []
+            deltas = []
+            for delta in range(0, self._time_period):
+                changes.append(self._validate_single_node_cut(it_node, delta))
+                deltas.append(delta)
+
+            min_change_index = int(np.argmin(changes))
+            min_change = changes[min_change_index]
+            delta = deltas[min_change_index]
+            if min_change < 0:
+                # Build the cut vector.
+                cut = EdgeVector(self._network.edges())
+                for it_edge in self._network.in_edges(it_node):
+                    cut.set_named_value(it_edge, -1)
+                for it_edge in self._network.out_edges(it_node):
+                    cut.set_named_value(it_edge, 1)
+
+                self._cut.available = True
+                self._cut.node = it_node
+                self._cut.vector = cut
+                self._cut.delta = delta
+
+                if self._verbose:
+                    print('Found an improving cut:', self._cut)
+
+                return
+
+        self._cut.available = False
+        if self._verbose:
+            print('No improving cut found.')
+
+
+    def _validate_single_node_cut(self, node: str, delta: int) -> float:
+        change = 0
+
+        for it_edge in self._network.in_edges(node):
+            slack_time = self._slack_times.get_named_value(it_edge)
+            lower_bound = self._lower_bounds.get_named_value(it_edge)
+            upper_bound = self._upper_bounds.get_named_value(it_edge)
+
+            tension = slack_time + lower_bound
+            tension = tension + delta
+            if tension > upper_bound:
+                tension -= self._time_period
+            if tension < lower_bound:
+                # Node cut with delta is not feasible.
+                return np.Infinity
+            change += self._weights.get_named_value(it_edge) * (tension - lower_bound - slack_time)
+
+        for it_edge in self._network.out_edges(node):
+            slack_time = self._slack_times.get_named_value(it_edge)
+            lower_bound = self._lower_bounds.get_named_value(it_edge)
+            upper_bound = self._upper_bounds.get_named_value(it_edge)
+
+            tension = slack_time + lower_bound
+            tension = tension - delta
+            if tension < lower_bound:
+                tension += self._time_period
+            if tension > upper_bound:
+                # Node cut with delta is not feasible.
+                return np.Infinity
+            change += self._weights.get_named_value(it_edge) * (tension - lower_bound - slack_time)
+
+        return change
 
 
     def _apply_cut(self) -> None:
         # TODO: See modulo_network_simplex.cpp, void simplex::transform().
-        pass
+        self._calculate_modulo_parameters()
+
+        for it_edge in self._network.edges():
+            lower_bound = self._lower_bounds.get_named_value(it_edge)
+            upper_bound = self._upper_bounds.get_named_value(it_edge)
+
+            tension = self._slack_times.get_named_value(it_edge) + lower_bound
+
+            cut_direction = self._cut.vector.get_named_value(it_edge)
+            if cut_direction == -1:
+                tension += self._cut.delta
+                if tension > upper_bound:
+                    tension -= self._time_period
+                    self._modulo_parameters.set_named_value(it_edge, self._modulo_parameters.get_named_value(it_edge) - 1)
+                self._slack_times.set_named_value(it_edge, tension - lower_bound)
+            elif cut_direction == 1:
+                tension -= self._cut.delta
+                if tension < lower_bound:
+                    tension += self._time_period
+                    self._modulo_parameters.set_named_value(it_edge, self._modulo_parameters.get_named_value(it_edge) + 1)
+                self._slack_times.set_named_value(it_edge, tension - lower_bound)
 
 
     def _calculate_modulo_parameters(self) -> None:
-        # TODO: See modulo_network_simplex.cpp, void simplex::find_modulo().
-        pass
+        # TODO: Is this really needed?
+        self._calculate_event_times()
+
+        # For all tree edges, the modulo parameter is zero (which is automatically implied as the constructor of an edge vector
+        # sets all elements to zero).
+        self._modulo_parameters = EdgeVector(self._network.edges())
+        for it_edge in self._complement_edges:
+            (source, target) = it_edge
+            lower_bound = self._lower_bounds.get_named_value(it_edge)
+            upper_bound = self._upper_bounds.get_named_value(it_edge)
+
+            # TODO: Is the calculation using the slack times okay?
+            # tension = self._event_times.get_named_value(target) - self._event_times.get_named_value(source)
+            tension = self._slack_times.get_named_value(it_edge) - lower_bound
+            # Manually apply the modulus operator.
+            modulo_parameter = 0
+            while tension > upper_bound:
+                tension -= self._time_period
+                modulo_parameter -= 1
+            while tension < lower_bound:
+                tension += self._time_period
+                modulo_parameter += 1
+
+            self._modulo_parameters.set_named_value(it_edge, modulo_parameter)
+
+            if self._verbose:
+                print('Edge', it_edge, 'has modulo parameter', modulo_parameter)
 
 
     def _calculate_event_times(self) -> None:
@@ -159,10 +301,10 @@ class ModuloNetworkSimplex:
         graph.add_edges_from(self._network.edges())
 
         # TODO: Switch to minimal spanning tree!
-        # spanning_tree = nx.minimum_spanning_tree(graph)
-        spanning_tree = nx.DiGraph()
-        spanning_tree.add_nodes_from(graph)
-        spanning_tree.add_edges_from([('B', 'C'), ('D', 'A'), ('D', 'C')])
+        spanning_tree = nx.minimum_spanning_tree(graph)
+        # spanning_tree = nx.DiGraph()
+        # spanning_tree.add_nodes_from(graph)
+        # spanning_tree.add_edges_from([('B', 'C'), ('D', 'A'), ('D', 'C')])
         # Contains the correct directions of the edges.
         (self._tree_edges, self._complement_edges) = find_complement_edges(self._network, spanning_tree)
         self._edge_cycle_matrix = construct_edge_cycle_matrix(self._network, self._tree_edges, self._complement_edges)
