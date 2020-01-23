@@ -1,8 +1,9 @@
 import networkx as nx
 import numpy as np
-from util import NodeVector, EdgeVector, EdgeMatrix
-from graph_util import find_complement_edges, construct_edge_cycle_matrix
+
+from graph_util import construct_edge_cycle_matrix, find_complement_edges
 from modulo_simplex_pivoting import ModuloSimplexPivoting
+from util import EdgeMatrix, EdgeVector, NodeVector
 
 
 # Load the network data from the files variables.csv, graph-nodes.csv and graph-edges.csv.
@@ -89,3 +90,36 @@ gamma = separated_edge_cycle_matrix.get_matrix().copy()
 rhs = b.copy()
 
 ModuloSimplexPivoting(time_period, basic_variables, non_basic_variables, gamma, rhs, weights).perform_pivoting(log = True)
+# Copy the right-hand-side back to the slack times.
+for edge in basic_variables:
+    slack_times.set_named_value(edge, 0)
+for (edge, value) in zip(non_basic_variables, rhs):
+    slack_times.set_named_value(edge, value)
+
+
+
+# TODO: How on earth should the single node cutting be done???
+def apply_improving_single_node_cut():
+    for node in network.nodes():
+        for delta in range(0, time_period):
+            snc_change = 0
+            improved_slack_times = slack_times.get_vector().copy()
+            for edge in network.in_edges(node):
+                snc_change += weights.get_named_value(edge) * (slack_times.get_named_value(edge) - delta)
+                improved_slack_times[slack_times.get_index(edge)] += delta
+            for edge in network.out_edges(node):
+                snc_change += weights.get_named_value(edge) * (slack_times.get_named_value(edge) + delta)
+                improved_slack_times[slack_times.get_index(edge)] -= delta
+
+            # TODO: This does not really make sense...
+            if snc_change < 0 and (0 <= improved_slack_times).all() and (improved_slack_times <= deltas.get_vector()).all():
+                slack_times.set_vector(improved_slack_times)
+                return True
+    return False
+
+
+
+print('slack_times', slack_times.get_vector().T)
+success = apply_improving_single_node_cut()
+print('SNC success:', success)
+print('slack_times', slack_times.get_vector().T)

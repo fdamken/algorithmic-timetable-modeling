@@ -1,9 +1,12 @@
+from typing import Tuple, List
+
 import networkx as nx
 import numpy as np
 from util import EdgeMatrix
 
 
-def find_complement_edges(network: nx.DiGraph, tree: nx.DiGraph):
+
+def find_complement_edges(network: nx.DiGraph, tree: nx.DiGraph) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]]]:
     """
     Finds the complement edges (the edges that are present in the network, but not in the tree) of the network/tree combination.
 
@@ -23,7 +26,9 @@ def find_complement_edges(network: nx.DiGraph, tree: nx.DiGraph):
     return tree_edges, complement_edges
 
 
-def construct_edge_cycle_matrix(network: nx.DiGraph, tree_edges: list, complement_edges: list):
+
+def construct_edge_cycle_matrix(network: nx.DiGraph, tree_edges: List[Tuple[str, str]],
+                                complement_edges: List[Tuple[str, str]]) -> EdgeMatrix:
     """
     Builds the edge cycle matrix for the given network and the given tree/co-tree edges.
 
@@ -41,7 +46,7 @@ def construct_edge_cycle_matrix(network: nx.DiGraph, tree_edges: list, complemen
         graph.add_nodes_from(network)
         graph.add_edge(*complement_edge)
         graph.add_edges_from(tree_edges)
-        # This must be exacle one as adding a co-tree arc to the tree defines a unique cycle.
+        # This must be exactly one as adding a co-tree arc to the tree defines a unique cycle.
         cycle = nx.cycle_basis(graph)[0]
 
         incidence_vector = np.zeros(result.get_matrix().shape[1])

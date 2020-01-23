@@ -1,10 +1,37 @@
+from typing import List, Union
+
 import numpy as np
-from util import EdgeVector
+import wandb
+
+from util import EdgeVector, IS_EXPERIMENT
+
 
 
 class ModuloSimplexPivoting:
-    def __init__(self, time_period: int, basic_variables: list, non_basic_variables: list, gamma: np.ndarray, rhs: np.ndarray,
-                 weights: EdgeVector):
+    #: Whether the algorithm should run verbose (i.e. print out its status).
+    _verbose: bool
+    #: Stores the current iteration (used for logging to wandb).
+    _iteration: int
+
+    #: The global time period (:math:`T`).
+    _time_period: int
+
+    #: The weights for each edge.
+    _weights: EdgeVector
+
+    #: The current basic variables.
+    _basic_variables: List[str]
+    #: The current non-basic variables.
+    _non_basic_variables: List[str]
+
+    #: The coefficition matrix of the simplex tableau.
+    _gamma: np.ndarray[float]
+    #: The right-hand-side of the simplex tableau.
+    _rhs: np.ndarray[float]
+
+
+    def __init__(self, time_period: int, basic_variables: list, non_basic_variables: list, gamma: np.ndarray[float],
+                 rhs: np.ndarray[float], weights: EdgeVector, verbose: bool = False):
         """
         Initializes the network modulo simplex algorithm.
 
@@ -20,7 +47,10 @@ class ModuloSimplexPivoting:
         :param np.ndarray gamma: Separated edge cycle matrix.
         :param np.ndarray rhs: Right hand side of the simplex tableau, namely :math:`b`.
         :param EdgeVector weights: Weights of the arcs. Must contain all tree and co-tree arc weights.
+        :param bool verbose: Whether to print the status (True) or not (False).
         """
+
+        self._verbose = verbose
 
         self._time_period = time_period
         self._basic_variables = basic_variables
@@ -29,35 +59,40 @@ class ModuloSimplexPivoting:
         self._rhs = rhs
         self._weights = weights
 
+        self._iteration = 0
 
-    def perform_pivoting(self, log: bool = False):
+
+    def perform_pivoting(self) -> None:
         """
         Performs pivoting steps until no further improvement can be done (leading to a local minimum).
 
         :param bool log: Whether to log the process to stdout or not.
         """
 
-        if log:
+        if self._verbose:
             print('\nInitial simplex tableau and cost:')
             self._print_simplex_tableau()
             print('Starting modulo simplex pivoting.')
-        i = 0
+        self._iteration = 0
         while True:
             pivoting_cost_change = self._perform_pivoting_step()
+            if IS_EXPERIMENT:
+                wandb.log({ 'cost_change': pivoting_cost_change }, step = self._iteration)
             if pivoting_cost_change:
-                i += 1
-                if log:
-                    print('\nSimplex tableau after %d iterations (last cost change: %.2f):' % (i, pivoting_cost_change))
+                self._iteration += 1
+                if self._verbose:
+                    print('\nSimplex tableau after %d iterations (last cost change: %.2f):' % (
+                            self._iteration, pivoting_cost_change))
                     self._print_simplex_tableau()
             else:
                 break
 
-        if log:
-            print('\nPivoting finished after %d iterations! Resulting tableau and cost:' % i)
+        if self._verbose:
+            print('\nPivoting finished after %d iterations! Resulting tableau and cost:' % self._iteration)
             self._print_simplex_tableau()
 
 
-    def _perform_pivoting_step(self):
+    def _perform_pivoting_step(self) -> Union[float, bool]:
         """
         Performs a single modulo simplex pivoting step, i.e.:
             1. Search a pivoting element.
@@ -116,7 +151,7 @@ class ModuloSimplexPivoting:
         return pivot_cost_change
 
 
-    def _calculate_cost_difference(self, i, j):
+    def _calculate_cost_difference(self, i: int, j: int) -> float:
         """
         Calculates the cost difference that is expected from exchange co-tree arc ``i`` with tree arc ``j``.
 
@@ -150,7 +185,7 @@ class ModuloSimplexPivoting:
         return -delta_cost
 
 
-    def _calculate_cost(self):
+    def _calculate_cost(self) -> float:
         """
         Calculates the current cost of the tableau.
 
@@ -161,10 +196,15 @@ class ModuloSimplexPivoting:
         return float(self._weights.get_sub_vector(self._non_basic_variables).T @ self._rhs)
 
 
-    def _print_simplex_tableau(self):
+    def _print_simplex_tableau(self) -> None:
         """
         Prints the simplex tableau to stdout.
         """
 
         print(np.hstack([self._gamma, self._rhs, self._weights.get_sub_vector(self._non_basic_variables)]))
-        print('Cost: %.2f' % self._calculate_cost())
+        cost = self._calculate_cost()
+
+        if IS_EXPERIMENT:
+            wandb.log({ 'cost': cost }, step = self._iteration)
+
+        print('Cost: %.2f' % cost)

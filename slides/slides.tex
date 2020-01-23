@@ -28,7 +28,8 @@
 
 \MakeOuterQuote{"}
 
-\tikzset{> = { Latex[length = 2mm] }}
+\tikzset{> = { Latex[length = 2.5mm] }}
+\tikzstyle{every path} = [ very thick ]
 
 \AtBeginSection{
 	\begin{frame}{\insertsectionhead \\ Gliederung}
@@ -58,6 +59,11 @@
 \newcommand{\BIG}{\bBigg@{4}}
 \newcommand{\BIGG}{\bBigg@{5}}
 \makeatother
+
+\let\oldvdots=\vdots
+\renewcommand{\vdots}{\raisebox{2pt}{\(\oldvdots\)}}
+\let\oldddots=\ddots
+\renewcommand{\ddots}{\raisebox{2pt}{\(\oldddots\)}}
 
 \newcommand{\zB}{z.\,B.~}
 
@@ -92,18 +98,18 @@
 	\end{tikzpicture}
 }
 \newcommand{\exampleDirectedSpanningTree}{
-\begin{tikzpicture}[->, node/.style = { draw, rectangle, rounded corners, minimum width = 1cm, minimum height = 0.6cm }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }]
-	\node [node] (a) {\(A\)};
-	\node [node, right = of a] (b) {\(B\)};
-	\node [node, below = of a] (c) {\(C\)};
-	\node [node, below = of b] (d) {\(D\)};
-	
-	\draw [spanning] (b) -- node[midway, sloped, above]{\(a\)} (a);
-	\draw [co] (a) -- node[left]{\(b\)} (c);
-	\draw [spanning] (d) -- node[midway, sloped, above]{\(c\)} (a);
-	\draw [co] (b) -- node[right]{\(d\)} (d);
-	\draw [spanning] (c) -- node[midway, sloped, above]{\(e\)} (d);
-\end{tikzpicture}
+	\begin{tikzpicture}[->, node/.style = { draw, rectangle, rounded corners, minimum width = 1cm, minimum height = 0.6cm }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }]
+		\node [node] (a) {\(A\)};
+		\node [node, right = of a] (b) {\(B\)};
+		\node [node, below = of a] (c) {\(C\)};
+		\node [node, below = of b] (d) {\(D\)};
+		
+		\draw [spanning] (b) -- node[midway, sloped, above]{\(a\)} (a);
+		\draw [co] (a) -- node[left]{\(b\)} (c);
+		\draw [spanning] (d) -- node[midway, sloped, above]{\(c\)} (a);
+		\draw [co] (b) -- node[right]{\(d\)} (d);
+		\draw [spanning] (c) -- node[midway, sloped, above]{\(e\)} (d);
+	\end{tikzpicture}
 }
 
 \begin{document}
@@ -119,52 +125,61 @@
 	
 	\section{Mathematische Modellierung}
 		\subsection{Nicht-periodische Fahrpläne}
-			\begin{frame}{Schienennetz und Events}
+			\begin{frame}{Schienennetz und Ereignisse}
 				Ein \emph{Schienennetz} ist ein System von Linien \(\mathcal{L}\) und Stationen \(\mathcal{S}\).
 			
 				\vspace{1cm}
 				Bedient Linie \( L \in \mathcal{L} \) die Station \( S \in \mathcal{S} \), so sei
 				\begin{itemize}
 					\item \( (L, \arr, S) \) \tabto{1.7cm} das Ankunfts- und
-					\item \( (L, \dep, S) \) \tabto{1.7cm} das Abfahrts-\emph{Event}.
+					\item \( (L, \dep, S) \) \tabto{1.7cm} das Abfahrts-\emph{Ereignis}.
 				\end{itemize}
 			
-				Eine Linie ist eine alternierende Sequenz von Ankunfts- und Abfahrts-Events.
+				Eine Linie ist eine alternierende Sequenz von Ankunfts- und Abfahrts-Ereignis.
 			\end{frame}
 			\note[itemize]{
 				\item Linie \( L \in \mathcal{L} \) ist Transportkette.
 				\item Züge aus \(L\) bedienen bestimmte Sequenzen an Stationen.
 			}
 		
-			\begin{frame}{Fahrpläne und Aktivitäten}
-				Ein \emph{Fahrplan} \( \vec{\pi} = (\pi_i) \) weißt jedem Event \( i = (L, \arr, S) \) (bzw. \( i = (L, \dep, S) \)) einen Zeitpunkt \( \pi_i \in \R \) zu.
+			\begin{frame}{Fahrpläne und Vorgänge}
+				Ein \emph{Fahrplan} \( \vec{\pi} = (\pi_i) \) ordnet jedem Event \( i = (L, \arr, S) \) (bzw. \( i = (L, \dep, S) \)) einen Zeitpunkt \( \pi_i \in \R \) zu.
 				
 				\vspace{1cm}
-				Eine \emph{Aktivität} \( a : i \to j \) beschreibt den Übergang von \(i\) zu \(j\). Die hierfür gebrauchte Zeit (die \emph{Spannung, "Tension"}) ist
+				Ein \emph{Vorgang} ("Activity") \( a : i \to j \) beschreibt den Übergang von \(i\) zu \(j\). Die Dauer des Vorgangs, die \emph{Spannung} ("Tension") ist
 				\begin{equation*}
 					x_a = \pi_j - \pi_i
 				\end{equation*}
-				Sei \( \mathcal{A} \) die Menge aller Aktivitäten.
+				Sei \( \mathcal{A} \) die Menge aller Vorgänge.
+				
+				\onslide<2->{
+					\vspace{0.5cm}
+					\textbf{Beispiel:} \\
+					Haltevorgang \(a\) von Linie \(L\) an Station \(S\):
+					\begin{equation*}
+						a : (L, \dep, S) \to (L, \arr, S)
+					\end{equation*}
+				}
 			\end{frame}
 			\note[itemize]{
-				\item Zeitpunkt \( \pi_i \) ist Zeitpunkt, an dem das Ereignis eintritt.
+				\item Zeitpunkt \( \pi_i \) ist Zeitpunkt, an dem das Ereignis stattfindet.
 			}
 		
-			\begin{frame}{Zeiteinschränkungen und Durchführbarkeit}
-				Jeder Aktivität \( a \in \mathcal{A} \) wird eine \emph{Zeiteinschränkung}
+			\begin{frame}{Zeiteinschränkungen und Zulässigkeit}
+				Jedem Vorgang \( a \in \mathcal{A} \) wird eine \emph{zulässige Dauer}
 				\begin{equation*}
 					\Delta_a = [l_a, u_a]
 				\end{equation*}
 				zugeordnet.
 				
 				\vspace{1cm}
-				Ein Fahrplan \(\vec{\pi}\) ist \emph{durchführbar} ("feasible"), wenn
-				\begin{equation*}
+				Ein Fahrplan \(\vec{\pi}\) heißt \emph{zulässig} ("feasible"), wenn gilt:
+				\begin{gather*}
 					\forall a \in \mathcal{A} : x_a \in \Delta_a \quad\iff\quad \forall (a : i \to j) \in \mathcal{A} : l_a \leq \pi_j - \pi_i \leq u_a
-				\end{equation*}
+				\end{gather*}
 			\end{frame}
 			\note[itemize]{
-				\item \(l_a\) untere und \(u_a\) obere Schranke
+				\item \(l_a\) untere und \(u_a\) obere Schranke.
 			}
 		
 			\begin{frame}{Aussagekraft von Zeiteinschränkungen}
@@ -180,7 +195,7 @@
 				\end{itemize}
 			\end{frame}
 		
-			\begin{frame}{Event-Aktivitäts-Netzwerk}
+			\begin{frame}{Ereignisnetzwerk}
 				\vspace{-0.3cm}
 				\begin{figure}[H]
 					\centering
@@ -208,7 +223,7 @@
 						
 						\draw [->] (L1-dep-B) -- node[midway, sloped, above, yshift = -0.1cm]{headway arc} (L2-dep-B);
 					\end{tikzpicture}
-					\caption{Event-Aktivitäts-Netzwerk, vgl. \cite[Fig.~1]{nachtigallSolvingPeriodicTimetable2008}}
+					\caption{Ereignisnetzwerk, vgl. \cite[Fig.~1]{nachtigallSolvingPeriodicTimetable2008}}
 					\label{fig:event_activity_network}
 				\end{figure}
 			\end{frame}
@@ -217,11 +232,11 @@
 			}
 		% end
 		
-		\subsection{Periodische Fahrpläne}
+		\subsection{Taktfahrpläne}
 			\begin{frame}{Problematiken}
 				\begin{itemize}
 					\item Nicht-periodische Optimierungsprobleme \(\to\) Kürzester-Pfad-Berechnungen.
-					\item Periodische Fahrpläne \(\to\) dieses einfache Modell funktioniert nicht mehr.
+					\item Taktfahrpläne \(\to\) dieses einfache Modell funktioniert nicht mehr.
 						\begin{itemize}
 							\item Es ist a-priori nicht klar, in welcher Sequenz Züge ankommen.
 							\item Erst nach Ordnung bekannt.
@@ -229,11 +244,11 @@
 				\end{itemize}
 			\end{frame}
 		
-			\begin{frame}{Periodische Fahrpläne und periodische Durchführbarkeit}
-				Ein periodischer Fahrplan \( \vec{\pi} = (\pi_i) \) weißt jedem Event \( i \) eine \emph{Ereigniszeit} \( \pi_i \in \R \) zu. Events finden zu den Zeitpunkten \( \pi_i + z_i T \) mit dem Modulo-Parameter \(z_i \in \Z\) und der Periode \(T\) statt.
+			\begin{frame}{Taktfahrpläne und periodische Zulässigkeit}
+				Ein Taktfahrplan \( \vec{\pi} = (\pi_i) \) ordnet jedem periodischem Ereignis \( i \) einen \emph{Ereigniszeitpunkt} \( \pi_i \in \R \) zu. Ereignisse finden zu den Zeitpunkten \( \pi_i + z_i T \) mit dem Modulo-Parameter \(z_i \in \Z\) und der Taktzeit \(T\) statt.
 			
 				\vspace{1cm}
-				Ein periodischer Fahrplan \( \vec{\pi} \) ist \emph{durchführbar} ("feasible"), wenn
+				Ein Taktfahrplan \( \vec{\pi} \) heißt \emph{zulässig} ("feasible"), wenn gilt:
 				\begin{equation*}
 					\forall (a : i \to j) \in \mathcal{A} : \exists z_a \in \Z : l_a \leq \pi_j - \pi_i - z_a T \leq u_a
 				\end{equation*}
@@ -244,7 +259,7 @@
 				\item \(l_a\) und \(u_a\) wir vorher.
 			}
 		
-			\begin{frame}{Modulo-Operator und Pufferzeit ("slack time")}
+			\begin{frame}{Modulo-Operator und Slack-Zeiten}
 				Sei
 				\begin{equation*}
 					[t]_T \coloneqq \min \big\{\, t + zT \,\vert\, t + zT \geq 0, \quad z \in \Z, \quad T = \const \,\big\}
@@ -252,28 +267,28 @@
 				Es gilt offensichtlich \( 0 \leq [t]_T < T \).
 			
 				\vspace{1cm}
-				Die untere und obere \emph{Pufferzeit} misst, um wie viel Zeit die Spannung \( x_a = \pi_j - \pi_i \) verändert werden darf.
+				Die untere und obere \emph{Slack-Zeit} misst, um wie viel Zeit die Spannung \( x_a = \pi_j - \pi_i \) verändert werden darf.
 				\begin{align*}
 					y_a^\mathit{low} &\coloneqq [x_a - l_a]_T \\
 					y_a^\mathit{upp} &\coloneqq [u_a - x_a]_T
 				\end{align*}
 			\end{frame}
 		
-			\begin{frame}{Das Optimierungsproblem}
+			\begin{frame}{Das Optimierungsproblem (Potential-Modell)}
 				\begin{itemize}
 					\item Durch Umkehrung einer Kante \(a\) können obere und untere Pufferzeit ausgetauscht werden.
 					\item O.B.d.A. kann das Problem nur in Bezug auf \( y_a^\mathit{low} \) definiert werden.
 				\end{itemize}
 				
 				\vspace{0.5cm}
-				\( \to \) Gemischt-Ganzzahliges Programm ("mixed-integer program"):
+				\( \to \) \, Gemischt-Ganzzahliges Programm ("mixed-integer program"):
 				\begin{equation*}
 					\min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a, \quad z_a \in \Z \,\Bigg\}
 				\end{equation*}
 			\end{frame}
 			\note[itemize]{
-				\item \( \omega_a \) sind die Gewichte.
-				\item Minimiere die Gewichtete untere Pufferzeit, Vorausgesetzt der entsprechende Fahrplan ist gültig.
+				\item \( \omega_a \) sind die Kantengewichte.
+				\item Minimiere die Gewichtete untere Slack-Zeit, Vorausgesetzt der entsprechende Fahrplan ist gültig.
 				\item NP-Schwer
 			}
 		% end
@@ -281,7 +296,7 @@
 		% TODO: Rückblick und wichtigste Konzepte.
 	% end
 	
-	\section{The Periodic Timetable Polyhedron} % TODO: Title.
+	\section{Das Slack-Modell} % TODO: Title.
 		\subsection{Grundlagen von Flussnetzwerken}
 			\begin{frame}{Gerichtete Graphen}
 				\begin{figure}
@@ -381,8 +396,8 @@
 				\item \( a : i \to j \): Die Kante \(a\) geht von Knoten \(i\) aus.
 			}
 
-			\begin{frame}{Kantenzyklus-Matrix ("Edge-Cycle-Matrix")}
-				Durch Hinzufügen einer Ko-Baum-Kante zum Baum \(\mathcal{T}\) wird ein eindeutiger Zyklus \(c\) definiert. Sei \( \mat{\Gamma} = (\gamma_{ca}) \) die \emph{Kantenzyklus-Matrix}:
+			\begin{frame}{Netzwerkmatrix ("Edge-Cycle-Matrix")}
+				Durch Hinzufügen einer Ko-Baum-Kante zum Baum \(\mathcal{T}\) wird ein eindeutiger Zyklus \(c\) definiert. Sei \( \mat{\Gamma} = (\gamma_{ca}) \) die \emph{Netzwerkmatrix}:
 				\begin{equation*}
 					\gamma_{ca} \coloneqq
 						\begin{cases*}
@@ -416,11 +431,10 @@
 			}
 		
 			\begin{frame}{Potential und Spannung}
-				Ein \emph{Potential} \( \vec{\pi} = (\pi_i) \) weißt jedem Knoten \(i\) einen Wert \(\pi_i \in \R\) zu.
+				Ein \emph{Potential} \( \vec{\pi} = (\pi_i) \) ordnet jedem Knoten \(i\) einen Wert \(\pi_i \in \R\) zu.
 				
 				\vspace{0.5cm}
-				Die Potentialdifferenz \( x_a \coloneqq \pi_j - \pi_i \) sei die \emph{Spannung} von Kante \( a : i \to j \). Es gilt \( \mat{\Theta}^T \vec{\pi} = \vec{x} \). Weiterhin ist \( \vec{x} \) eine (periodische) Spannung gdw. \( \mat{\Gamma} \vec{x} \equiv_T \vec{0} \) gilt.
-				% TODO: Was hat man von dem Zusammenhang (Gamma . x = 0)?
+				Die Potentialdifferenz \( x_a \coloneqq \pi_j - \pi_i \) sei die \emph{Spannung} von Kante \( a : i \to j \). Es gilt \( \mat{\Theta}^T \vec{\pi} = \vec{x} \). Weiterhin ist \( \vec{x} \) eine periodische Spannung gdw. \( \mat{\Gamma} \vec{x} \equiv_T \vec{0} \) gilt.
 				
 				\vspace{0.5cm}
 				\onslide<2->{
@@ -465,11 +479,92 @@
 				}
 			\end{frame}
 			\note[itemize]{
+				\item Potential \(\vec{\pi}\) ist ein Fahrplan, Namensgebung stammt aus elektronischen Netzwerken.
+				\item \( \mat{\Gamma} \vec{x} \equiv_T \vec{0} \): Die Summe aller Spannungen in einem Kreis ist gleich einem Vielfachen der Taktzeit.
 				\item Nicht-periodische Spannung: \(=\) statt \(\equiv_T\)
 			}
+		
+			\begin{frame}{Potential und Spannung, Fortsetzung}
+				\textbf{Beispiel:} \\
+				\begin{minipage}[l]{0.7\textwidth}
+					\begin{align*}
+						\vec{x} &= \begin{bmatrix} x_a & x_b & x_c & x_d & x_e \end{bmatrix} \\
+						\mat{\Gamma} \vec{x} &=
+							\begin{bmatrix}
+								0  & 1 & 1 & 0 & 1 \\
+								-1 & 0 & 1 & 1 & 0
+							\end{bmatrix}
+							\cdot
+							\begin{bmatrix}
+								x_a \\
+								x_b \\
+								x_c \\
+								x_d \\
+								x_e
+							\end{bmatrix}
+							=
+							\begin{bmatrix}
+								x_b + x_c + x_d \\
+								x_c + x_d - x_a
+							\end{bmatrix}
+					\end{align*}
+				\end{minipage}
+				\begin{minipage}[r]{0.2\textwidth}
+					\exampleDirectedSpanningTree
+				\end{minipage}
+			\end{frame}
+		
+			\begin{frame}{Flüsse}
+				Der \emph{Bedarf} \( \vec{v} = (v_i) \) (mit \( \sum_i v_i = 0 \)) ordnet jedem Knoten \(i\) einen Bedarf \( v_i \in \R \) zu. Ein Knoten mit \( v_i \) heißt
+				\begin{equation*}
+					\begin{cases*}
+						\text{\emph{Quellknoten}}      & für \( v_i > 0 \) \\
+						\text{\emph{Zielknoten}}       & für \( v_i < 0 \) \\
+						\text{\emph{Durchgangsknoten}} & für \( v_i = 0 \)
+					\end{cases*}
+				\end{equation*}
+				
+				\vspace{1cm}
+				Ein Fluss \( \vec{\varphi} = (\varphi_a) \) (mit \( \mat{\Theta} \vec{\varphi} = \vec{v} \)) ordnet jeder Kante \(a\) einen Flusswert \( \varphi_a \in \R \) zu.
+			\end{frame}
+			\note[itemize]{
+				\item Die Flussgleichung beschreibt, dass in jedem Knoten die Zu- und Abflussmenge gleich der Nachfrage, bzw. dem Angebot, sein muss.
+			}
+		
+			\begin{frame}{Schnitte}
+				Die Knoten eines Graphen lassen sich in zwei disjunkte Mengen \( P \) und \( \bar{P} \) zerlegen. Sei \( \vec{\eta} = (\eta_{(a : i \to j)}) \) der \emph{Schnitt} bzgl. dieser Zerlegung:
+				\begin{equation*}
+					\eta_{(a : i \to j)} \coloneqq
+						\begin{cases*}
+							1  & falls \( i \in P \) und \( j \in \bar{P} \) \\
+							-1 & falls \( i \in \bar{P} \) und \( j \in P \)\\
+							0  & sonst
+						\end{cases*}
+				\end{equation*}
+				
+				\onslide<2->{
+					\textbf{Beispiel:} \\
+					\begin{minipage}[l]{0.7\textwidth}
+						\begin{align*}
+							P &= \{\, \text{C} \,\} \\
+							\bar{P} &= \{\, \text{A}, \text{B}, \text{D} \,\} \\
+							\vec{\eta} &= \begin{bmatrix} 0 & -1 & 0 & 0 & 1 \end{bmatrix}^T \\
+						\end{align*}
+					\end{minipage}
+					\begin{minipage}[r]{0.2\textwidth}
+						\exampleDirectedSpanningTree
+					\end{minipage}
+				}
+			\end{frame}
+			\note[itemize]{
+				\item Aus Sicht von \( P \): \(-1\) bei eingehenden Kanten, \(1\) bei ausgehenden.
+				\item Für einen Knoten exakt das negativer der Entsprechenden Zeile in \( \mat{\Theta} \).
+			}
+			
+			% TODO: Rückblick und wichtigste Konzepte.
 		% end
 		
-		\subsection{Spannbaumstrukturen} % TODO: Titel!
+		\subsection{Spannbaumstrukturen}
 			\begin{frame}{Spannbaumstrukturen und generiertes Potential}
 				Sei \( \mathcal{T} = \mathcal{T}^l + \mathcal{T}^u \) ein Spannbaum, separiert in \( \mathcal{T}^l \) und \( \mathcal{T}^u \), sodass gilt:
 				\begin{equation*}
@@ -477,7 +572,7 @@
 				\end{equation*}
 				
 				\vspace{0.5cm}
-				Über \( \mat{\Theta}^T \vec{\pi} = \vec{x} \) bestimmt jede Struktur ein eindeutiges Potential \( \vec{\pi}^{(\mathcal{T})} \), für das gilt:
+				Jede Struktur bestimmt ein eindeutiges Potential \( \vec{\pi}^{(\mathcal{T})} \), für das gilt:
 				\begin{align*}
 					& \forall (a : i \to j) \in \mathcal{T}^l : \pi^{(\mathcal{T})}_j - \pi^{(\mathcal{T})}_i = l_a \\
 					& \forall (a : i \to j) \in \mathcal{T}^l : \pi^{(\mathcal{T})}_j - \pi^{(\mathcal{T})}_i = u_a
@@ -488,8 +583,8 @@
 				\item Spannbaumstruktur \(\mathcal{T}\) durchfürbar, wenn das bestimmte Potential durchführbar ist (in Bezug auf alle Zeiteinschränkungen).
 			}
 		
-			\begin{frame}{Der "Raum periodischer Pufferzeiten"} % TODO: Titel!
-				Mit \( \vec{b} \coloneqq [-\mat{\Gamma} \vec{l}]_T \) und \( \vec{\delta} \coloneqq \vec{u} - \vec{l} \) ist der \emph{Raum periodischer Pufferzeiten} \(\mathcal{Y}\) definiert:
+			\begin{frame}{Das Optimierungsproblem (Slack-Modell)}
+				Mit \( \vec{b} \coloneqq [-\mat{\Gamma} \vec{l}]_T \) und \( \vec{\delta} \coloneqq \vec{u} - \vec{l} \) ist die \emph{Menge zulässiger Slack-Zeiten} \(\mathcal{Y}\) definiert:
 				\begin{align*}
 					\mathcal{Y} \coloneqq& \,\big\{\, \vec{y} \in \Z^m \,\vert\, \mat{\Gamma} \vec{y} \equiv_T \vec{b}, \quad \vec{0} \leq \vec{y} \leq \vec{\delta} \,\big\}
 					%=& \,\big\{\, \vec{y} \in \Z^m \,\vert\, \mat{\Gamma} \vec{y} \equiv_T [-\mat{\Gamma} \vec{l}]_T, \quad \vec{0} \leq \vec{y} \leq \vec{u} - \vec{l} \,\big\} \\
@@ -498,7 +593,7 @@
 					%=& \,\big\{\, \vec{y} \in \Z^m \,\vert\, \mat{\Gamma} \vec{y} + \mat{\Gamma} \vec{l} \equiv_T \vec{0}, \quad \vec{l} \leq \vec{y} + \vec{l} \leq \vec{u} \,\big\} \\
 					%=& \,\big\{\,\vec{y} \in \Z^m \,\vert\, \mat{\Gamma} (\vec{y} + \vec{l}) \equiv_T \vec{0}, \quad \vec{l} \leq \vec{y} + \vec{l} \leq \vec{u} \,\big\}
 				\end{align*}
-				Damit gilt ist \( \vec{x} \in \Z^m \) eine Spannung mit \( \vec{l} \leq \vec{x} \leq \vec{u} \) gdw. \( (\vec{x} - \vec{l}) \in \mathcal{Y} \) gilt. Also bestimmt jedes \( \vec{y} \in \mathcal{Y} \) eine Spannung \( \vec{x} \coloneqq \vec{y} + \vec{l} \) mit \( \vec{l} \leq \vec{x} \leq \vec{u} \).
+				Damit ist \( \vec{x} \in \Z^m \) eine Spannung mit \( \vec{l} \leq \vec{x} \leq \vec{u} \) gdw. \( (\vec{x} - \vec{l}) \in \mathcal{Y} \) gilt. Also bestimmt jedes \( \vec{y} \in \mathcal{Y} \) eine Spannung \( \vec{x} \coloneqq \vec{y} + \vec{l} \) mit \( \vec{l} \leq \vec{x} \leq \vec{u} \).
 				
 				\vspace{1cm}
 				Das Optimierungsproblem kann wie folgt umformuliert werden:
@@ -513,45 +608,48 @@
 			\note[itemize]{
 				\item \( \vec{x} = \vec{y} + \vec{l} \quad\iff\quad \vec{y} = \vec{x} - \vec{l} \)
 			}
+
+% TODO
+%			\begin{frame}{Dual des Minimum-Cost Flow Problems}
+%				Sind die Modulo-Parameter \(z_a\) konstant, kann das Optimierungsproblem umformuliert werden:
+%				\begin{align*}
+%					&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a \,\Bigg\} \\
+%					=&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a') \,\bigg\vert\, \forall a \in \mathcal{A} : l_a' = l_a + z_a T \leq x_a \leq u_a' = u_a + z_a T \,\Bigg\} \\
+%					=&\, \min \big\{\, \vec{\omega}^T (\mat{\Theta}^T \vec{\pi} - \vec{l}') \,\big\vert\, \vec{l}' \leq \mat{\Theta}^T \vec{\pi} \leq \vec{u}' \,\big\}
+%				\end{align*}
+%				Dies ist die Dual-Formulierung des Minimum-Cost Flow Problem.
+%				
+%				Jeder Extrempunkt der gültigen Region des Problems entspricht einer Spannbaumstruktur.
+%			\end{frame}
 		
-			\begin{frame}{Dual des Minimum-Cost Flow Problems}
-				Sind die Modulo-Parameter \(z_a\) konstant, kann das Optimierungsproblem umformuliert werden:
-				\begin{align*}
-					&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a \,\Bigg\} \\
-					=&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a') \,\bigg\vert\, \forall a \in \mathcal{A} : l_a' = l_a + z_a T \leq x_a \leq u_a' = u_a + z_a T \,\Bigg\} \\
-					=&\, \min \big\{\, \vec{\omega}^T (\mat{\Theta}^T \vec{\pi} - \vec{l}') \,\big\vert\, \vec{l}' \leq \mat{\Theta}^T \vec{\pi} \leq \vec{u}' \,\big\}
-				\end{align*}
-				Dies ist die Dual-Formulierung des Minimum-Cost Flow Problem.
-				
-				Jeder Extrempunkt der gültigen Region des Problems entspricht einer Spannbaumstruktur.
-			\end{frame}
+% TODO
+%			\begin{frame}{Periodische Basislösung}
+%				Für Modulo-Parameter \( \vec{z}^{\mathcal{T}} \) einer Spannbaumstruktur heißt
+%				\begin{equation*}
+%					\begin{bmatrix}
+%						\vec{\pi}^{\mathcal{T}} \\
+%						\vec{z}^{\mathcal{T}}
+%					\end{bmatrix}
+%				\end{equation*}
+%				eine \emph{periodische Basislösung} in Bezug auf die Spannbaumstruktur \( \mathcal{T} \).
+%			\end{frame}
 		
-			\begin{frame}{Periodische Basislösung}
-				Für Modulo-Parameter \( \vec{z}^{\mathcal{T}} \) einer Spannbaumstruktur heißt
-				\begin{equation*}
-					\begin{bmatrix}
-						\vec{\pi}^{\mathcal{T}} \\
-						\vec{z}^{\mathcal{T}}
-					\end{bmatrix}
-				\end{equation*}
-				eine \emph{periodische Basislösung} in Bezug auf die Spannbaumstruktur \( \mathcal{T} \).
-			\end{frame}
+% TODO
+%			\begin{frame}{Theorem 21} % TODO: Titel!
+%				Sei
+%				\begin{equation*}
+%					\mathcal{Q} \coloneqq \mathit{conv.hull} \Bigg\{\, \begin{bmatrix} \vec{\pi} \\ \vec{z} \end{bmatrix} \,\bigg\vert\, \vec{l} \leq \mat{\Theta}^T \vec{\pi} - T\vec{z} \leq \vec{u}, \quad \vec{\pi} \in \R^n, \quad \vec{z} \in \Z^m \,\Bigg\}
+%				\end{equation*}
+%				der \emph{periodische Fahrplan-Polyeder}. % TODO: Name!
+%				
+%				\vspace{1cm}
+%				\textbf{Theorem.} Der Vektor \( \begin{bmatrix} \vec{\pi} \\ \vec{z} \end{bmatrix} \in \mathcal{Q} \) ist ein Extrempunkt von \( \mathcal{Q} \) gdw. er eine periodische Basislösung in Bezug auf eine Spannbaumstruktur ist.
+%			\end{frame}
+%			\note[itemize]{
+%				\item Konvexe Hülle bei Bedarf erklären.
+%			}
 		
-			\begin{frame}{Theorem 21} % TODO: Titel!
-				Sei
-				\begin{equation*}
-					\mathcal{Q} \coloneqq \mathit{conv.hull} \Bigg\{\, \begin{bmatrix} \vec{\pi} \\ \vec{z} \end{bmatrix} \,\bigg\vert\, \vec{l} \leq \mat{\Theta}^T \vec{\pi} - T\vec{z} \leq \vec{u}, \quad \vec{\pi} \in \R^n, \quad \vec{z} \in \Z^m \,\Bigg\}
-				\end{equation*}
-				der \emph{periodische Fahrplan-Polyeder}. % TODO: Name!
-				
-				\vspace{1cm}
-				\textbf{Theorem.} Der Vektor \( \begin{bmatrix} \vec{\pi} \\ \vec{z} \end{bmatrix} \in \mathcal{Q} \) ist ein Extrempunkt von \( \mathcal{Q} \) gdw. er eine periodische Basislösung in Bezug auf eine Spannbaumstruktur ist.
-			\end{frame}
-			\note[itemize]{
-				\item Konvexe Hülle bei Bedarf erklären.
-			}
-		
-			\begin{frame}{Theorem 22} % TODO: Titel!
+			\begin{frame}{Theorem 22} % TODO: Titel! Und Warum...
 				\textbf{Theorem.} Es existiert eine Matrix \( \mat{F} \in \R^{m \times m} \) mit \( \mat{\Theta} \mat{F} \equiv_T \vec{0} \) und ein Vektor \( \vec{r} \in \R^m \), sodass
 				\begin{align*}
 					& \mathit{conv.hull} \big\{\, \vec{x} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{x} - T\vec{z} = \vec{0}, \quad \vec{l} \leq \vec{x} - T\vec{z} \leq \vec{u} ) \,\big\} \\
@@ -572,16 +670,19 @@
 		% end
 	% end
 	
-	\section{Modulo-Simplex-Berechnungen}
-		\todo{Modulo-Simplex-Berechnungen}
-		
-		% TODO: In exchange modulo-simplex tableau, the top-left gamma shall be \gamma_{r1}, not \gamma_{rl}!
+	\section{Modulo-Netzwerk-Simplex-Berechnungen}
+		\todo{Modulo-Netzwerk-Simplex-Berechnungen}
 		
 		% TODO: Achtung, die Omegas entsprechen den Gewichten der Kanten, d.h. sie ändern sich bei einem Basisaustausch!
 	
-		\subsection{Modulo-Simplex Grundlagen}
+		\subsection{Modulo-Netzwerk-Simplex}
+			\begin{frame}{Umformen der Netzwerkmatrix}
+				content... % TODO
+			\end{frame}
+		
+			% TODO: Folgenden Abschnitt vollständig auf den Modulo-Netzwerk-Simplex-Algorithmus ändern!
 			\begin{frame}{Einleitung}
-				Lösung ganzzahliger linearer Optimierungsprobleme ("Programme"):
+				Lösung des ganzzahligen lineares Optimierungsproblems
 				\begin{align*}
 					\max\limits_{x \,\in\, \mathbb{Z}} \,&\, \vec{c}^T \vec{x}  \phantom{\text{s.t.} \qquad} \\
 					\text{s.t.} \qquad [\mat{A} \vec{x}]_T &\leq \vec{b} \\
@@ -599,16 +700,6 @@
 				\item Das Problem spannt einen Polyeder auf.
 				\item Die Verbesserungen laufen entlang der Kanten des Polyeders.
 			}
-		
-			\begin{frame}{Hilfsvariablen ("Slack Variables")}
-				Einführung von \emph{Hilfsvariablen} \( \vec{z} \), um die Ungleichheiten in Gleichungen umzuformen:
-				\begin{align*}
-					\max\limits_{x \,\in\, \mathbb{Z}} \,&\, \vec{c}^T \vec{x} \eqqcolon \omega(\vec{x})  \phantom{\text{s.t.} \qquad} \\
-					\text{s.t.} \qquad \mat{A} \vec{x} + \vec{z} &\equiv_T \vec{b} \\
-					\vec{x} &\geq \vec{0} \\
-					\vec{z} &\geq \vec{0}
-				\end{align*}
-			\end{frame}
 		
 			\begin{frame}{Bestimmung der initialen Lösung}
 				Ist \( \vec{b} \geq \vec{0} \), so lautet eine zulässige Startlösung:
@@ -636,7 +727,7 @@
 					\end{bmatrix}
 				\end{equation*}
 				\begin{equation*}
-					\begin{array}{c|cc|ccc|c|c}
+					\begin{array}{c|cc|ccc|c||c}
 						       &  x_1   & \cdots & z_r & \cdots & z_m &        &          \\ \hline
 						 z_r   & a_{r1} & \cdots &  1  &        &  0  &  b_r   & \omega_r \\
 						\vdots & \vdots & \ddots &     & \ddots &     & \vdots &  \vdots  \\
@@ -649,7 +740,7 @@
 			\begin{frame}{Basis-Austausch, Teil 1}
 				Auswahl eines Pivot-Elements \( a_{ij} \):
 				\begin{equation*}
-					\begin{array}{c|cccc|ccccc|c|c}
+					\begin{array}{c|cccc|ccccc|c||c}
 						       &  x_1   & \cdots &          x_j          & \cdots &  z_r   & \cdots & z_i & \cdots &  z_m   &        &          \\ \hline
 						 z_r   & a_{r1} & \cdots &        a_{rj}         & \cdots &   1    & \cdots &  0  & \cdots &   0    &  b_r   & \omega_r \\
 						\vdots & \vdots & \ddots &        \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots & \vdots &  \vdots  \\
@@ -666,7 +757,7 @@
 			}
 		
 			\begin{frame}{Basis-Austausch, Teil 2}
-				\vspace{-0.2cm}
+				\vspace{-0.3cm}
 				Austausch von \( z_i \) mit \( x_j \):
 				\begin{table}[H]
 					\centering
@@ -679,14 +770,14 @@
 				\end{table}
 				
 				\onslide<2->{
-					\vspace{-0.2cm}
-					\small
+					\vspace{-0.3cm}
+					\scriptsize
 					\begin{equation*}
-						\begin{array}{c|cccc|ccccc|c|c}
+						\begin{array}{c|cccc|ccccc|c||c}
 	       &                  x_1                  & \cdots &          z_i           & \cdots &  z_r   & \cdots & x_j & \cdots &  z_m   &                                 &          \\ \hline
 	 z_r   & a_{r1} - \frac{a_{i1} a_{rj}}{a_{ij}} & \cdots & -\frac{a_{rj}}{a_{ij}} & \cdots &   1    & \cdots &  0  & \cdots &   0    & \left[b_r - \frac{a_{rj}}{a_{ij}} b_i\right]_T & \omega_r \\
 	\vdots &                \vdots                 & \ddots &         \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots &             \vdots              &  \vdots  \\
-	 x_j   &         \frac{a_{i1}}{a_{ij}}         & \cdots &    \frac{1}{a_{ij}}    & \cdots &   0    &        &  1  &        &   0    &       \left[\frac{b_i}{a_{ij}}\right]_T        & \omega_i \\
+	 x_j   &         \frac{a_{i1}}{a_{ij}}         & \cdots &    \frac{1}{a_{ij}}    & \cdots &   0    &        &  1  &        &   0    &       \left[\frac{b_i}{a_{ij}}\right]_T        & \omega_j \\
 	\vdots &                \vdots                 & \ddots &         \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots &             \vdots              &  \vdots  \\
 	 z_m   & a_{m1} - \frac{a_{i1} a_{mj}}{a_{ij}} & \cdots & -\frac{a_{mj}}{a_{ij}} & \cdots &   0    & \cdots &  0  & \cdots &   1    & \left[b_m - \frac{a_{mj}}{a_{ij}} b_m\right]_T & \omega_m \\ \hline
 	       &                                       &        &                        &        &        &        &     &        &        &                                 &  \omega

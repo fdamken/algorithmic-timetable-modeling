@@ -641,3 +641,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/osx,git,vim,linux,julia,macos,latex,python,pycharm+all,windows,sublimetext
+
+
+/Goblin/
+/OpenLinTim/
+wandb/
