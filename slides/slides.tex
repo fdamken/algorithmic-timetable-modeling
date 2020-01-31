@@ -1037,6 +1037,29 @@
 				\end{minipage}%
 			\end{frame}
 		
+			\begin{frame}{Beispiel, Iteration 2 Darstellung im Tableau und Kostenänderung}
+				Simplex-Tableau nach Iteration 1:
+				\begin{equation*}
+					\begin{array}{c|ccc|ccc|c||c}
+						    & a_1 & a_3 & a_5 & a_4 & a_2 & a_6 & b & \omega \\ \hline
+						a_4 & -1  &  1  &  0  &  1  &  0  &  0  & 6 &   9    \\
+						a_2 & -1  &  1  & -1  &  0  &  1  &  0  & 5 &   3    \\
+						a_6 &  0  &  1  & -1  &  0  &  0  &  1  & 0 &   4    \\ \hline
+						    &     &     &     &     &     &     &   &   69
+					\end{array}
+				\end{equation*}
+				
+				Kostenänderung für verschiedene Austausche:
+				\begin{equation*}
+					\begin{array}{c|ccc}
+						    &        a_2         & a_3 & a_5 \\ \hline
+						a_4 &         40         &  -  & -12 \\
+						a_1 & \framebox{\(-60\)} & -35 &  0  \\
+						a_6 &         -          &  0  &  0
+					\end{array}
+				\end{equation*}
+			\end{frame}
+		
 			% TODO: Stopped here.
 		% end
 		
