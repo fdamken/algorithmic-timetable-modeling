@@ -597,7 +597,6 @@
 					%=& \,\big\{\, \vec{y} \in \Z^m \,\vert\, \mat{\Gamma} \vec{y} + \mat{\Gamma} \vec{l} \equiv_T \vec{0}, \quad \vec{l} \leq \vec{y} + \vec{l} \leq \vec{u} \,\big\} \\
 					%=& \,\big\{\,\vec{y} \in \Z^m \,\vert\, \mat{\Gamma} (\vec{y} + \vec{l}) \equiv_T \vec{0}, \quad \vec{l} \leq \vec{y} + \vec{l} \leq \vec{u} \,\big\}
 				\end{align*}
-				Damit ist \( \vec{x} \in \Z^m \) eine Spannung mit \( \vec{l} \leq \vec{x} \leq \vec{u} \) gdw. \( (\vec{x} - \vec{l}) \in \mathcal{Y} \) gilt. Also bestimmt jedes \( \vec{y} \in \mathcal{Y} \) eine Spannung \( \vec{x} \coloneqq \vec{y} + \vec{l} \) mit \( \vec{l} \leq \vec{x} \leq \vec{u} \).
 				
 				\vspace{1cm}
 				Das Optimierungsproblem kann wie folgt umformuliert werden:
@@ -709,7 +708,7 @@
 			\begin{frame}{Separierung der Netzwerkmatrix}
 				Separierung der Netzwerkmatrix \( \mat{\Gamma}_\mathcal{T} = \big[ \mat{N}_\mathcal{T},\, \mat{I}_\mathcal{T}^\mathit{co} \big] \) in Baum-Kanten \( \mat{N}_\mathcal{T} \) und Ko-Baum-Kanten \( \mat{I}_\mathcal{T}^\mathit{co} \).
 				
-				\(\implies\) Periodische Basislösung \( \begin{bmatrix} \vec{y}_\mathcal{T} \\ \vec{y}_\mathcal{T}^\mathit{co} \end{bmatrix} = \begin{bmatrix} \vec{0} \\ \vec{b} \end{bmatrix} \)
+				\(\implies\) Periodische Basislösung \( \vec{y}_\mathcal{T} = \begin{bmatrix} \vec{y}_\mathcal{T} \\ \vec{y}_\mathcal{T}^\mathit{co} \end{bmatrix} = \begin{bmatrix} \vec{0} \\ \vec{b} \end{bmatrix} \)
 				
 				\onslide<2->{
 					\vspace{0.5cm}
