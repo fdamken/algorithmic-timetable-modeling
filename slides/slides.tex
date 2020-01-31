@@ -910,16 +910,16 @@
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
 							\node [event, label = below:{ \( \pi_A = 4 \) }] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event, label = left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
+							\node [event, label =  left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
 							\node [event, label = right:{ \( \pi_C = 7 \) }] (C) at (-2.3, 2.5) {\(C\)};
 							\node [event, label = below:{ \( \pi_D = 2 \) }] (D) at (2.5, 0) {\(D\)};
 							
-							\draw [->, co] (B) to node[midway, sloped, above]{\( a_1 \)} (A);
-							\draw [->, spanning] (B) to node[midway, sloped, above]{\( a_2 \)} (C);
-							\draw [->, spanning] (D) to node[midway, sloped, above]{\( a_3 \)} (A);
-							\draw [->, co] (B) to node[midway, sloped, above]{\( a_4 \)} (D);
-							\draw [->, spanning] (D) to node[midway, sloped, above]{\( a_5 \)} (C);
-							\draw [->, co] (A) to node[midway, sloped, above]{\( a_6 \)} (C);
+							\draw [->, co]       (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_1, [9, 28] \)} (A);
+							\draw [->, spanning] (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_2, [7, 26] \)} (C);
+							\draw [->, spanning] (D) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_3, [2, 21] \)} (A);
+							\draw [->, co]       (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_4, [1, 20] \)} (D);
+							\draw [->, spanning] (D) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_5, [5, 24] \)} (C);
+							\draw [->, co]       (A) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_6, [3, 22] \)} (C);
 						\end{tikzpicture}
 						\caption{Spannbaumstruktur}
 					\end{figure}
