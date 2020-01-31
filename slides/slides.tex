@@ -909,7 +909,7 @@
 					\begin{figure}
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
-							\node [event, label = below:{ \( \pi_A = 4 \) }] (A) at (-2.3, -2.5) {\(A\)};
+							\node [event, label = below:{ \( \onslide<2->{\pi_A = 4} \) }] (A) at (-2.3, -2.5) {\(A\)};
 							\node [event, label =  left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
 							\node [event, label = right:{ \( \pi_C = 7 \) }] (C) at (-2.3, 2.5) {\(C\)};
 							\node [event, label = below:{ \( \pi_D = 2 \) }] (D) at (2.5, 0) {\(D\)};
@@ -921,7 +921,6 @@
 							\draw [->, spanning] (D) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_5, [5, 24] \)} (C);
 							\draw [->, co]       (A) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_6, [3, 22] \)} (C);
 						\end{tikzpicture}
-						\caption{Spannbaumstruktur}
 					\end{figure}
 				\end{minipage}%
 				\begin{minipage}{0.5\textwidth}
