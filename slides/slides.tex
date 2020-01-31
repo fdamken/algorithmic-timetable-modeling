@@ -616,17 +616,17 @@
 		\section{Untersuchung des Slack-Modells}
 			\subsection{Dualität}
 % TODO
-%			\begin{frame}{Dual des Minimum-Cost Flow Problems}
-%				Sind die Modulo-Parameter \(z_a\) konstant, kann das Optimierungsproblem umformuliert werden:
-%				\begin{align*}
-%					&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a \,\Bigg\} \\
-%					=&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a') \,\bigg\vert\, \forall a \in \mathcal{A} : l_a' = l_a + z_a T \leq x_a \leq u_a' = u_a + z_a T \,\Bigg\} \\
-%					=&\, \min \big\{\, \vec{\omega}^T (\mat{\Theta}^T \vec{\pi} - \vec{l}') \,\big\vert\, \vec{l}' \leq \mat{\Theta}^T \vec{\pi} \leq \vec{u}' \,\big\}
-%				\end{align*}
-%				Dies ist die Dual-Formulierung des Minimum-Cost Flow Problem.
-%				
-%				Jeder Extrempunkt der gültigen Region des Problems entspricht einer Spannbaumstruktur.
-%			\end{frame}
+			\begin{frame}{Dual des Minimum-Cost Flow Problems}
+				Sind die Modulo-Parameter \(z_a\) konstant, kann das Optimierungsproblem umformuliert werden:
+				\begin{align*}
+					&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a \,\Bigg\} \\
+					=&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a') \,\bigg\vert\, \forall a \in \mathcal{A} : l_a' = l_a + z_a T \leq x_a \leq u_a' = u_a + z_a T \,\Bigg\} \\
+					=&\, \min \big\{\, \vec{\omega}^T (\mat{\Theta}^T \vec{\pi} - \vec{l}') \,\big\vert\, \vec{l}' \leq \mat{\Theta}^T \vec{\pi} \leq \vec{u}' \,\big\}
+				\end{align*}
+				Dies ist die Dual-Formulierung des Minimum-Cost Flow Problem.
+				
+				Jeder Extrempunkt der gültigen Region des Problems entspricht einer Spannbaumstruktur.
+			\end{frame}
 			% end
 		
 % TODO
