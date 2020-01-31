@@ -8,6 +8,7 @@
 \usepackage{calc}
 \usepackage{csquotes}
 \usepackage{float}
+\usepackage{kbordermatrix}
 \usepackage{listings}
 \usepackage{makecell}
 \usepackage{mathtools}
@@ -64,6 +65,9 @@
 \renewcommand{\vdots}{\raisebox{2pt}{\(\oldvdots\)}}
 \let\oldddots=\ddots
 \renewcommand{\ddots}{\raisebox{2pt}{\(\oldddots\)}}
+
+\renewcommand{\kbldelim}{[}
+\renewcommand{\kbrdelim}{]}
 
 \newcommand{\zB}{z.\,B.~}
 
@@ -196,7 +200,7 @@
 			\end{frame}
 		
 			\begin{frame}{Ereignisnetzwerk}
-				\vspace{-0.3cm}
+				\vspace{-0.35cm}
 				\begin{figure}[H]
 					\centering
 					\begin{tikzpicture}[event/.style = { draw, rectangle, rounded corners, minimum width = 2cm, minimum height = 0.6cm }]
@@ -377,13 +381,13 @@
 					\textbf{Beispiel:} \\
 					\begin{minipage}[l]{0.7\textwidth}
 						\begin{equation*}
-							\mat{\Theta} =
-								\begin{bmatrix}
-									1  & -1 & 1  & 0  & 0  \\
-									-1 & 0  & 0  & -1 & 0  \\
-									0  & 1  & 0  & 0  & -1 \\
-									0  & 0  & -1 & 1  & 1
-								\end{bmatrix}
+							\mat{\Theta} = \kbordermatrix{
+								  & a  & b  & c  & d  & e  \\
+								A & 1  & -1 & 1  & 0  & 0  \\
+								B & -1 & 0  & 0  & -1 & 0  \\
+								C & 0  & 1  & 0  & 0  & -1 \\
+								D & 0  & 0  & -1 & 1  & 1
+							}
 						\end{equation*}
 					\end{minipage}
 					\begin{minipage}[r]{0.2\textwidth}
@@ -411,11 +415,11 @@
 					\textbf{Beispiel:} \\
 					\begin{minipage}[l]{0.7\textwidth}
 						\begin{equation*}
-							\mat{\Gamma} =
-								\begin{bmatrix}
-									0  & 1 & 1 & 0 & 1 \\
-									-1 & 0 & 1 & 1 & 0
-								\end{bmatrix}
+							\mat{\Gamma} = \kbordermatrix{
+								  & a  & b & c & d & e \\
+								b & 0  & 1 & 1 & 0 & 1 \\
+								d & -1 & 0 & 1 & 1 & 0
+							}
 						\end{equation*}
 					\end{minipage}
 					\begin{minipage}[r]{0.2\textwidth}
@@ -670,69 +674,92 @@
 		% end
 	% end
 	
-	\section{Modulo-Netzwerk-Simplex-Berechnungen}
-		\todo{Modulo-Netzwerk-Simplex-Berechnungen}
+	\section{Modulo-Simplex-Berechnungen}
+		\todo{Modulo-Simplex-Berechnungen}
 		
-		% TODO: Achtung, die Omegas entsprechen den Gewichten der Kanten, d.h. sie ändern sich bei einem Basisaustausch!
-	
-		\subsection{Modulo-Netzwerk-Simplex}
-			\begin{frame}{Umformen der Netzwerkmatrix}
-				content... % TODO
+		\subsection{Einführung}
+			\begin{frame}{Arbeits-/Erkundungsbereich}
+				Die Modulo-Simplex-Methode erkundet die Extrempunkte des Optimierungsproblems
+				\begin{gather*}
+					\min \Big\{\, \vec{\omega}^T \vec{y} \,\big\vert\, \vec{y} \in \mathcal{Y}\coloneqq \big\{\, \vec{y} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{y} - T\vec{z} = \vec{b}, \quad \vec{0} \leq \vec{y} - T\vec{z} \leq \vec{\delta} ) \,\big\} \Big\}
+				\end{gather*}
+				Das heißt des Polyeders \( \mathit{conv.hull}(\mathcal{Y}) \).
 			\end{frame}
 		
-			% TODO: Folgenden Abschnitt vollständig auf den Modulo-Netzwerk-Simplex-Algorithmus ändern!
-			\begin{frame}{Einleitung}
-				Lösung des ganzzahligen lineares Optimierungsproblems
-				\begin{align*}
-					\max\limits_{x \,\in\, \mathbb{Z}} \,&\, \vec{c}^T \vec{x}  \phantom{\text{s.t.} \qquad} \\
-					\text{s.t.} \qquad [\mat{A} \vec{x}]_T &\leq \vec{b} \\
-					\vec{x} &\geq \vec{0}
-				\end{align*}
-				
+			\begin{frame}{Behandlung der Modulo-Parameter}
+				\begin{itemize}
+					\item Die Ganzzahligkeit von \(\vec{z}\) macht das Problem sehr schwer.
+					\item Daher: Eliminierung von \(\vec{z}\) durch Restklassenberechnungen (Modulo-Berechnungen).
+				\end{itemize}
+			
 				\vspace{0.5cm}
-				Verfahren:
-				\begin{enumerate}
-					\item Bestimmen einer initialen Lösung.
-					\item Iterative Verbesserung der Lösung.
-				\end{enumerate}
-			\end{frame}
-			\note[itemize]{
-				\item Das Problem spannt einen Polyeder auf.
-				\item Die Verbesserungen laufen entlang der Kanten des Polyeders.
-			}
-		
-			\begin{frame}{Bestimmung der initialen Lösung}
-				Ist \( \vec{b} \geq \vec{0} \), so lautet eine zulässige Startlösung:
 				\begin{equation*}
-					\begin{bmatrix}
-						\vec{x} \\
-						\vec{z}
-					\end{bmatrix}
-					=
-					\begin{bmatrix}
-						\vec{0} \\
-						\vec{b}
-					\end{bmatrix}
+					\min \Big\{\, \vec{\omega}^T \vec{y} \,\big\vert\, \vec{y} \in \mathcal{Y}\coloneqq \big\{\, \vec{y} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{y} \equiv_T \vec{b}, \quad \vec{0} \leq \vec{y} \leq \vec{\delta} ) \,\big\} \Big\}
 				\end{equation*}
 			\end{frame}
+		% end
+	
+		\subsection{Modulo-Simplex-Tableau}
+			\begin{frame}{Idee}
+				\begin{itemize}
+					\item Beginnend von der Basislösung \( \begin{bmatrix} \vec{0}^T & \vec{b}^T \end{bmatrix}^T \) bewegt sich der Algorithmus auf den Kanten des Polyeders \( \mathit{conv.hull}(\mathcal{Y}) \).
+					\item In jedem Schritt: Überprüfen der Verbesserung.
+					\item Keine Verbesserung möglich \( \implies \) lokales Minimum gefunden.
+				\end{itemize}
+			\end{frame}
+		
+			\begin{frame}{Separierung der Netzwerkmatrix}
+				Separierung der Netzwerkmatrix \( \mat{\Gamma}_\mathcal{T} = \big[ \mat{N}_\mathcal{T},\, \mat{I}_\mathcal{T}^\mathit{co} \big] \) in Baum-Kanten \( \mat{N}_\mathcal{T} \) und Ko-Baum-Kanten \( \mat{I}_\mathcal{T}^\mathit{co} \).
+				
+				\(\implies\) Periodische Basislösung \( \begin{bmatrix} \vec{y}_\mathcal{T} \\ \vec{y}_\mathcal{T}^\mathit{co} \end{bmatrix} = \begin{bmatrix} \vec{0} \\ \vec{b} \end{bmatrix} \)
+				
+				\onslide<2->{
+					\vspace{0.5cm}
+					\textbf{Beispiel:} \\
+					\begin{minipage}[l]{0.7\textwidth}
+						\begin{align*}
+							\mat{\Gamma} &= \kbordermatrix{
+								  & a  & b & c & d & e \\
+								b & 0  & 1 & 1 & 0 & 1 \\
+								d & -1 & 0 & 1 & 1 & 0
+							} \\
+							\implies\quad \mat{\Gamma}_\mathcal{T} &= \kbordermatrix{
+								  & a  & c & e & b & d \\
+								b & 0  & 1 & 1 & 1 & 0 \\
+								d & -1 & 1 & 0 & 0 & 1
+							}
+						\end{align*}
+						\vspace{0.05cm}
+					\end{minipage}
+					\begin{minipage}[r]{0.2\textwidth}
+						\exampleDirectedSpanningTree
+					\end{minipage}
+				}
+			\end{frame}
 			\note[itemize]{
-				\item Da \( \vec{b} \geq \vec{0} \) bei Network-Modulo-Simplex gilt, wird nichts weiter betrachtet.
+				\item \( \mat{I}_\mathcal{T}^\mathit{co} \) ist die Identitiätsmatrix.
+				\item Basislösung: Der "komplizierte Teil" der Matrix verschwindet, die Identitätsmatrix wird mit der RHS multipliziert.
+				\item Reihenfolge vor Separierung: a, b, c, d, e
+				\item Reihenfolge nach Separierung: a, c, e, b, d
+				\item Die Subskripte \( _\mathcal{T} \) werden in Zukunft weggelassen.
 			}
 		
-			\begin{frame}{Optimierungsschritt}
+			\begin{frame}{Aufstellung des Tableau}
+				Seien \( a_1, \cdots, a_{r - 1} \) die Ko-Baum-Kanten und \( a_r, \cdots, a_m \) die Baum-Kanten.
+			
 				Formulierung als Simplex-Tableau:
 				\begin{equation*}
-					\begin{bmatrix}
-						\mat{A} & \mat{I} & \vec{b} & \vec{c}
-					\end{bmatrix}
+					\left[\!\begin{array}{ccc||c}
+						\mat{N} & \mat{I} & \vec{b} & \vec{\omega}
+					\end{array}\!\right]
 				\end{equation*}
 				\begin{equation*}
 					\begin{array}{c|cc|ccc|c||c}
-						       &  x_1   & \cdots & z_r & \cdots & z_m &        &          \\ \hline
-						 z_r   & a_{r1} & \cdots &  1  &        &  0  &  b_r   & \omega_r \\
-						\vdots & \vdots & \ddots &     & \ddots &     & \vdots &  \vdots  \\
-						 z_m   & a_{m1} & \cdots &  0  &        &  1  &  b_m   & \omega_m \\ \hline
-						       &        &        &     &        &     &        &  \omega
+						       &     a_1     & \cdots & a_r & \cdots & a_m &        &          \\ \hline
+						 a_r   & \gamma_{r1} & \cdots &  1  &        &  0  &  b_r   & \omega_r \\
+						\vdots &   \vdots    & \ddots &     & \ddots &     & \vdots &  \vdots  \\
+						 a_m   & \gamma_{m1} & \cdots &  0  &        &  1  &  b_m   & \omega_m \\ \hline
+						       &             &        &     &        &     &        &  \omega
 					\end{array}
 				\end{equation*}
 			\end{frame}
@@ -741,19 +768,18 @@
 				Auswahl eines Pivot-Elements \( a_{ij} \):
 				\begin{equation*}
 					\begin{array}{c|cccc|ccccc|c||c}
-						       &  x_1   & \cdots &          x_j          & \cdots &  z_r   & \cdots & z_i & \cdots &  z_m   &        &          \\ \hline
-						 z_r   & a_{r1} & \cdots &        a_{rj}         & \cdots &   1    & \cdots &  0  & \cdots &   0    &  b_r   & \omega_r \\
-						\vdots & \vdots & \ddots &        \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots & \vdots &  \vdots  \\
-						 z_i   & a_{i1} & \cdots & \framebox{\(a_{ij}\)} & \cdots &   0    &        &  1  &        &   0    &  b_i   & \omega_i \\
-						\vdots & \vdots & \ddots &        \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots & \vdots &  \vdots  \\
-						 z_m   & a_{m1} & \cdots &        a_{mj}         & \cdots &   0    & \cdots &  0  & \cdots &   1    &  b_m   & \omega_m \\ \hline
-						       &        &        &                       &        &        &        &     &        &        &        &  \omega
+						       &     a_1     & \cdots &            a_j             & \cdots &  a_r   & \cdots & a_i & \cdots &  a_m   &        &          \\ \hline
+						 a_r   & \gamma_{r1} & \cdots &        \gamma_{rj}         & \cdots &   1    & \cdots &  0  & \cdots &   0    &  b_r   & \omega_r \\
+						\vdots &   \vdots    & \ddots &           \vdots           & \ddots & \vdots & \ddots &     & \ddots & \vdots & \vdots &  \vdots  \\
+						 a_i   & \gamma_{i1} & \cdots & \framebox{\(\gamma_{ij}\)} & \cdots &   0    &        &  1  &        &   0    &  b_i   & \omega_i \\
+						\vdots &   \vdots    & \ddots &           \vdots           & \ddots & \vdots & \ddots &     & \ddots & \vdots & \vdots &  \vdots  \\
+						 a_m   & \gamma_{m1} & \cdots &        \gamma_{mj}         & \cdots &   0    & \cdots &  0  & \cdots &   1    &  b_m   & \omega_m \\ \hline
+						       &             &        &                            &        &        &        &     &        &        &        &  \omega
 					\end{array}
 				\end{equation*}
 			\end{frame}
 			\note[itemize]{
 				\item Auswahlverfahren kommt später.
-				\item Der Austausch entspricht effektiv einem Gauß-Eliminations-Schritt.
 			}
 		
 			\begin{frame}{Basis-Austausch, Teil 2}
@@ -762,10 +788,10 @@
 				\begin{table}[H]
 					\centering
 					\begin{tabular}{lll}
-						Pivotelement:                        & \( a_{ij} = \frac{1}{a_{ij}} \)                      &                                             \\
-						Pivotzeile für alle \( s \neq j \):  & \( a_{is} = \frac{a_{is}}{a_{ij}} \)                 & \( b_r = \left[\frac{b_r}{a_{ij}}\right]_T \)              \\
-						Pivotspalte für alle \( r \neq i \): & \( a_{rj} = -\frac{a_{rj}}{a_{ij}} \)                &                                             \\
-						Restliche Elemente des Tableaus:     & \( a_{rs} = a_{rs} - \frac{a_{is} a_{rj}}{a_{ij}} \) & \( b_r = \left[b_r - \frac{a_{rj}}{a_{ij}} b_i\right]_T \)
+						Pivotelement:                        & \( \gamma_{ij} = \frac{1}{\gamma_{ij}} \)                                     &                                                                      \\
+						Pivotzeile für alle \( s \neq j \):  & \( \gamma_{is} = \frac{\gamma_{is}}{\gamma_{ij}} \)                           & \( b_r = \left[\frac{b_r}{\gamma_{ij}}\right]_T \)                   \\
+						Pivotspalte für alle \( r \neq i \): & \( \gamma_{rj} = -\frac{\gamma_{rj}}{\gamma_{ij}} \)                          &                                                                      \\
+						Restliche Elemente des Tableaus:     & \( \gamma_{rs} = \gamma_{rs} - \frac{\gamma_{is} \gamma_{rj}}{\gamma_{ij}} \) & \( b_r = \left[b_r - \frac{\gamma_{rj}}{\gamma_{ij}} b_i\right]_T \)
 					\end{tabular}
 				\end{table}
 				
@@ -774,16 +800,199 @@
 					\scriptsize
 					\begin{equation*}
 						\begin{array}{c|cccc|ccccc|c||c}
-	       &                  x_1                  & \cdots &          z_i           & \cdots &  z_r   & \cdots & x_j & \cdots &  z_m   &                                 &          \\ \hline
-	 z_r   & a_{r1} - \frac{a_{i1} a_{rj}}{a_{ij}} & \cdots & -\frac{a_{rj}}{a_{ij}} & \cdots &   1    & \cdots &  0  & \cdots &   0    & \left[b_r - \frac{a_{rj}}{a_{ij}} b_i\right]_T & \omega_r \\
-	\vdots &                \vdots                 & \ddots &         \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots &             \vdots              &  \vdots  \\
-	 x_j   &         \frac{a_{i1}}{a_{ij}}         & \cdots &    \frac{1}{a_{ij}}    & \cdots &   0    &        &  1  &        &   0    &       \left[\frac{b_i}{a_{ij}}\right]_T        & \omega_j \\
-	\vdots &                \vdots                 & \ddots &         \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots &             \vdots              &  \vdots  \\
-	 z_m   & a_{m1} - \frac{a_{i1} a_{mj}}{a_{ij}} & \cdots & -\frac{a_{mj}}{a_{ij}} & \cdots &   0    & \cdots &  0  & \cdots &   1    & \left[b_m - \frac{a_{mj}}{a_{ij}} b_m\right]_T & \omega_m \\ \hline
-	       &                                       &        &                        &        &        &        &     &        &        &                                 &  \omega
+       &                  a_1                  & \cdots &          a_i           & \cdots &  a_r   & \cdots & a_j & \cdots &  a_m   &                                 &          \\ \hline
+ a_r   & \gamma_{r1} - \frac{\gamma_{i1} \gamma_{rj}}{\gamma_{ij}} & \cdots & -\frac{\gamma_{rj}}{\gamma_{ij}} & \cdots &   1    & \cdots &  0  & \cdots &   0    & \left[b_r - \frac{\gamma_{rj}}{\gamma_{ij}} b_i\right]_T & \omega_r \\
+\vdots &                \vdots                 & \ddots &         \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots &             \vdots              &  \vdots  \\
+ a_j   &         \frac{\gamma_{i1}}{\gamma_{ij}}         & \cdots &    \frac{1}{\gamma_{ij}}    & \cdots &   0    &        &  1  &        &   0    &       \left[\frac{b_i}{\gamma_{ij}}\right]_T        & \omega_j \\
+\vdots &                \vdots                 & \ddots &         \vdots         & \ddots & \vdots & \ddots &     & \ddots & \vdots &             \vdots              &  \vdots  \\
+ a_m   & \gamma_{m1} - \frac{\gamma_{i1} \gamma_{mj}}{\gamma_{ij}} & \cdots & -\frac{\gamma_{mj}}{\gamma_{ij}} & \cdots &   0    & \cdots &  0  & \cdots &   1    & \left[b_m - \frac{\gamma_{mj}}{\gamma_{ij}} b_m\right]_T & \omega_m \\ \hline
+       &                                       &        &                        &         &        &        &     &        &        &                                 &  \omega
 						\end{array}
 					\end{equation*}
 				}
+			\end{frame}
+		
+			\begin{frame}{Kostenänderung}
+				Kosten vor (\(\omega\)) und nach (\( \tilde{\omega}_{ij} \)) der Vertauschung von \( a_i \) und \( a_j \):
+				\begin{equation*}
+					\omega = \sum_{k = r}^{m} \omega_k b_k \quad\quad\quad\quad \tilde{\omega}_{ij} = \omega_j \bigg[ \frac{b_i}{\gamma_{ij}} \bigg]_T \! + \sum_{\substack{k = r \\ k \neq i}}^{m} \omega_k \bigg[ b_k - \frac{\gamma_{kj}}{\gamma_{ij}} b_i \bigg]_T
+				\end{equation*}
+				Kostenänderung:
+				\begin{align*}
+					\Delta\omega_{ij} &= \tilde{\omega}_{ij} - \omega \\
+					&= \omega_j \bigg[ \frac{b_i}{\gamma_{ij}} \bigg]_T \! - \omega_i b_i + \sum_{\substack{k = r \\ k \neq i}}^{m} \omega_k \Bigg( \bigg[ b_k - \frac{\gamma_{kj}}{\gamma_{ij}} b_i \bigg]_T - b_k \Bigg)
+				\end{align*}
+			\end{frame}
+		
+			\begin{frame}{Auswahl des Pivotelements}
+				\begin{itemize}
+					\item Berechnung aller Kostenänderungen.
+					\item Nur für Austausche, die einen Spannbaum beibehalten!
+					\item Andere Austausche führen zur Division durch Null.
+				\end{itemize}
+			\end{frame}
+		
+			\begin{frame}{Beispiel (vgl.~\cite{nachtigallSolvingPeriodicTimetable2008})}
+				\vspace{-0.4cm}
+				\begin{minipage}{0.5\textwidth}
+					\begin{figure}
+						\centering
+						\begin{tikzpicture}[event/.style = { draw, circle }, anchor = center]
+							\node [event] (A) at (-2.3, -2.5) {\(A\)};
+							\node [event] (B) at (0, 0) {\(B\)};
+							\node [event] (C) at (-2.3, 2.5) {\(C\)};
+							\node [event] (D) at (2.5, 0) {\(D\)};
+							
+							\draw [->] (B) to node[midway, sloped, above]{\( a_1 \)} (A);
+							\draw [->] (B) to node[midway, sloped, above]{\( a_2 \)} (C);
+							\draw [->] (D) to node[midway, sloped, above]{\( a_3 \)} (A);
+							\draw [->] (B) to node[midway, sloped, above]{\( a_4 \)} (D);
+							\draw [->] (D) to node[midway, sloped, above]{\( a_5 \)} (C);
+							\draw [->] (A) to node[midway, sloped, above]{\( a_6 \)} (C);
+						\end{tikzpicture}
+						\caption{Ereignisnetzwerk}
+					\end{figure}
+				\end{minipage}%
+				\begin{minipage}{0.5\textwidth}
+					\begin{table}
+						\centering
+						\begin{tabular}{c|cc}
+							\(a_i\) & \(\Delta_i = [l_i, u_i]\) & \(\omega_i\) \\ \hline
+							\(a_1\) &       \( [9, 28] \)       &    \(8\)     \\
+							\(a_2\) &       \( [7, 26] \)       &    \(3\)     \\
+							\(a_3\) &       \( [2, 21] \)       &    \(5\)     \\
+							\(a_4\) &       \( [1, 20] \)       &    \(9\)     \\
+							\(a_5\) &       \( [5, 24] \)       &    \(1\)     \\
+							\(a_6\) &       \( [3, 22] \)       &    \(4\)
+						\end{tabular}
+					\end{table}
+					\begin{equation*}
+						T = 20
+					\end{equation*}
+				\end{minipage}
+			\end{frame}
+		
+			\begin{frame}{Beispiel, Bestimmung einer Spannbaumstruktur}
+				\vspace{-0.4cm}
+				\begin{minipage}{0.5\textwidth}
+					\begin{figure}
+						\centering
+						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
+							\node [event] (A) at (-2.3, -2.5) {\(A\)};
+							\node [event] (B) at (0, 0) {\(B\)};
+							\node [event] (C) at (-2.3, 2.5) {\(C\)};
+							\node [event] (D) at (2.5, 0) {\(D\)};
+							
+							\draw [->, co] (B) to node[midway, sloped, above]{\( a_1 \)} (A);
+							\draw [->, spanning] (B) to node[midway, sloped, above]{\( a_2 \)} (C);
+							\draw [->, spanning] (D) to node[midway, sloped, above]{\( a_3 \)} (A);
+							\draw [->, co] (B) to node[midway, sloped, above]{\( a_4 \)} (D);
+							\draw [->, spanning] (D) to node[midway, sloped, above]{\( a_5 \)} (C);
+							\draw [->, co] (A) to node[midway, sloped, above]{\( a_6 \)} (C);
+						\end{tikzpicture}
+						\caption{{ \color{tud9b} Spannbaum} (rot) und { \color{tud2b} Ko-Baum } (blau)}
+					\end{figure}
+				\end{minipage}%
+				\begin{minipage}{0.5\textwidth}
+					\begin{equation*}
+						\mat{\Gamma} = \kbordermatrix{
+							& a_2 & a_3 & a_5 & a_4 & a_1 & a_6 \\
+							a_4 & -1 & 0 & 1 & 1 & 0 & 0 \\
+							a_1 & -1 & -1 & 1 & 0 & 1 & 0 \\
+							a_6 & 0 & 1 & -1 & 0 & 0 & 1
+						}
+					\end{equation*}
+				\end{minipage}
+			\end{frame}
+		
+			\begin{frame}{Beispiel, Bestimmung der Basislösung}
+				\vspace{-0.4cm}
+				\begin{minipage}{0.5\textwidth}
+					\begin{figure}
+						\centering
+						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
+							\node [event] (A) at (-2.3, -2.5) {\(A\)};
+							\node [event] (B) at (0, 0) {\(B\)};
+							\node [event] (C) at (-2.3, 2.5) {\(C\)};
+							\node [event] (D) at (2.5, 0) {\(D\)};
+							
+							\draw [->, co] (B) to node[midway, sloped, above]{\( a_1 \)} (A);
+							\draw [->, spanning] (B) to node[midway, sloped, above]{\( a_2 \)} (C);
+							\draw [->, spanning] (D) to node[midway, sloped, above]{\( a_3 \)} (A);
+							\draw [->, co] (B) to node[midway, sloped, above]{\( a_4 \)} (D);
+							\draw [->, spanning] (D) to node[midway, sloped, above]{\( a_5 \)} (C);
+							\draw [->, co] (A) to node[midway, sloped, above]{\( a_6 \)} (C);
+						\end{tikzpicture}
+						\caption{Spannbaumstruktur}
+					\end{figure}
+				\end{minipage}%
+				\begin{minipage}{0.5\textwidth}
+					\begin{equation*}
+						\vec{b} = \big[ -\mat{\Gamma} \vec{l} \big]_T =
+							\begin{bmatrix}
+								1 \\
+								15 \\
+								0
+							\end{bmatrix}
+					\end{equation*}
+					\vspace{-0.4cm}
+					\begin{table}
+						\centering
+						\begin{tabular}{c|cc|c}
+							\(a_i\) & \(\Delta_i = [l_i, u_i]\) & \(\omega_i\) & \(y_i\) \\ \hline
+							\(a_1\) &       \( [9, 28] \)       &    \(8\)     & \(15\)  \\
+							\(a_2\) &       \( [7, 26] \)       &    \(3\)     &  \(0\)  \\
+							\(a_3\) &       \( [2, 21] \)       &    \(5\)     &  \(0\)  \\
+							\(a_4\) &       \( [1, 20] \)       &    \(9\)     &  \(1\)  \\
+							\(a_5\) &       \( [5, 24] \)       &    \(1\)     &  \(0\)  \\
+							\(a_6\) &       \( [3, 22] \)       &    \(4\)     &  \(0\)
+						\end{tabular}
+					\end{table}
+				\end{minipage}
+			\end{frame}
+		
+			\begin{frame}{Beispiel, Darstellung im Tableau und Kostenänderung}
+				Initiales Simplex-Tableau:
+				\begin{equation*}
+					\begin{array}{c|ccc|ccc|c||c}
+						    & a_2 & a_3 & a_5 & a_4 & a_1 & a_6 & b  & \omega \\ \hline
+						a_4 & -1  &  0  &  1  &  1  &  0  &  0  & 1  &   9    \\
+						a_1 & -1  & -1  &  1  &  0  &  1  &  1  & 15 &   8    \\
+						a_6 &  0  &  1  & -1  &  0  &  0  &  1  & 0  &   4    \\ \hline
+						    &     &     &     &     &     &     &    &  129
+					\end{array}
+				\end{equation*}
+				
+				Kostenänderung für verschiedene Austausche:
+				\begin{equation*}
+					\begin{array}{c|ccc}
+						    &        a_2         & a_3 & a_5 \\ \hline
+						a_4 &         40         &  -  & -12 \\
+						a_1 & \framebox{\(-60\)} & -35 &  0  \\
+						a_6 &         -          &  0  &  0
+					\end{array}
+				\end{equation*}
+			\end{frame}
+		
+			\begin{frame}{Beispiel, Basis-Austausch}
+				Austausch von Ko-Baum-Kante \( a_1 \) mit Baum-Kante \( a_2 \):
+				\begin{align*}
+					&\begin{array}{c|ccc|ccc|c||c}
+						    & a_2 & a_3 & a_5 & a_4 & a_1 & a_6 & b  & \omega \\ \hline
+						a_4 & -1  &  0  &  1  &  1  &  0  &  0  & 1  &   9    \\
+						a_1 & -1  & -1  &  1  &  0  &  1  &  1  & 15 &   8    \\
+						a_6 &  0  &  1  & -1  &  0  &  0  &  1  & 0  &   4    \\ \hline
+						    &     &     &     &     &     &     &    &  129
+					\end{array} \\
+					\leadsto\quad\quad&
+					\begin{array}{c|ccc|ccc|c||c}
+						    & a_1 & a_3 & a_5 & a_4 & a_2 & a_6 & b & \omega \\ \hline
+						a_4 & -1  &  1  &  0  &  1  &  0  &  0  & 6 &   9    \\
+						a_2 & -1  &  1  & -1  &  0  &  1  &  0  & 5 &   3    \\
+						a_6 &  0  &  1  & -1  &  0  &  0  &  1  & 0 &   4    \\ \hline
+						    &     &     &     &     &     &     &   &   69
+					\end{array}
+				\end{align*}
 			\end{frame}
 		
 			% TODO: Stopped here.
