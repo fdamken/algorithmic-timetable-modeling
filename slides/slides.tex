@@ -910,7 +910,7 @@
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
 							\node [event, label = below:{ \( \pi_A = 4 \) }] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event, label = below:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
+							\node [event, label = left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
 							\node [event, label = right:{ \( \pi_C = 7 \) }] (C) at (-2.3, 2.5) {\(C\)};
 							\node [event, label = below:{ \( \pi_D = 2 \) }] (D) at (2.5, 0) {\(D\)};
 							
@@ -999,10 +999,10 @@
 					\begin{figure}
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
-							\node [event] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event] (B) at (0, 0) {\(B\)};
-							\node [event] (C) at (-2.3, 2.5) {\(C\)};
-							\node [event] (D) at (2.5, 0) {\(D\)};
+							\node [event, label = below:{ \( \pi_A = 4 \) }] (A) at (-2.3, -2.5) {\(A\)};
+							\node [event, label = left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
+							\node [event, label = right:{ \( \pi_C = 7 \) }] (C) at (-2.3, 2.5) {\(C\)};
+							\node [event, label = below:{ \( \pi_D = 2 \) }] (D) at (2.5, 0) {\(D\)};
 							
 							\draw [->, co] (B) to node[midway, sloped, above]{\( a_1 \)} (A);
 							\draw [->, spanning] (B) to node[midway, sloped, above]{\( a_2 \)} (C);
@@ -1018,10 +1018,10 @@
 					\begin{figure}
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
-							\node [event] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event] (B) at (0, 0) {\(B\)};
-							\node [event] (C) at (-2.3, 2.5) {\(C\)};
-							\node [event] (D) at (2.5, 0) {\(D\)};
+							\node [event, label = below:{ \( \pi_A = 4 \) }] (A) at (-2.3, -2.5) {\(A\)};
+							\node [event, label = left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
+							\node [event, label = right:{ \( \pi_C = 7 \) }] (C) at (-2.3, 2.5) {\(C\)};
+							\node [event, label = below:{ \( \pi_D = 2 \) }] (D) at (2.5, 0) {\(D\)};
 							
 							\draw [->, spanning] (B) to node[midway, sloped, above]{\( a_1 \)} (A);
 							\draw [->, co] (B) to node[midway, sloped, above]{\( a_2 \)} (C);
