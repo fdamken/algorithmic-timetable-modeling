@@ -996,7 +996,26 @@
 			\end{frame}
 		
 			\begin{frame}{Beispiel, Basis-Austausch}
-				content...
+				\vspace{-0.4cm}
+				\begin{minipage}{0.5\textwidth}
+					\begin{figure}
+						\centering
+						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
+						\node [event] (A) at (-2.3, -2.5) {\(A\)};
+						\node [event] (B) at (0, 0) {\(B\)};
+						\node [event] (C) at (-2.3, 2.5) {\(C\)};
+						\node [event] (D) at (2.5, 0) {\(D\)};
+						
+						\draw [->, co] (B) to node[midway, sloped, above]{\( a_1 \)} (A);
+						\draw [->, spanning] (B) to node[midway, sloped, above]{\( a_2 \)} (C);
+						\draw [->, spanning] (D) to node[midway, sloped, above]{\( a_3 \)} (A);
+						\draw [->, co] (B) to node[midway, sloped, above]{\( a_4 \)} (D);
+						\draw [->, spanning] (D) to node[midway, sloped, above]{\( a_5 \)} (C);
+						\draw [->, co] (A) to node[midway, sloped, above]{\( a_6 \)} (C);
+						\end{tikzpicture}
+						\caption{Spannbaumstruktur}
+					\end{figure}
+				\end{minipage}%
 			\end{frame}
 		
 			% TODO: Stopped here.
