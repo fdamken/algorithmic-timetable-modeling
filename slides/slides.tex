@@ -655,22 +655,22 @@
 				\item Konvexe Hülle bei Bedarf erklären.
 			}
 		
-			\begin{frame}{Theorem 22} % TODO: Titel! Und Warum...
-				\textbf{Theorem.} Es existiert eine Matrix \( \mat{F} \in \R^{m \times m} \) mit \( \mat{\Theta} \mat{F} \equiv_T \vec{0} \) und ein Vektor \( \vec{r} \in \R^m \), sodass
-				\begin{align*}
-					& \mathit{conv.hull} \big\{\, \vec{x} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{x} - T\vec{z} = \vec{0}, \quad \vec{l} \leq \vec{x} - T\vec{z} \leq \vec{u} ) \,\big\} \\
-					=\,& \big\{\, \vec{x} \,\vert\, \mat{F} \vec{x} \geq \vec{r} \,\big\}
-					\intertext{oder äquivalent}
-					& \mathit{conv.hull} \big\{\, \vec{y} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{y} - T\vec{z} = \vec{b}, \quad \vec{0} \leq \vec{y} - T\vec{z} \leq \vec{\delta} ) \,\big\} \\
-					=\,& \big\{\, \vec{y} \,\vert\, \mat{F} \vec{y} \geq \tilde{\vec{r}} \coloneqq \vec{r} - \mat{F} \vec{l} \,\big\}
-				\end{align*}
-				gilt.
-			\end{frame}
-			\note[itemize]{
-				\item Jede Zeile von \( \mat{F} \) ist eine Spannung.
-				\item Mit \( \vec{x} = \vec{y} + \vec{l} \quad\iff\quad \vec{y} = \vec{x} - \vec{l} \) ist die Äquivalenz klar.
-				\item Es gilt \( \vec{b} \coloneqq [-\mat{\Gamma} \vec{l}]_T \) und \( \vec{\delta} \coloneqq \vec{u} - \vec{l} \).
-			}
+%			\begin{frame}{Theorem 22} % TODO: Titel! Und Warum...
+%				\textbf{Theorem.} Es existiert eine Matrix \( \mat{F} \in \R^{m \times m} \) mit \( \mat{\Theta} \mat{F} \equiv_T \vec{0} \) und ein Vektor \( \vec{r} \in \R^m \), sodass
+%				\begin{align*}
+%					& \mathit{conv.hull} \big\{\, \vec{x} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{x} - T\vec{z} = \vec{0}, \quad \vec{l} \leq \vec{x} - T\vec{z} \leq \vec{u} ) \big\} \\
+%					=\,& \big\{\, \vec{x} \,\vert\, \mat{F} \vec{x} \geq \vec{r} \,\big\}
+%					\intertext{oder äquivalent}
+%					& \mathit{conv.hull} \big\{\, \vec{y} \in \Z^m \,\vert\, \exists \vec{z} \in \Z^m : ( \mat{\Gamma} \vec{y} - T\vec{z} = \vec{b}, \quad \vec{0} \leq \vec{y} - T\vec{z} \leq \vec{\delta} ) \big\} \\
+%					=\,& \big\{\, \vec{y} \,\vert\, \mat{F} \vec{y} \geq \tilde{\vec{r}} \coloneqq \vec{r} - \mat{F} \vec{l} \,\big\}
+%				\end{align*}
+%				gilt.
+%			\end{frame}
+%			\note[itemize]{
+%				\item Jede Zeile von \( \mat{F} \) ist eine Spannung.
+%				\item Mit \( \vec{x} = \vec{y} + \vec{l} \quad\iff\quad \vec{y} = \vec{x} - \vec{l} \) ist die Äquivalenz klar.
+%				\item Es gilt \( \vec{b} \coloneqq [-\mat{\Gamma} \vec{l}]_T \) und \( \vec{\delta} \coloneqq \vec{u} - \vec{l} \).
+%			}
 		
 			% TODO: Ab dem Lemma fehlen die Sachen.
 		% end
