@@ -1164,7 +1164,7 @@
 			\begin{algorithm}[H]
 				\textit{Initialisierung:} Bestimmung einer initialen Spannbaumstruktur \( \mathcal{T} = \mathcal{T}^l + \mathcal{T}^u \) mit Lösung \( \vec{y} \).
 				
-				\While{eine Knotenlokale Verbesserung \(\vec{\eta}\) existiert,}{
+				\While{eine Knotenlokale Verbesserung \(\vec{\eta}\) existiert}{
 					Anwendung des Schnitts durch Transformation der Lösung: \( \vec{y} \gets \vec{y} + \vec{\eta} \).
 					
 					Fixieren der Modulo-Parameter \(\vec{z}\), Lösung des Minimum-Cost-Flow Problems und Transformtion der Lösung in eine Spannbaumstruktur.
