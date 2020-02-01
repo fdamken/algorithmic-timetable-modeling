@@ -6,6 +6,15 @@
   file = {/home/fdamken/Zotero/storage/8A8LNJ3E/Ahuja et al. - 1988 - Network flows.pdf}
 }
 
+@misc{DocDocumentationPdf,
+  title = {Doc/Documentation.Pdf {$\cdot$} Master {$\cdot$} {{LinTim}} / {{OpenLinTim}}},
+  abstract = {Open Source Version of LinTim, see https://lintim.math.uni-goettingen.de},
+  file = {/home/fdamken/Zotero/storage/JUL3LGCA/documentation.html},
+  howpublished = {https://gitlab.gwdg.de/LinTim/OpenLinTim/blob/master/doc/documentation.pdf},
+  journal = {GitLab},
+  language = {en}
+}
+
 @inproceedings{goerigkEngineeringModuloNetwork2011,
   title = {Engineering the {{Modulo Network Simplex Heuristic}} for the {{Periodic Timetabling Problem}}},
   author = {Goerigk, Marc and Sch{\"o}bel, Anita},
@@ -22,6 +31,39 @@ modulo network simplex algorithm [8], which is a powerful heuristic for the PESP
 and larger classes of cuts to escape from the many local optima. Numerical experiments on railway instances show that our
 algorithms are able to handle problems of the size of the German intercity railway network.},
   file = {/home/fdamken/Zotero/storage/F55RIJMR/Goerigk and Schöbel - 2011 - Engineering the Modulo Network Simplex Heuristic f.pdf}
+}
+
+@article{harrodTutorialFundamentalModel2012,
+  title = {A Tutorial on Fundamental Model Structures for Railway Timetable Optimization},
+  author = {Harrod, Steven S.},
+  year = {2012},
+  month = jul,
+  volume = {17},
+  pages = {85--96},
+  issn = {1876-7354},
+  doi = {10.1016/j.sorms.2012.08.002},
+  abstract = {This guide explains the role of railway timetables relative to all other railway scheduling activities, and then presents four fundamental timetable formulations suitable for optimization. Timetabling models may be classified according to whether they explicitly model the track structure, and whether the timetable is intended to be periodic or not (aperiodic). The presentation of models is organized to facilitate the selection of a model by planning objective and available data, regardless of the specific traffic carried or network size.},
+  file = {/home/fdamken/Zotero/storage/CQFC9W7W/Harrod - 2012 - A tutorial on fundamental model structures for rai.pdf;/home/fdamken/Zotero/storage/N8UJ9VDX/S1876735412000049.html},
+  journal = {Surveys in Operations Research and Management Science},
+  language = {en},
+  number = {2}
+}
+
+@article{lindnerNewPerspectivesPESP2019,
+  title = {{New Perspectives on PESP: T-Partitions and Separators}},
+  shorttitle = {{New Perspectives on PESP}},
+  author = {Lindner, Niels and Liebchen, Christian},
+  year = {2019},
+  month = jul,
+  abstract = {In the planning process of public transportation companies, designing the timetable is among the core planning steps. In particular in the case of periodic (or cyclic) services, the Periodic Event Scheduling Problem (PESP) is well-established to compute high-quality periodic timetables.
+
+We are considering algorithms for computing good solutions for the very basic PESP with no additional extra features as add-ons. The first of these algorithms generalizes several primal heuristics that had been proposed in the past, such as single-node cuts and the modulo network simplex algorithm. We consider partitions of the graph, and identify so-called delay cuts as a structure that allows to generalize several previous heuristics. In particular, when no more improving delay cut can be found, we already know that the other heuristics could not improve either.
+
+The second of these algorithms turns a strategy, that had been discussed in the past, upside-down: Instead of gluing together the network line-by-line in a bottom-up way, we develop a divide-and-conquer-like top-down approach to separate the initial problem into two easier subproblems such that the information loss along their cutset edges is as small as possible.
+
+We are aware that there may be PESP instances that do not fit well the separator setting. Yet, on the RxLy-instances of PESPlib in our experimental computations, we come up with good primal solutions and dual bounds. In particular, on the largest instance (R4L4), this new separator approach, which applies a state-of-the-art solver as subroutine, is able to come up with better dual bounds than purely applying this state-of-the-art solver in the very same time.},
+  file = {/home/fdamken/Zotero/storage/VJ3LF9F3/Lindner and Liebchen - 2019 - New Perspectives on PESP T-Partitions and Separat.pdf;/home/fdamken/Zotero/storage/55BE47PM/7385.html},
+  language = {de}
 }
 
 @article{nachtigallPeriodicNetworkOptimization1996,
@@ -67,6 +109,36 @@ algorithms are able to handle problems of the size of the German intercity railw
   series = {{{OpenAccess Series}} in {{Informatics}} ({{OASIcs}})}
 }
 
+@misc{OpenLinTim,
+  title = {{{OpenLinTim}}},
+  file = {/home/fdamken/Zotero/storage/QYXWVQDD/OpenLinTim.pdf}
+}
+
+@book{opitzAutomatischeErzeugungUnd2009,
+  title = {Automatische {{Erzeugung}} Und {{Optimierung}} von {{Taktfahrpl{\"a}nen}} in {{Schienenverkehrsnetzen}}},
+  author = {Opitz, Jens},
+  year = {2009},
+  volume = {1},
+  publisher = {{Springer}},
+  file = {/home/fdamken/Zotero/storage/634BULNZ/Opitz - 2009 - Automatische Erzeugung und Optimierung von Taktfah.pdf}
+}
+
+@article{schobelEigenmodelIterativeLine2017,
+  title = {An Eigenmodel for Iterative Line Planning, Timetabling and Vehicle Scheduling in Public Transportation},
+  author = {Sch{\"o}bel, Anita},
+  year = {2017},
+  month = jan,
+  volume = {74},
+  pages = {348--365},
+  issn = {0968-090X},
+  doi = {10.1016/j.trc.2016.11.018},
+  abstract = {Planning a public transportation system is a multi-objective problem which includes among others line planning, timetabling, and vehicle scheduling. For each of these planning stages, models are known and advanced solution techniques exist. Some of the models focus on costs, others on passengers' convenience. Setting up a transportation system is usually done by optimizing each of these stages sequentially. In this paper we argue that instead of optimizing each single step further and further it would be more beneficial to consider the whole process in an integrated way. To this end, we develop and discuss a generic, bi-objective model for integrating line planning, timetabling, and vehicle scheduling. We furthermore propose an eigenmodel which we apply for these three planning stages and show how it can be used for the design of iterative algorithms as heuristics for the integrated problem. The convergence of the resulting iterative approaches is analyzed from a theoretical point of view. Moreover, we propose an agenda for further research in this field.},
+  file = {/home/fdamken/Zotero/storage/KAGHFRBY/Schöbel - 2017 - An eigenmodel for iterative line planning, timetab.pdf;/home/fdamken/Zotero/storage/CQ3B4XMX/S0968090X1630242X.html},
+  journal = {Transportation Research Part C: Emerging Technologies},
+  keywords = {Eigenmodel,Integrated planing,Line planning,Public transportation,Timetabling,Vehicle scheduling},
+  language = {en}
+}
+
 @article{serafiniMathematicalModelPeriodic1989,
   title = {A {{Mathematical Model}} for {{Periodic Scheduling Problems}}},
   author = {Serafini, Paolo. and Ukovich, Walter.},
@@ -80,6 +152,44 @@ algorithms are able to handle problems of the size of the German intercity railw
   file = {/home/fdamken/Zotero/storage/ZQKH3Z3Q/Serafini and Ukovich - 1989 - A Mathematical Model for Periodic Scheduling Probl.pdf;/home/fdamken/Zotero/storage/IVTJ9V9K/0402049.html},
   journal = {SIAM Journal on Discrete Mathematics},
   number = {4}
+}
+
+@article{siebertExperimentalComparisonPeriodic2013,
+  title = {An Experimental Comparison of Periodic Timetabling Models},
+  author = {Siebert, Michael and Goerigk, Marc},
+  year = {2013},
+  month = oct,
+  volume = {40},
+  pages = {2251--2259},
+  issn = {0305-0548},
+  doi = {10.1016/j.cor.2013.04.002},
+  abstract = {In the Periodic Timetabling Problem, vehicle arrivals and departures need to be scheduled over a periodically repeating time horizon. Its relevance and applicability have been demonstrated by several real-world implementations, including the Netherlands railways and the Berlin subway. In this work, we consider the practical impact of two possible problem variations: firstly, how passenger paths are handled, and secondly, how line frequencies are included. In computational experiments on real-world and close-to real-world networks, we can show that passenger travel times can significantly benefit from extended models.},
+  file = {/home/fdamken/Zotero/storage/IBYWQKQU/Siebert and Goerigk - 2013 - An experimental comparison of periodic timetabling.pdf;/home/fdamken/Zotero/storage/PLTHCDMV/S0305054813001020.html},
+  journal = {Computers \& Operations Research},
+  keywords = {Event activity networks,Integrated passenger routing,Iterative timetabling,Periodic timetabling},
+  language = {en},
+  number = {10}
+}
+
+@misc{SimplexAlgorithmusMathebibel,
+  title = {Simplex-{{Algorithmus}} - {{Mathebibel}}.De},
+  file = {/home/fdamken/Zotero/storage/7W39QRA2/simplex-algorithmus.html},
+  howpublished = {https://www.mathebibel.de/simplex-algorithmus}
+}
+
+@misc{SrcToolsPlotttevals,
+  title = {Src/Tools/Plot-Tt-Evals/Modulo\_network\_simplex.Cpp {$\cdot$} Master {$\cdot$} {{LinTim}} / {{OpenLinTim}}},
+  abstract = {Open Source Version of LinTim, see https://lintim.math.uni-goettingen.de},
+  file = {/home/fdamken/Zotero/storage/RESAT7KJ/modulo_network_simplex.html},
+  howpublished = {https://gitlab.gwdg.de/LinTim/OpenLinTim/blob/master/src/tools/plot-tt-evals/modulo\_network\_simplex.cpp},
+  journal = {GitLab},
+  language = {en}
+}
+
+@misc{stublingPolyedrischeAnalyseTaktfahrplanmodellen,
+  title = {Polyedrische {{Analyse}} von {{Taktfahrplanmodellen}}},
+  author = {St{\"u}bling, Ina},
+  file = {/home/fdamken/Zotero/storage/4VSX7WV3/Stübling - Polyedrische Analyse von Taktfahrplanmodellen.pdf}
 }
 
 
