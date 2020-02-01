@@ -1162,7 +1162,7 @@
 	\section{Zusammenfassung}
 		\begin{frame}{Der Modulo-Netzwerk-Simplex-Algorithmus}
 			\begin{algorithm}[H]
-				\textbf{Initialisierung:} Bestimmung einer initialen Spannbaumstruktur \( \mathcal{T} = \mathcal{T}^l + \mathcal{T}^u \) mit Lösung \( \vec{y} \).
+				\textit{Initialisierung:} Bestimmung einer initialen Spannbaumstruktur \( \mathcal{T} = \mathcal{T}^l + \mathcal{T}^u \) mit Lösung \( \vec{y} \).
 				
 				\While{Es existiert eine Knotenlokale Verbesserung \(\vec{\eta}\)}{
 					Anwendung des Schnitts durch Transformation der Lösung: \( \vec{y} \gets \vec{y} + \vec{\eta} \).
@@ -1175,7 +1175,7 @@
 					
 					\textbf{Modulo-Simplex-Pivoting:}
 					\While{Es existiert ein Paar \( (i, j) \) mit \( \Delta\omega_{i,j} < 0 \)}{
-						Tausche Ko-Baum-Kante \( a_i \) mit Baum-Kante \( a_j \)
+						Tausche Ko-Baum-Kante \( a_i \) mit Baum-Kante \( a_j \).
 					}
 				}
 			\end{algorithm}
