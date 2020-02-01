@@ -1161,21 +1161,26 @@
 	
 	\section{Zusammenfassung}
 		\begin{frame}{Der Modulo-Netzwerk-Simplex-Algorithmus}
-			\DontPrintSemicolon
 			\begin{algorithm}[H]
 				\textit{Initialisierung:} Bestimmung einer initialen Spannbaumstruktur \( \mathcal{T} = \mathcal{T}^l + \mathcal{T}^u \) mit Lösung \( \vec{y} \).
 				
+				\BlankLine
 				\While{eine Knotenlokale Verbesserung \(\vec{\eta}\) existiert}{
 					Anwendung des Schnitts durch Transformation der Lösung: \( \vec{y} \gets \vec{y} + \vec{\eta} \).
 					
-					Fixieren der Modulo-Parameter \(\vec{z}\), Lösung des Minimum-Cost-Flow Problems und Transformtion der Lösung in eine Spannbaumstruktur. \;
+					Fixieren der Modulo-Parameter \(\vec{z}\), Lösung des Minimum-Cost-Flow Problems und Transformtion der Lösung in eine Spannbaumstruktur.
 					
+					\BlankLine
 					\While{ein Paar \( (i, j) \) mit \( \Delta\omega_{i,j} < 0 \) existiert}{
 						Tausche Ko-Baum-Kante \( a_i \) mit Baum-Kante \( a_j \).
 					}
 				}
 			\end{algorithm}
 		\end{frame}
+	
+		\begin{frame}{Der Modulo-Netzwerk-Simplex-Algorithmus}
+		content...
+	\end{frame}
 	% end
 
 	\begin{frame}{Literatur}
