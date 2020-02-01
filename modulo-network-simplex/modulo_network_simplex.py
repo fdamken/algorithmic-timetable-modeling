@@ -458,4 +458,4 @@ class ModuloNetworkSimplex:
 
 
 if __name__ == '__main__':
-    ModuloNetworkSimplex('tim-network-data.mns', verbose = True).solve()
+    ModuloNetworkSimplex('network-data.mns', verbose = True).solve()
