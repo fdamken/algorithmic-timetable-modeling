@@ -135,8 +135,9 @@
 		\paragraph{Dualität zum Minimum-Cost-Flow Problem}
 			Werden die Modulo-Parameter \( \vec{z} \) fixiert, kann das Optimierungsproblem mit \( \vec{l}' \coloneqq \vec{l} + \vec{z}T \) und \( \vec{u}' \coloneqq \vec{u} + \vec{z}T \) zur dualen Formulierung des Minimum-Cost-Flow Problems umgeformt werden:
 			\begin{equation*}
-				\min \big\{\big}
+				\min \big\{\, \vec{\omega}^T (\mat{\Theta}^T \vec{\pi} - \vec{l}') \,\vert\, \vec{l}' \leq \mat{\Theta}^T \vec{\pi} \leq \vec{u}' \,\big\}
 			\end{equation*}
+			Dabei gilt \( \vec{x} = \mat{\Theta} \vec{\pi} \).
 		% end
 	% end
 \end{document}
