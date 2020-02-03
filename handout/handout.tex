@@ -1,4 +1,4 @@
-\documentclass[accentcolor = tud11b, a4paper, 11pt, twocolumn]{scrartcl}
+\documentclass[a4paper, 10pt, twocolumn]{scrartcl}
 
 % Generale page style.
 \usepackage[margin = 1cm]{geometry}
@@ -13,7 +13,6 @@
 \usepackage{calc}
 \usepackage{csquotes}
 \usepackage{enumitem}
-\usepackage[mathcal]{euscript}
 \usepackage{float}
 \usepackage{kbordermatrix}
 \usepackage{listings}
@@ -80,17 +79,17 @@
 	\makeatletter
 	\begin{center}
 		\textbf{\Large Lösung periodischer \mbox{Fahrplanoptimierungsprobleme} \\ \vspace{2mm} durch Modulo-Simplex-Berechnungen} \\ \vspace{2mm}
-		\textbf{\large Zusammenfassung von \cite{nachtigallSolvingPeriodicTimetable2008}} \\ \vspace{3mm}
+		\textbf{\large Zusammenfassung von Nachtigall} \\ \vspace{3mm}
 		\textbf{\large Fabian Damken} \\ \vspace{1mm}
 		{\large \@date}
 	\end{center}
 	\makeatother
 	
-	\section*{Einführung}
+	\subsection*{Einführung}
 		% TODO: Slide 14
 	% end
 
-	\section*{Definitionen}
+	\subsection*{Definitionen}
 		\subparagraph{Schienennetz}
 		Ein \emph{Schienennetz} ist ein System von \emph{Linien} \(\mathcal{L}\) und \emph{Stationen} \(\mathcal{S}\).
 	
@@ -132,8 +131,6 @@
 		\end{equation*}
 		Dadurch kann das Optimierungsproblem zu \( \min \big\{\, \vec{\omega}^T \vec{y} \,\vert\, \vec{y} \in \mathcal{Y} \,\big\} \) umgeformt werden. Dies ist das sogenannte \emph{Slack-Modell}.
 	% end
-	
-	\bibliography{../cite}
 \end{document}
 
 
