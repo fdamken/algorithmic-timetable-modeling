@@ -355,10 +355,10 @@ class ModuloNetworkSimplex:
         graph.add_edges_from(self._network.edges())
 
         # TODO: Switch to minimal spanning tree!
-        spanning_tree = nx.minimum_spanning_tree(graph)
-        # spanning_tree = nx.DiGraph()
-        # spanning_tree.add_nodes_from(graph)
-        # spanning_tree.add_edges_from([('B', 'C'), ('D', 'A'), ('D', 'C')])
+        # spanning_tree = nx.minimum_spanning_tree(graph)
+        spanning_tree = nx.DiGraph()
+        spanning_tree.add_nodes_from(graph)
+        spanning_tree.add_edges_from([('B', 'C'), ('D', 'A'), ('D', 'C')])
         self._build_simplex_tableau(spanning_tree)
 
 
