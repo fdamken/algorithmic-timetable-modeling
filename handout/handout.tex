@@ -93,6 +93,10 @@
 		\begin{equation*}
 			\forall a \in \mathcal{A} : x_a \in \Delta_a \quad\iff\quad \forall (a : i \to j) \in \mathcal{A} : l_a \leq \pi_j - \pi_i \leq u_a
 		\end{equation*}
+		Ein Taktfahrplan \( \vec{\pi} \) heißt zulässig, wenn gilt:
+		\begin{equation*}
+			\forall (a : i \to j) \in \mathcal{A} : \exists z_a \in \Z : l_a \leq \pi_j - \pi_i - z_a T \leq u_a
+		\end{equation*}
 	% end
 
 	\bibliography{../cite}
