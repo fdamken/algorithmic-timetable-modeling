@@ -142,8 +142,8 @@
 		% end
 	% end
 	
-	\subsection*{Das Modulo-Netzwerk-Simplex-Verfahren}
-		Das Modulo-Netzwerk-Simplex-Verfahren erkundet die Extrempunkte dieses Optimierungsproblems und sucht optimale Spannbäume, wobei die in Ko-Baum-Kanten und Baum-Kanten separierte Netzwerkmatrix \( \mat{\Gamma} = [\mat{N}_\mathcal{T}, \mat{I}_\mathcal{T}^\mathit{co}] \) als Koeffizientenmatrix fungiert, \dh es wird die Gleichung \( \mat{\Gamma} \vec{y} \equiv_T \vec{b} \) unter Betrachtung der Kostenfunktion \( \vec{\omega}^T \vec{y} \) optimiert, \bzw letztere wird minimiert.
+	\subsection*{Das Modulo-Simplex-Verfahren}
+		Das Modulo-Simplex-Verfahren erkundet die Extrempunkte dieses Optimierungsproblems und sucht optimale Spannbäume, wobei die in Ko-Baum-Kanten und Baum-Kanten separierte Netzwerkmatrix \( \mat{\Gamma} = [\mat{N}_\mathcal{T}, \mat{I}_\mathcal{T}^\mathit{co}] \) als Koeffizientenmatrix fungiert, \dh es wird die Gleichung \( \mat{\Gamma} \vec{y} \equiv_T \vec{b} \) unter Betrachtung der Kostenfunktion \( \vec{\omega}^T \vec{y} \) optimiert, \bzw letztere wird minimiert.
 		
 		Dazu werden sukzessive Ko-Baum-Kanten gegen Baum-Kanten getauscht, sofern die Kostenfunktion dadurch verbessert wird. Dabei berechnen sich die aktualisierten Kosten durch den Austausch von Ko-Baum-Kante \( a_i \) gegen Baum-Kante \( a_j \) durch
 		\begin{equation*}
