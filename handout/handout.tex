@@ -160,7 +160,7 @@
 		
 		Ein einzelner Knoten \(i\) induziert nun einen Schnitt \( \vec{\eta}^{(i)} \) mit \( P = \{\, i \,\} \), \dh jede Kante um den Knoten wird geschnitten. Die Addition von \( \delta \) auf das Potential von \(i\) (\( \pi_i' \coloneqq \pi_i + \delta \)) entspricht einer \(\delta\)-fachen Anwendung des Schnitts \( \vec{\eta}^{(i)} \) auf die Slack-Zeiten \( \vec{y} \). Dadurch wird mit \( \vec{y}' \coloneqq \vec{y} + \delta\vec{\eta}^{(i)} \) eine neue Lösung durch den Schnitt \( \vec{\eta}^{(i)} \) bestimmt. Dies wird \emph{Knotenlokale Verbesserung} genannt.
 		
-		Nach Anwendung eines solchen Schnitts wird das Modulo-Simplex-Verfahren erneut angewendet, um die gefundene modifizierte Lösung weiter zu optimieren. Dadurch ist es möglich, ein besseres Optimum zu finden also nur durch Anwendung des Modulo-Simplex-Verfahrens.
+		Nach Anwendung eines solchen Schnitts wird das Modulo-Simplex-Verfahren erneut angewendet, um die gefundene modifizierte Lösung weiter zu optimieren. Dadurch ist es möglich, ein besseres Optimum zu finden also nur durch Anwendung des Modulo-Simplex-Verfahrens. Allerdings stellen die Knotenlokalen Verbesserungen nur eine Heuristik dar, \dh das Finden eines globale Optimums ist weiterhin nicht garantiert.
 	% end
 \end{document}
 
