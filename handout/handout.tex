@@ -1,0 +1,116 @@
+\documentclass[accentcolor = tud11b, a4paper, 11pt]{tudexercise}
+
+% Core packages.
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% Other packages.
+\usepackage[german, onelanguage]{algorithm2e}
+\usepackage{calc}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{kbordermatrix}
+\usepackage{listings}
+\usepackage{makecell}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{newunicodechar}
+\usepackage{stmaryrd}
+\usepackage{tabto}
+%\usepackage[disable]{todonotes}
+\usepackage{todonotes}
+% TikZ.
+\usepackage{tikz}
+\usetikzlibrary{angles, arrows.meta, backgrounds, calc, positioning, shapes}
+
+% Basic information.
+\title{Lösung~von~Takt\-fahr\-plan\-op\-ti\-mie\-rungs\-pro\-ble\-men durch Mo\-du\-lo-Sim\-plex- Be\-rech\-nung\-en}
+\subtitle{Fabian Damken}
+\author{Fabian Damken}
+\date{\today}
+
+% Description-list styling.
+\SetLabelAlign{parright}{\parbox[t]{\labelwidth}{\raggedleft#1}}
+\setlist[description]{style = multiline, leftmargin = 4cm, align = parright}
+
+\MakeOuterQuote{"}
+
+\tikzset{> = { Latex[length = 2.5mm] }}
+\tikzstyle{every path} = [ very thick ]
+
+% New commands.
+\newcommand{\arr}{\mathit{arr}}
+\newcommand{\const}{\ensuremath{\textrm{const}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\dep}{\mathit{dep}}
+\newcommand{\dif}[1]{\ensuremath{\,\mathrm{d}#1}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+% Matrix and vector notation. Use both boldsymbol and mathbf as the first works
+% only for greek letters while the latter works only for latin letters.
+\newcommand{\mat}[1]{\boldsymbol{\mathbf{#1}}}
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
+\makeatletter
+\newcommand{\BIG}{\bBigg@{4}}
+\newcommand{\BIGG}{\bBigg@{5}}
+\makeatother
+
+\let\oldvdots=\vdots
+\renewcommand{\vdots}{\raisebox{2pt}{\(\oldvdots\)}}
+\let\oldddots=\ddots
+\renewcommand{\ddots}{\raisebox{2pt}{\(\oldddots\)}}
+
+\renewcommand{\kbldelim}{[}
+\renewcommand{\kbrdelim}{]}
+
+\newcommand{\zB}{z.\,B.~}
+
+\newunicodechar{−}{--}
+
+\begin{document}
+	\bibliographystyle{alpha}
+
+	\maketitle
+
+	\section*{Mathematische Grundlagen}
+	% end
+
+	\bibliography{../cite}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
