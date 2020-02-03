@@ -116,10 +116,11 @@
 		\end{equation*}
 		Dies stellt ein Gemischt-Ganzzahliges Programm dar, dessen Lösung NP-schwer ist.
 		
-		Mit der Netzwerkmatrix ("Edge-Cycle-Matrix") \( \mat{\Gamma} \) und \( \vec{\delta} = \vec{u} - \vec{l} \), können die zulässigen Slack-Zeiten wie folgt zusammengefasst werden:
+		Mit der Netzwerkmatrix ("Edge-Cycle-Matrix") \( \mat{\Gamma} \) und \( \vec{\delta} = \vec{u} - \vec{l} \) sowie \( \vec{b} \coloneqq [-\mat{\Gamma} \vec{l}]_T \), können die zulässigen Slack-Zeiten wie folgt zusammengefasst werden:
 		\begin{equation*}
-			\mathcal{Y} \coloneqq \big\{\big}
+			\mathcal{Y} \coloneqq \big\{\, \vec{y} \in \Z^m \,\vert\, \mat{\Gamma} \vec{x} \equiv_T \vec{b},\quad \vec{0} \leq \vec{y} \leq \vec{\delta} \,\big\}
 		\end{equation*}
+		Dadurch kann das Optimierungsproblem zu \( \min \big\{\,\,\} \)
 	% end
 \end{document}
 
