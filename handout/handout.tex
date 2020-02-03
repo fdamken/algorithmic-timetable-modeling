@@ -1,7 +1,7 @@
 \documentclass[a4paper, 10pt, twocolumn]{scrartcl}
 
 % Generale page style.
-\usepackage[margin = 1cm]{geometry}
+\usepackage[margin = 0.86cm]{geometry}
 
 % Core packages.
 \usepackage[ngerman]{babel}
@@ -84,10 +84,6 @@
 		{\large \@date}
 	\end{center}
 	\makeatother
-	
-	\subsection*{Einführung}
-		% TODO: Slide 14
-	% end
 
 	\subsection*{Definitionen}
 		\subparagraph{Schienennetz}
@@ -162,57 +158,4 @@
 		
 		Nach Anwendung eines solchen Schnitts wird das Modulo-Simplex-Verfahren erneut angewendet, um die gefundene modifizierte Lösung weiter zu optimieren. Dadurch ist es möglich, ein besseres Optimum zu finden also nur durch Anwendung des Modulo-Simplex-Verfahrens. Allerdings stellen die Knotenlokalen Verbesserungen nur eine Heuristik dar, \dh das Finden eines globale Optimums ist weiterhin nicht garantiert.
 	% end
-	
-	\subsection*{Zusammenfassung des Algorithmus}
-		\begin{algorithm}[H]
-			\textit{Initialisierung:} Bestimmung einer initialen Spannbaumstruktur \( \mathcal{T} = \mathcal{T}^l + \mathcal{T}^u \) mit Lösung \( \vec{y} \).
-			
-			\BlankLine
-			\While{eine Knotenlokale Verbesserung \(\vec{\eta}\) existiert}{
-				Anwendung des Schnitts durch Transformation der Lösung: \( \vec{y} \gets \vec{y} + \vec{\eta} \).
-				
-				Fixieren der Modulo-Parameter \(\vec{z}\), Lösung des Minimum-Cost-Flow Problems und Transformtion der Lösung in eine Spannbaumstruktur.
-				
-				\BlankLine
-				\While{ein Paar \( (i, j) \) mit \( \Delta\omega_{i,j} < 0 \) existiert}{
-					Tausche Ko-Baum-Kante \( a_i \) mit Baum-Kante \( a_j \).
-				}
-			}
-		\end{algorithm}
-	% end
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
