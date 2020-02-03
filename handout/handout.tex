@@ -1,10 +1,14 @@
-\documentclass[accentcolor = tud11b, a4paper, 11pt, tudmathserif]{tudexercise}
+\documentclass[accentcolor = tud11b, a4paper, 11pt]{scrartcl}
+
+% Generale page style.
+\usepackage[margin = 1cm]{geometry}
 
 % Core packages.
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 % Other packages.
+\usepackage{amssymb}
 \usepackage[german, onelanguage]{algorithm2e}
 \usepackage{calc}
 \usepackage{csquotes}
@@ -26,8 +30,7 @@
 \usetikzlibrary{angles, arrows.meta, backgrounds, calc, positioning, shapes}
 
 % Basic information.
-\title{Lösung~von~Takt\-fahr\-plan\-op\-ti\-mie\-rungs\-pro\-ble\-men durch Mo\-du\-lo-Sim\-plex- Be\-rech\-nung\-en}
-\subtitle{Fabian Damken}
+\title{Lösung von Taktfahrplanoptimierungsproblemen durch Modulo-Simplex-Berechnungen}
 \author{Fabian Damken}
 \date{\today}
 
@@ -120,7 +123,7 @@
 		\begin{equation*}
 			\mathcal{Y} \coloneqq \big\{\, \vec{y} \in \Z^m \,\vert\, \mat{\Gamma} \vec{x} \equiv_T \vec{b},\quad \vec{0} \leq \vec{y} \leq \vec{\delta} \,\big\}
 		\end{equation*}
-		Dadurch kann das Optimierungsproblem zu \( \min \big\{\,\,\} \)
+		Dadurch kann das Optimierungsproblem zu \( \min \big\{\, \vec{\omega}^T \vec{y} \,\vert\, \vec{y} \in \mathcal{Y} \,\big\} \) umgeformt werden. Dies ist das sogenannte \emph{Slack-Modell}.
 	% end
 \end{document}
 
