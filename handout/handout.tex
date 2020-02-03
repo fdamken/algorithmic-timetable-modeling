@@ -149,10 +149,14 @@
 		\begin{equation*}
 			\tilde{\omega}_{ij} = \omega_j \bigg[ \frac{b_i}{\gamma_{ij}} \bigg]_T \! + \sum_{\substack{k = r \\ k \neq i}}^{m} \omega_k \bigg[ b_k - \frac{\gamma_{kj}}{\gamma_{ij}} b_i \bigg]_T
 		\end{equation*}
-		das heißt die Änderung \( \Delta\omega_{ij} \) ist gegeben durch
+		das heißt die Änderung \( \Delta\omega_{ij} = \tilde{\omega}_{ij} - \omega \) ist gegeben durch
 		\begin{equation*}
-			\Delta\omega_{ij} = \tilde{\omega}_{ij} - \omega = \omega_j \bigg[ \frac{b_i}{\gamma_{ij}} \bigg]_T \! - \omega_i b_i + \sum_{\substack{k = r \\ k \neq i}}^{m} \omega_k \Bigg( \bigg[ b_k - \frac{\gamma_{kj}}{\gamma_{ij}} b_i \bigg]_T - b_k \Bigg)
+			\Delta\omega_{ij} = \omega_j \bigg[ \frac{b_i}{\gamma_{ij}} \bigg]_T \! - \omega_i b_i + \sum_{\substack{k = r \\ k \neq i}}^{m} \omega_k \Bigg( \bigg[ b_k - \frac{\gamma_{kj}}{\gamma_{ij}} b_i \bigg]_T - b_k \Bigg)
 		\end{equation*}
+	% end
+	
+	\subsection*{Knotenlokale Verbesserungen}
+		Diese sukzessive Verbesserungen führen in den meisten Fällen nur zu einem lokalen Optimum, \dh das globale Optimum wird nie erreicht. Um das Finden eines globalen Optimums zu ermöglichen, wird die Struktur ausgenutzt, dass jede Spannung \(\vec{x}\) (\dh es gilt \( \mat{\Gamma} \vec{x} \equiv_T \vec{0} \)) mit \( \vec{y}' \coloneqq [\vec{y} + \vec{x}]_T \) eine neue Lösung definiert, welche gültig ist, wenn \( \vec{y}' \leq \delta \)
 	% end
 \end{document}
 
