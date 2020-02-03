@@ -106,7 +106,11 @@
 		Die Ereignisse und Einschränkungen \( \mathcal{A} \) formen einen Graphen, das sogenannte \emph{Ereignisnetzwerk}.
 		
 		\subparagraph{Slack-Zeit}
-		Die dem Modulo-Operator\footnote{Sei \( [t]_T \coloneqq \min \{\, t + zT \,\vert\, t + zT \leq,\quad z \in \Z,\quad T = \const \,\} \).} % TODO
+		Die dem Modulo-Operator\footnote{Sei \( [t]_T \coloneqq \min \{\, t + zT \,\vert\, t + zT \leq,\quad z \in \Z,\quad T = \const \,\} \).} sind die Slack-Zeiten (die Zeit, um die die Spannung geändert werden darf, ohne ungültig zu werden) definiert durch:
+		\begin{align*}
+			y_a^\mathit{low} &\coloneqq [x_a - l_a]_T \\
+			y_a^\mathit{upp} &\coloneqq [u_a - x_a]_T
+		\end{align*}
 	% end
 \end{document}
 
