@@ -122,8 +122,8 @@
 		Das Optimierungsproblem ist nun, die gewichteten Slack-Zeiten zu minimieren. Dafür wird jeder Kante \( a \) ein Gewicht \( \omega_a \) zugewiesen, wodurch sich das Optimierungsproblem wie folgt formulieren lässt:
 		{\small
 		\begin{equation*}
-			\min \Bigg\{\, \sum_{a \in \mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a, \quad z_a \in \Z \,\Bigg\}
-		\end{equation*}
+			\min \Bigg\{\, \sum_{a \in \mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a,\, z_a \in \Z \,\Bigg\}
+		\end{equation*}}
 		Dies stellt ein Gemischt-Ganzzahliges Programm dar, dessen Lösung NP-schwer ist.
 		
 		Mit der Netzwerkmatrix ("Edge-Cycle-Matrix") \( \mat{\Gamma} \) und \( \vec{\delta} = \vec{u} - \vec{l} \) sowie \( \vec{b} \coloneqq [-\mat{\Gamma} \vec{l}]_T \), können die zulässigen Slack-Zeiten wie folgt zusammengefasst werden:
