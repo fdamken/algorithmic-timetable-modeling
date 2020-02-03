@@ -111,10 +111,11 @@
 		Die dem Modulo-Operator\footnote{Sei \( [t]_T \coloneqq \min \{\, t + zT \,\vert\, t + zT \leq,\quad z \in \Z,\quad T = \const \,\} \), \dh \( [t]_T = t \,\mathbf{mod}\, T \).} sind die Slack-Zeiten (die Zeit, um die die Spannung geändert werden darf, ohne ungültig zu werden) definiert durch \( y_a^\mathit{low} \coloneqq [x_a - l_a]_T \) (obere Slack-Zeit) und \( y_a^\mathit{upp} \coloneqq [u_a - x_a]_T \) (untere Slack-Zeit).
 		
 		\subparagraph{Das Optimierungsproblem}
-		Das Optimierungsproblem ist nun, die gewichteten Slack-Zeiten zu minimieren. Dafür wird jeder Kante \( a \) ein Gewicht \( \omega_a \)
+		Das Optimierungsproblem ist nun, die gewichteten Slack-Zeiten zu minimieren. Dafür wird jeder Kante \( a \) ein Gewicht \( \omega_a \) zugewiesen, wodurch sich das Optimierungsproblem wie folgt formulieren lässt:
 		\begin{equation*}
 			\min \Bigg\{\, \sum_{a \in \mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a, \quad z_a \in \Z \,\Bigg\}
 		\end{equation*}
+		Dies stellt ein Gemischt-Ganzzahliges Programm dar, dessen Lösung NP-schwer ist.
 	% end
 \end{document}
 
