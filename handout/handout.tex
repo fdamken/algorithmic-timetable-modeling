@@ -49,10 +49,9 @@
 \newcommand{\N}{\ensuremath{\mathbb{N}}}
 \newcommand{\R}{\ensuremath{\mathbb{R}}}
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}}
-% Matrix and vector notation. Use both boldsymbol and mathbf as the first works
-% only for greek letters while the latter works only for latin letters.
-\newcommand{\mat}[1]{\boldsymbol{\mathbf{#1}}}
-\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
+% Matrix and vector notation.
+\newcommand{\mat}[1]{\boldsymbol{#1}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
 \makeatletter
 \newcommand{\BIG}{\bBigg@{4}}
 \newcommand{\BIGG}{\bBigg@{5}}
@@ -108,7 +107,7 @@
 		Die Ereignisse und Einschränkungen \( \mathcal{A} \) formen einen Graphen, das sogenannte \emph{Ereignisnetzwerk}.
 		
 		\subparagraph{Slack-Zeit}
-		Die dem Modulo-Operator\footnote{Sei \( [t]_T \coloneqq \min \{\, t + zT \,\vert\, t + zT \leq,\quad z \in \Z,\quad T = \const \,\} \), \dh \( [t]_T = t \,\mathbf{mod}\, T \).} sind die Slack-Zeiten (die Zeit, um die die Spannung geändert werden darf, ohne ungültig zu werden) definiert durch \( y_a^\mathit{low} \coloneqq [x_a - l_a]_T \) (obere Slack-Zeit) und \( y_a^\mathit{upp} \coloneqq [u_a - x_a]_T \) (untere Slack-Zeit).
+		Die dem Modulo-Operator\footnote{Sei \( [t]_T \coloneqq \min \{\, t + zT \,\vert\, t + zT \leq,\quad z \in \Z,\quad T = \const \,\} \).} sind die Slack-Zeiten (die Zeit, um die die Spannung geändert werden darf, ohne ungültig zu werden) definiert durch \( y_a^\mathit{low} \coloneqq [x_a - l_a]_T \) (obere Slack-Zeit) und \( y_a^\mathit{upp} \coloneqq [u_a - x_a]_T \) (untere Slack-Zeit).
 		
 		\subparagraph{Das Optimierungsproblem}
 		Das Optimierungsproblem ist nun, die gewichteten Slack-Zeiten zu minimieren. Dafür wird jeder Kante \( a \) ein Gewicht \( \omega_a \) zugewiesen, wodurch sich das Optimierungsproblem wie folgt formulieren lässt:
@@ -117,7 +116,7 @@
 		\end{equation*}
 		Dies stellt ein Gemischt-Ganzzahliges Programm dar, dessen Lösung NP-schwer ist.
 		
-		Mit der Netzwerkmatrix ("Edge-Cycle-Matrix") \( \vec{\Gamma} \) und \( \vec{\delta} = \vec{u} - \vec{l} \), können wie Slack-Zeiten
+		Mit der Netzwerkmatrix ("Edge-Cycle-Matrix") \( \mat{\Gamma} \) und \( \vec{\delta} = \vec{u} - \vec{l} \), können wie Slack-Zeiten
 	% end
 \end{document}
 
