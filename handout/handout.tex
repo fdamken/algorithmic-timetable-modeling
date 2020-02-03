@@ -1,4 +1,4 @@
-\documentclass[accentcolor = tud11b, a4paper, 11pt]{scrartcl}
+\documentclass[accentcolor = tud11b, a4paper, 11pt, twocolumn]{scrartcl}
 
 % Generale page style.
 \usepackage[margin = 1cm]{geometry}
@@ -77,7 +77,14 @@
 \begin{document}
 	\bibliographystyle{alpha}
 
-	\maketitle
+	\makeatletter
+	\begin{center}
+		\textbf{\Large Lösung periodischer \mbox{Fahrplanoptimierungsprobleme} \\ \vspace{2mm} durch Modulo-Simplex-Berechnungen} \\ \vspace{2mm}
+		\textbf{\large Zusammenfassung von \cite{nachtigallSolvingPeriodicTimetable2008}} \\ \vspace{3mm}
+		\textbf{\large Fabian Damken} \\ \vspace{1mm}
+		{\large \@date}
+	\end{center}
+	\makeatother
 	
 	\section*{Einführung}
 		% TODO: Slide 14
@@ -125,6 +132,8 @@
 		\end{equation*}
 		Dadurch kann das Optimierungsproblem zu \( \min \big\{\, \vec{\omega}^T \vec{y} \,\vert\, \vec{y} \in \mathcal{Y} \,\big\} \) umgeformt werden. Dies ist das sogenannte \emph{Slack-Modell}.
 	% end
+	
+	\bibliography{../cite}
 \end{document}
 
 
