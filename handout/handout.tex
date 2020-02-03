@@ -102,6 +102,30 @@
 		Die Ereignisse und Einschränkungen \( \mathcal{A} \) formen einen Graphen, das sogenannte \emph{Ereignisnetzwerk}. Ein solcher Graph ist beispielhaft in Abbildung~\ref{fig:activity_network} gegeben.
 		\begin{figure}[H]
 			\centering
+			\begin{tikzpicture}[event/.style = { draw, rectangle, rounded corners, minimum width = 2cm, minimum height = 0.6cm }]
+			\node [event]                                         (L1-dep-B) {\((L_1, \dep, B)\)};
+			\node [event, above left = of L1-dep-B, xshift = 1cm] (L1-arr-C) {\((L_1, \arr, C)\)};
+			\node [event, below = of L1-dep-B]                    (L1-arr-B) {\((L_1, \arr, B)\)};
+			\node [event, below left = of L1-arr-B, xshift = 1cm] (L1-dep-A) {\((L_1, \dep, A)\)};
+			
+			\node [event, right = of L1-dep-B, xshift = 2cm]        (L2-arr-B) {\((L_2, \arr, B)\)};
+			\node [event, above right = of L2-arr-B, xshift = -1cm] (L2-dep-E) {\((L_2, \dep, E)\)};
+			\node [event, below = of L2-arr-B]                      (L2-dep-B) {\((L_2, \dep, B)\)};
+			\node [event, below right = of L2-dep-B, xshift = -1cm] (L2-arr-D) {\((L_2, \dep, D)\)};
+			
+			\draw [->] (L1-dep-A) -- node[above left]{run arc} (L1-arr-B);
+			\draw [->] (L1-arr-B) -- node[left]{stop arc}      (L1-dep-B);
+			\draw [->] (L1-dep-B) -- node[below left]{run arc} (L1-arr-C);
+			
+			\draw [->] (L2-dep-E) -- node[below right]{run arc} (L2-arr-B);
+			\draw [->] (L2-arr-B) -- node[right]{stop arc}      (L2-dep-B);
+			\draw [->] (L2-dep-B) -- node[above right]{run arc} (L2-arr-D);
+			
+			\draw [->] (L2-arr-B) -- node[midway, sloped, above, yshift = -0.1cm]{change arc} (L1-dep-B);
+			\draw [->] (L1-arr-B) -- node[midway, sloped, below]{change arc}                  (L2-dep-B);
+			
+			\draw [->] (L1-dep-B) -- node[midway, sloped, above, yshift = -0.1cm]{headway arc} (L2-dep-B);
+			\end{tikzpicture}
 			\caption{Ereignisnetzwerk}
 		\end{figure}
 	% end
