@@ -158,7 +158,7 @@
 	\subsection*{Knotenlokale Verbesserungen}
 		Diese sukzessive Verbesserungen führen in den meisten Fällen nur zu einem lokalen Optimum, \dh das globale Optimum wird nie erreicht. Um das Finden eines globalen Optimums zu ermöglichen, wird die Struktur ausgenutzt, dass jede Spannung \(\vec{x}\) (\dh es gilt \( \mat{\Gamma} \vec{x} \equiv_T \vec{0} \)) mit \( \vec{y}' \coloneqq [\vec{y} + \vec{x}]_T \) eine neue Lösung definiert, welche gültig ist, wenn \( \vec{y}' \leq \vec{\delta} \) gilt. Verbessert sich dadurch die Zielfunktion \( \vec{\omega}^T \vec{y} \) (\bzw \( \vec{\omega}^T \vec{y}' \)), so verbessert die Änderung die Lösung.
 		
-		Ein einzelner Knoten \(i\) induziert nun einen Schnitt \( \vec{\eta}^{(i)} \) mit \( P = \{\, i \,\} \), \dh jede Kante um den Knoten wird geschnitten. Die Addition von \( \delta \) auf das Potential von \(i\) (\( \pi_i' \coloneqq \pi_i + \delta \)) entspricht einer \(\delta\)-fachen Anwendung des Schnitts \( \vec{\eta}^{(i)} \) auf die Slack-Zeiten \( \vec{y} \). Dadurch wird mit \( \vec{y}' \coloneqq \vec{y} + \delta \)
+		Ein einzelner Knoten \(i\) induziert nun einen Schnitt \( \vec{\eta}^{(i)} \) mit \( P = \{\, i \,\} \), \dh jede Kante um den Knoten wird geschnitten. Die Addition von \( \delta \) auf das Potential von \(i\) (\( \pi_i' \coloneqq \pi_i + \delta \)) entspricht einer \(\delta\)-fachen Anwendung des Schnitts \( \vec{\eta}^{(i)} \) auf die Slack-Zeiten \( \vec{y} \). Dadurch wird mit \( \vec{y}' \coloneqq \vec{y} + \delta\vec{\eta} \)
 	% end
 \end{document}
 
