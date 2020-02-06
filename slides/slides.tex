@@ -77,10 +77,10 @@
 
 \newcommand{\exampleDirectedGraph}{
 	\begin{tikzpicture}[->, node/.style = { draw, rectangle, rounded corners, minimum width = 1cm, minimum height = 0.6cm }]
-		\node [node] (a) {\(A\)};
-		\node [node, right = of a] (b) {\(B\)};
-		\node [node, below = of a] (c) {\(C\)};
-		\node [node, below = of b] (d) {\(D\)};
+		\node [node] (a) {\rom{1}};
+		\node [node, right = of a] (b) {\rom{2}};
+		\node [node, below = of a] (c) {\rom{3}};
+		\node [node, below = of b] (d) {\rom{4}};
 		
 		\draw (b) -- node[midway, sloped, above]{\(a\)} (a);
 		\draw (a) -- node[left]{\(b\)} (c);
@@ -91,10 +91,10 @@
 }
 \newcommand{\exampleSpanningTree}{
 	\begin{tikzpicture}[node/.style = { draw, rectangle, rounded corners, minimum width = 1cm, minimum height = 0.6cm }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }]
-		\node [node] (a) {\(A\)};
-		\node [node, right = of a] (b) {\(B\)};
-		\node [node, below = of a] (c) {\(C\)};
-		\node [node, below = of b] (d) {\(D\)};
+		\node [node] (a) {\rom{1}};
+		\node [node, right = of a] (b) {\rom{2}};
+		\node [node, below = of a] (c) {\rom{3}};
+		\node [node, below = of b] (d) {\rom{4}};
 		
 		\draw [spanning] (b) -- node[midway, sloped, above]{\(a\)} (a);
 		\draw [co] (a) -- node[left]{\(b\)} (c);
@@ -105,10 +105,10 @@
 }
 \newcommand{\exampleDirectedSpanningTree}{
 	\begin{tikzpicture}[->, node/.style = { draw, rectangle, rounded corners, minimum width = 1cm, minimum height = 0.6cm }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }]
-		\node [node] (a) {\(A\)};
-		\node [node, right = of a] (b) {\(B\)};
-		\node [node, below = of a] (c) {\(C\)};
-		\node [node, below = of b] (d) {\(D\)};
+		\node [node] (a) {\rom{1}};
+		\node [node, right = of a] (b) {\rom{2}};
+		\node [node, below = of a] (c) {\rom{3}};
+		\node [node, below = of b] (d) {\rom{4}};
 		
 		\draw [spanning] (b) -- node[midway, sloped, above]{\(a\)} (a);
 		\draw [co] (a) -- node[left]{\(b\)} (c);
@@ -360,10 +360,10 @@
 					\centering
 					\begin{minipage}{0.3\textwidth}
 						\begin{tikzpicture}[node/.style = { draw, rectangle, rounded corners, minimum width = 1cm, minimum height = 0.6cm }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }]
-							\node [node] (a) {\(A\)};
-							\node [node, right = of a] (b) {\(B\)};
-							\node [node, below = of a] (c) {\(C\)};
-							\node [node, below = of b] (d) {\(D\)};
+							\node [node] (a) {\rom{1}};
+							\node [node, right = of a] (b) {\rom{2}};
+							\node [node, below = of a] (c) {\rom{3}};
+							\node [node, below = of b] (d) {\rom{4}};
 							
 							\draw [co] (a) -- node[midway, sloped, above]{\(a\)} (b);
 							\draw [spanning] (a) -- node[left]{\(b\)} (c);
@@ -374,10 +374,10 @@
 					\end{minipage}%
 					\begin{minipage}{0.3\textwidth}
 						\begin{tikzpicture}[node/.style = { draw, rectangle, rounded corners, minimum width = 1cm, minimum height = 0.6cm }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }]
-							\node [node] (a) {\(A\)};
-							\node [node, right = of a] (b) {\(B\)};
-							\node [node, below = of a] (c) {\(C\)};
-							\node [node, below = of b] (d) {\(D\)};
+							\node [node] (a) {\rom{1}};
+							\node [node, right = of a] (b) {\rom{2}};
+							\node [node, below = of a] (c) {\rom{3}};
+							\node [node, below = of b] (d) {\rom{4}};
 							
 							\draw [spanning] (a) -- node[midway, sloped, above]{\(a\)} (b);
 							\draw [spanning] (a) -- node[left]{\(b\)} (c);
@@ -389,10 +389,10 @@
 					\null\vspace{0.5cm}
 					\begin{minipage}{0.3\textwidth}
 						\begin{tikzpicture}[node/.style = { draw, rectangle, rounded corners, minimum width = 1cm, minimum height = 0.6cm }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }]
-							\node [node] (a) {\(A\)};
-							\node [node, right = of a] (b) {\(B\)};
-							\node [node, below = of a] (c) {\(C\)};
-							\node [node, below = of b] (d) {\(D\)};
+							\node [node] (a) {\rom{1}};
+							\node [node, right = of a] (b) {\rom{2}};
+							\node [node, below = of a] (c) {\rom{3}};
+							\node [node, below = of b] (d) {\rom{4}};
 							
 							\draw [co] (a) -- node[midway, sloped, above]{\(a\)} (b);
 							\draw [co] (a) -- node[left]{\(b\)} (c);
@@ -913,10 +913,10 @@
 					\begin{figure}
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, anchor = center]
-							\node [event] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event] (B) at (0, 0) {\(B\)};
-							\node [event] (C) at (-2.3, 2.5) {\(C\)};
-							\node [event] (D) at (2.5, 0) {\(D\)};
+							\node [event] (A) at (-2.3, -2.5) {\rom{1}};
+							\node [event] (B) at (0, 0) {\rom{2}};
+							\node [event] (C) at (-2.3, 2.5) {\rom{3}};
+							\node [event] (D) at (2.5, 0) {\rom{4}};
 							
 							\draw [->] (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_1, [9, 28] \)} (A);
 							\draw [->] (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_2, [7, 26] \)} (C);
@@ -953,10 +953,10 @@
 					\begin{figure}
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
-							\node [event] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event] (B) at (0, 0) {\(B\)};
-							\node [event] (C) at (-2.3, 2.5) {\(C\)};
-							\node [event] (D) at (2.5, 0) {\(D\)};
+							\node [event] (A) at (-2.3, -2.5) {\rom{1}};
+							\node [event] (B) at (0, 0) {\rom{2}};
+							\node [event] (C) at (-2.3, 2.5) {\rom{3}};
+							\node [event] (D) at (2.5, 0) {\rom{4}};
 							
 							\draw [->, co]       (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_1, [9, 28] \)} (A);
 							\draw [->, spanning] (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_2, [7, 26] \)} (C);
@@ -986,10 +986,10 @@
 					\begin{figure}
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
-							\node [event, label = below:{ \( \onslide<5->{\pi_A = 4} \) }] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event, label =  left:{ \( \onslide<2->{\pi_B = 0} \) }] (B) at (0, 0) {\(B\)};
-							\node [event, label = right:{ \( \onslide<3->{\pi_C = 7} \) }] (C) at (-2.3, 2.5) {\(C\)};
-							\node [event, label = below:{ \( \onslide<4->{\pi_D = 2} \) }] (D) at (2.5, 0) {\(D\)};
+							\node [event, label = below:{ \( \onslide<5->{\pi_A = 4} \) }] (A) at (-2.3, -2.5) {\rom{1}};
+							\node [event, label =  left:{ \( \onslide<2->{\pi_B = 0} \) }] (B) at (0, 0) {\rom{2}};
+							\node [event, label = right:{ \( \onslide<3->{\pi_C = 7} \) }] (C) at (-2.3, 2.5) {\rom{3}};
+							\node [event, label = below:{ \( \onslide<4->{\pi_D = 2} \) }] (D) at (2.5, 0) {\rom{4}};
 							
 							\draw [->, co]       (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_1, [9, 28] \)} (A);
 							\draw [->, spanning] (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_2, [7, 26] \)} (C);
@@ -1078,10 +1078,10 @@
 					\begin{figure}
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
-							\node [event, label = below:{ \( \pi_A = 4 \) }] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event, label =  left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
-							\node [event, label = right:{ \( \pi_C = 7 \) }] (C) at (-2.3, 2.5) {\(C\)};
-							\node [event, label = below:{ \( \pi_D = 2 \) }] (D) at (2.5, 0) {\(D\)};
+							\node [event, label = below:{ \( \pi_A = 4 \) }] (A) at (-2.3, -2.5) {\rom{1}};
+							\node [event, label =  left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\rom{2}};
+							\node [event, label = right:{ \( \pi_C = 7 \) }] (C) at (-2.3, 2.5) {\rom{3}};
+							\node [event, label = below:{ \( \pi_D = 2 \) }] (D) at (2.5, 0) {\rom{4}};
 							
 							\draw [->, co]       (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_1, [9, 28] \)} (A);
 							\draw [->, spanning] (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_2, [7, 26] \)} (C);
@@ -1096,10 +1096,10 @@
 					\begin{figure}
 						\centering
 						\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
-							\node [event, label = below:{ \( \pi_A = 9 \) }] (A) at (-2.3, -2.5) {\(A\)};
-							\node [event, label =  left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
-							\node [event, label = right:{ \( \pi_C = 12 \) }] (C) at (-2.3, 2.5) {\(C\)};
-							\node [event, label = below:{ \( \pi_D = 7 \) }] (D) at (2.5, 0) {\(D\)};
+							\node [event, label = below:{ \( \pi_A = 9 \) }] (A) at (-2.3, -2.5) {\rom{1}};
+							\node [event, label =  left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\rom{2}};
+							\node [event, label = right:{ \( \pi_C = 12 \) }] (C) at (-2.3, 2.5) {\rom{3}};
+							\node [event, label = below:{ \( \pi_D = 7 \) }] (D) at (2.5, 0) {\rom{4}};
 							
 							\draw [->, spanning] (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_1, [9, 28] \)} (A);
 							\draw [->, co]       (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_2, [7, 26] \)} (C);
@@ -1166,10 +1166,10 @@
 %				\begin{figure}
 %					\centering
 %					\begin{tikzpicture}[event/.style = { draw, circle }, spanning/.style = { draw = tud9b }, co/.style = { draw = tud2b }, anchor = center]
-%						\node [event, label = below:{ \( \pi_A = 9 \) }] (A) at (-2.3, -2.5) {\(A\)};
-%						\node [event, label =  left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\(B\)};
-%						\node [event, label = right:{ \( \pi_C = 12 \) }] (C) at (-2.3, 2.5) {\(C\)};
-%						\node [event, label = below:{ \( \pi_D = 1 \) }] (D) at (2.5, 0) {\(D\)};
+%						\node [event, label = below:{ \( \pi_A = 9 \) }] (A) at (-2.3, -2.5) {\rom{1}};
+%						\node [event, label =  left:{ \( \pi_B = 0 \) }] (B) at (0, 0) {\rom{2}};
+%						\node [event, label = right:{ \( \pi_C = 12 \) }] (C) at (-2.3, 2.5) {\rom{3}};
+%						\node [event, label = below:{ \( \pi_D = 1 \) }] (D) at (2.5, 0) {\rom{4}};
 %						
 %						\draw [->, spanning] (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_1, [9, 28] \)} (A);
 %						\draw [->, co]       (B) to node[midway, sloped, above, yshift = -2pt]{\scriptsize \( a_2, [7, 26] \)} (C);
