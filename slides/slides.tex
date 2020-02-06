@@ -687,7 +687,7 @@
 
 		\subsection{Untersuchung des Slack-Modells}
  			\begin{frame}{Dualität zum Minimum-Cost Flow Problem}
-				Werden die Modulo-Parameter \(z_a\) fixiert, kann das Optimierungsproblem umformuliert werden:
+				Werden die Modulo-Parameter \(\vec{z}\) fixiert, kann das Optimierungsproblem umformuliert werden:
 				\begin{align*}
 					&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a \,\Bigg\} \\
 					=&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a') \,\bigg\vert\, \forall a \in \mathcal{A} : l_a' = l_a + z_a T \leq x_a \leq u_a' = u_a + z_a T \,\Bigg\} \\
