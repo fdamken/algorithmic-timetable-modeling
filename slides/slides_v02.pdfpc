@@ -1,6 +1,8 @@
 [font_size]
 20
 [notes]
+### 5
+* Slack-Zeit = Pufferzeit
 ### 8
 * Linie \( L \in \mathcal{L} \) ist eine Transportkette.
 * Züge aus \( L \) bedienen bestimme Sequenzen an Stationen.
