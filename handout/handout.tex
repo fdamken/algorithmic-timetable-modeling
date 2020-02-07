@@ -90,20 +90,23 @@
 	% end
 
 	\subsection*{Definitionen}
-		\subparagraph{Schienennetz}
+		\subparagraph{Schienennetz:}
 		Ein \emph{Schienennetz} ist ein System von \emph{Linien} \(\mathcal{L}\) und \emph{Stationen} \(\mathcal{S}\).
 	
-		\vspace
-		\subparagraph{Ereignis}
+		\vspace{-0.4cm}
+		\subparagraph{Ereignis:}
 		Bedient Linie \( L \in \mathcal{L} \) die Station \( S \in \mathcal{S} \), so werden zwei \emph{Ereignisse} definiert. Sei \( (L, \arr, S) \) die Ankunft an Station \(S\) und \( (L, \dep, S) \) die Abfahrt von Station \(S\). Eine Linie entspricht dann einer alternierenden Sequenz von Ankunfts- und Abfahrt-Ereignissen.
 	
-		\subparagraph{Fahrplan}
+		\vspace{-0.4cm}
+		\subparagraph{Fahrplan:}
 		Ein \emph{Fahrplan} \( \vec{\pi} = (\pi_i) \) ordnet jedem Ereignis \( i = (L, \arr, S) \), \bzw \( i = (L, \dep, S) \), einen Zeitpunkt \( \pi_i \in \R \) zu. In einem Taktfahrplan findet dieses Ereignis zu allen Zeitpunkten \( \pi_i + z T \) (\( z \in \Z \)) statt, wobei \( T \) die Taktzeit ("Periode") bezeichnet.
 		
-		\subparagraph{Vorgang und Spannung}
+		\vspace{-0.4cm}
+		\subparagraph{Vorgang und Spannung:}
 		Ein \emph{Vorgang} \( a : i \to j \) beschreibt den Übergang von \(i\) zu \(j\). Die Dauer dieses Vorgangs ist die sogenannte \emph{Spannung} \( x_a \coloneqq \pi_j - \pi_i \). Sei \(\mathcal{A}\) die Menge aller Vorgänge.
 		
-		\subparagraph{Zeiteinschränkungen}
+		\vspace{-0.4cm}
+		\subparagraph{Zeiteinschränkungen:}
 		Jedem Vorgang \( a \in \mathcal{A} \) wird eine \emph{zulässige Dauer} \( \Delta_a = [l_a, u_a] \) zugeordnet, in der sich die Spannung befinden muss, damit der Fahrplan gültig ist. Ein klassischer Fahrplan \(\vec{\pi}\) heißt \emph{zulässig} wenn gilt:
 		\begin{equation*}
 			\forall (a : i \to j) \in \mathcal{A} : l_a \leq \pi_j - \pi_i \leq u_a
@@ -113,11 +116,14 @@
 			\forall (a : i \to j) \in \mathcal{A} : \exists z_a \in \Z : l_a \leq \pi_j - \pi_i - z_a T \leq u_a
 		\end{equation*}
 		
-		\subparagraph{Ereignisnetzwerk}
+		\vspace{-0.4cm}
+		\subparagraph{Ereignisnetzwerk:}
 		Die Ereignisse und Einschränkungen \( \mathcal{A} \) formen einen Graphen, das sogenannte \emph{Ereignisnetzwerk}.
 		
-		\subparagraph{Slack-Zeit}
+		\vspace{-0.4cm}
+		\subparagraph{Slack-Zeit:}
 		Mit dem Modulo-Operator\footnote{Sei \( [t]_T \coloneqq \min \{\, t + zT \,\vert\, t + zT \leq,\quad z \in \Z,\quad T = \const \,\} \).} sind die Slack-Zeiten (die Zeit, um die die Spannung geändert werden darf, ohne ungültig zu werden) definiert durch \( y_a^\mathit{low} \coloneqq [x_a - l_a]_T \) (obere Slack-Zeit) und \( y_a^\mathit{upp} \coloneqq [u_a - x_a]_T \) (untere Slack-Zeit).
+	% end
 		
 	\subsection*{Das Optimierungsproblem}
 		Das Optimierungsproblem ist nun, die gewichteten Slack-Zeiten zu minimieren. Dafür wird jeder Kante \( a \) ein Gewicht \( \omega_a \) zugewiesen, wodurch sich das Optimierungsproblem wie folgt formulieren lässt:
