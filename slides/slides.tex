@@ -690,7 +690,7 @@
 				Werden die Modulo-Parameter \(\vec{z} = (z_a)\) fixiert, kann das Optimierungsproblem umformuliert werden:
 				\begin{align*}
 					&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a - z_a T) \,\bigg\vert\, \forall a \in \mathcal{A} : l_a \leq x_a - z_a T \leq u_a \,\Bigg\} \\
-					=&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a') \,\bigg\vert\, \forall a \in \mathcal{A} : l_a' = \underbrace{l_a + z_a T}_{l_a' \, \coloneqq} \leq x_a \leq u_a' = u_a + z_a T \,\Bigg\} \\
+					=&\, \min \Bigg\{\, \sum_{a}^{\mathcal{A}} \omega_a (x_a - l_a') \,\bigg\vert\, \forall a \in \mathcal{A} : \underbrace{l_a + z_a T}_{l_a' \, \coloneqq} \leq x_a \leq u_a' = u_a + z_a T \,\Bigg\} \\
 					=&\, \min \big\{\, \vec{\omega}^T (\mat{\Theta}^T \vec{\pi} - \vec{l}') \,\big\vert\, \vec{l}' \leq \mat{\Theta}^T \vec{\pi} \leq \vec{u}' \,\big\}
 				\end{align*}
 				Dies ist die duale Formulierung des Minimum-Cost Flow Problems.
