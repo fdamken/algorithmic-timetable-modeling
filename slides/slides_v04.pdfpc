@@ -1,0 +1,71 @@
+[font_size]
+20
+[notes]
+### 5
+* Slack-Zeit = Pufferzeit
+### 8
+* Linie L ist eine Transportkette.
+* Züge aus L bedienen bestimme Sequenzen an Stationen.
+### 9
+* Zeitpunkt \pi_i ist Zeitpunkt, an dem das Ereignis stattfinden.
+### 11
+* l_a untere und u_a obere Schranke.
+### 14
+* „headway” = Vorfahrt
+### 18
+* Eine Periode T für alles. Unterschiedliche Perioden --> kleinstes gemeinsames Vielfaches.
+* Ein Event mehrmals in einer Periode --> Darstellen durch mehrere Events (z.B. S3-1 um +3 und S3-2 um +33).
+* l_a und u_a wie vorher.
+### 20
+* \omega_a sind die Kantengewichte.
+* Minimiere die gewichtete untere Slack-Zeit, vorausgesetzt der Fahrplan ist gültig.
+* NP-Schwer
+### 26
+* Eine Zeile pro Knoten, eine Spalte pro Kante.
+* a : i --> j :  Die Kante a geht von Knoten i aus zu Knoten j.
+### 28
+* Eine Zeile pro Zyklus, eine Spalte pro Kante.
+* Die Richtung des Zyklus ist durch die fehlende Kante definiert!
+### 29
+* Erste Zeile ist Zyklus durch b, zweite durch d.
+### 30
+* Potential \pi ist ein Fahrplan, Namensgebung stammt aus elektronischen Netzwerken.
+* \Gamma x \equiv_T 0 :  Die Summe aller Spannungen in einem Kreis ist gleich einem Vielfachen der Taktzeit.
+* Nicht-periodische Spannung: = statt \equiv_T.
+### 33
+* Bedarf positiv = Angebot
+* Bedarf negativ = Nachfrage
+* Die Flussgleichung beschreibt, dass in jedem Knoten die Zu- und Abflussmenge gleich der Nachfrage, bzw. dem Angebot, sein muss.
+### 34
+* Aus Sicht von P:
+    -1 bei eingehenden Kanten,
+    1 bei ausgehenden.
+* Für einen Knoten exakt das negative der entsprechenden Zeile in \Theta (Inzidenzmatrix).
+### 38
+* In \T^l sind alle Spannungen an der unteren Schranke, in T^u an der oberen.
+* Spannbaumstruktur T durchführbar, wenn das bestimmte Potential durchführbar ist (in Bezug auf alle Zeiteinschränkungen).
+### 39
+* x = y + l  <-->  y = x - l
+### 42
+* Dualität heißt, zur Betrachtung des „primalen” Problems wird ein anderes herangezogen.
+* l' kann aufgrund von  z = const  einfach ausgerechnet werden.
+* Da jeder Extrempunkt einer Spannbaumstruktur entspricht, ist eine Minimum-Cost Flow Lösung immer ein Spannbaum.
+* Daher auch ein Extrempunkt von Q.
+### 44
+* Konvexe Hülle bei Bedarf erklären.
+* Daher werden Baumstrukturen gesucht, um den optimalen Fahrplan zu finden.
+### 51
+* I_T^co ist die Identitätsmatrix.
+* Basislösung: Der „komplizierte Teil” der Matrix verschwindet, die Identitätsmatrix wird mit der RHS multipliziert.
+* Die Subskripte _T werden in Zukunft weggelassen.
+### 52
+* Reihenfolge vor Separierung: a, b, c, d, e
+* Reihenfolge nach Separierung: a, c, e, b, d
+### 54
+* Auswahlverfahren kommt später.
+### 61
+* Beispielhafte Berechnung von \pi!
+* Angefangen von  \pi_B = 0  rekursiv weiter.
+### 74
+* Knotenlokaler Schnitt: Alle Kanten um den Knoten herum durchschneiden.
+* Addition von \delta bei eingehenden Kanten, Subtraktion bei ausgehenden.
